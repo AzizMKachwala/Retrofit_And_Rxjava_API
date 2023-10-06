@@ -6,21 +6,24 @@
     android:layout_height="match_parent"
     android:gravity="center"
     android:orientation="vertical"
+    android:background="@drawable/bg"
     tools:context="com.example.MainActivity">
 
     <Button
         android:id="@+id/btnCategory"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:gravity="center"
+        android:layout_margin="@dimen/_20sdp"
         android:text="Category" />
 
     <Button
         android:id="@+id/btnSubCategory"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:gravity="center"
+        android:layout_margin="@dimen/_20sdp"
         android:text="Sub-Category" />
 </LinearLayout>

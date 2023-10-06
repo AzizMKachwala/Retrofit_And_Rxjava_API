@@ -8,6 +8,7 @@
     android:gravity="center"
     android:orientation="vertical"
     android:padding="@dimen/_10sdp"
+    android:background="@drawable/bg"
     tools:context="com.example.SubCategory.AddSubCategoryActivity">
 
     <TextView
@@ -21,6 +22,14 @@
         android:text="Sub-Category Name"
         android:textColor="#FFF"
         android:textStyle="bold" />
+
+    <androidx.appcompat.widget.AppCompatSpinner
+        android:id="@+id/selectCategorySpinner"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/_10sdp"
+        android:background="#A681AF"
+        android:minHeight="@dimen/_48sdp" />
 
     <EditText
         android:id="@+id/etvSubCategoryName"

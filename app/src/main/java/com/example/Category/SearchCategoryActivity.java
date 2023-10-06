@@ -72,7 +72,6 @@ public class SearchCategoryActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Intent intent = new Intent(SearchCategoryActivity.this, AddCategoryActivity.class);
                 startActivity(intent);
-                finish();
             }
         });
 

@@ -65,7 +65,6 @@ public class AddCategoryActivity extends AppCompatActivity {
                 }
             }
         });
-
     }
 
     public void EditCategoryCall() {
