@@ -30,7 +30,7 @@ public class AddCategoryActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_add_category);
 
         etvCategoryName = findViewById(R.id.etvCategoryName);
         btnAdd = findViewById(R.id.btnAdd);

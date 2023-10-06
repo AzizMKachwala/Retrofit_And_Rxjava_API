@@ -29,7 +29,7 @@ public class SearchCategoryActivity extends AppCompatActivity {
 
     EditText etvSearch;
     RecyclerView categoryListRecyclerView;
-    APIRecyclerViewAdapter apiRecyclerViewAdapter;
+    APICategoryRecyclerViewAdapter apiRecyclerViewAdapter;
     FloatingActionButton btnAddCategory;
     RestCall restCall;
 
@@ -72,6 +72,7 @@ public class SearchCategoryActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Intent intent = new Intent(SearchCategoryActivity.this, AddCategoryActivity.class);
                 startActivity(intent);
+                finish();
             }
         });
 
@@ -122,10 +123,10 @@ public class SearchCategoryActivity extends AppCompatActivity {
                                     LinearLayoutManager layoutManager = new LinearLayoutManager(SearchCategoryActivity.this);
                                     categoryListRecyclerView.setLayoutManager(layoutManager);
 
-                                    apiRecyclerViewAdapter = new APIRecyclerViewAdapter(categoryListResponse.getCategoryList());
+                                    apiRecyclerViewAdapter = new APICategoryRecyclerViewAdapter(categoryListResponse.getCategoryList());
                                     categoryListRecyclerView.setAdapter(apiRecyclerViewAdapter);
 
-                                    apiRecyclerViewAdapter.SetUpInterface(new APIRecyclerViewAdapter.CategoryClick() {
+                                    apiRecyclerViewAdapter.SetUpInterface(new APICategoryRecyclerViewAdapter.CategoryClick() {
                                         @Override
                                         public void EditClick(CategoryListResponse.Category category) {
                                             Intent intent = new Intent(SearchCategoryActivity.this, AddCategoryActivity.class);

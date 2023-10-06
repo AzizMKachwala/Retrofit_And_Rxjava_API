@@ -6,9 +6,9 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
-import android.widget.Toast;
 
 import com.example.Category.SearchCategoryActivity;
+import com.example.SubCategory.SearchSubCategoryActivity;
 import com.example.retrofitandrxjavaapidemo.R;
 
 public class MainActivity extends AppCompatActivity {
@@ -17,7 +17,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main2);
+        setContentView(R.layout.activity_main);
 
         btnCategory = findViewById(R.id.btnCategory);
         btnSubCategory = findViewById(R.id.btnSubCategory);
@@ -33,7 +33,9 @@ public class MainActivity extends AppCompatActivity {
         btnSubCategory.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(MainActivity.this, "SubCategory Will Be Added Soon", Toast.LENGTH_SHORT).show();
+//                Toast.makeText(MainActivity.this, "SubCategory Will Be Added Soon", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(MainActivity.this, SearchSubCategoryActivity.class);
+                startActivity(intent);
             }
         });
     }

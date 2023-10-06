@@ -16,12 +16,12 @@ import com.example.retrofitandrxjavaapidemo.R;
 import java.util.ArrayList;
 import java.util.List;
 
-public class APIRecyclerViewAdapter extends RecyclerView.Adapter<APIRecyclerViewAdapter.ApiDataViewHolder> {
+public class APICategoryRecyclerViewAdapter extends RecyclerView.Adapter<APICategoryRecyclerViewAdapter.ApiCategoryDataViewHolder> {
 
     List<CategoryListResponse.Category> categories,searchList;
     CategoryClick categoryClick;
 
-    public APIRecyclerViewAdapter(List<CategoryListResponse.Category> categories) {
+    public APICategoryRecyclerViewAdapter(List<CategoryListResponse.Category> categories) {
         this.categories = categories;
         this.searchList = categories;
     }
@@ -37,22 +37,21 @@ public class APIRecyclerViewAdapter extends RecyclerView.Adapter<APIRecyclerView
 
     @NonNull
     @Override
-    public ApiDataViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public ApiCategoryDataViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
         View view = layoutInflater.inflate(R.layout.category_item, parent, false);
-        return new ApiDataViewHolder(view);
+        return new ApiCategoryDataViewHolder(view);
     }
 
-    @SuppressLint("RecyclerView")
     @Override
-    public void onBindViewHolder(@NonNull ApiDataViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull ApiCategoryDataViewHolder holder, @SuppressLint("RecyclerView") int position) {
         CategoryListResponse.Category category = searchList.get(position);
         holder.txtCategoryName.setText(category.getCategoryName());
 
         holder.imgEditCategory.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                    categoryClick.EditClick(categories.get(position));
+                categoryClick.EditClick(categories.get(position));
             }
         });
 
@@ -69,11 +68,11 @@ public class APIRecyclerViewAdapter extends RecyclerView.Adapter<APIRecyclerView
         return searchList.size();
     }
 
-    public class ApiDataViewHolder extends RecyclerView.ViewHolder{
+    public class ApiCategoryDataViewHolder extends RecyclerView.ViewHolder{
 
         TextView txtCategoryName;
         ImageView imgEditCategory,imgDeleteCategory;
-        public ApiDataViewHolder(@NonNull View itemView) {
+        public ApiCategoryDataViewHolder(@NonNull View itemView) {
             super(itemView);
 
             txtCategoryName = itemView.findViewById(R.id.txtCategoryName);
