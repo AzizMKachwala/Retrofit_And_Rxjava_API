@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.Category.AddCategoryActivity"
+    android:orientation="vertical"
+    android:layout_gravity="center"
+    android:gravity="center"
+    android:padding="@dimen/_10sdp">
+
+    <TextView
+        android:id="@+id/txtHeading"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/_10sdp"
+        android:background="#A681AF"
+        android:padding="@dimen/_10sdp"
+        android:gravity="center"
+        android:text="Category Name"
+        android:textStyle="bold"
+        android:textColor="#FFF" />
+
+    <EditText
+        android:id="@+id/etvCategoryName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/_10sdp"
+        android:background="#A681AF"
+        android:hint="Add Category Name"
+        android:imeOptions="actionDone"
+        android:inputType="textAutoComplete"
+        android:minHeight="48dp"
+        android:minLines="1"
+        android:padding="@dimen/_10sdp"
+        android:textColorHint="#FFF" />
+
+    <Button
+        android:id="@+id/btnAdd"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="ADD"/>
+
+</LinearLayout>
