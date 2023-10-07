@@ -18,7 +18,7 @@ import com.example.VariableBag;
 import com.example.network.RestCall;
 import com.example.network.RestClient;
 import com.example.networkResponse.CategoryListResponse;
-import com.example.networkResponse.CommonResponse;
+import com.example.networkResponse.CategoryCommonResponse;
 import com.example.retrofitandrxjavaapidemo.R;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
@@ -43,7 +43,6 @@ public class SearchCategoryActivity extends AppCompatActivity {
         btnAddCategory = findViewById(R.id.btnAddCategory);
 
         categoryListRecyclerView.setLayoutManager(new LinearLayoutManager(SearchCategoryActivity.this));
-
         restCall = RestClient.createService(RestCall.class, VariableBag.BASE_URL, VariableBag.API_KEY);
 
         etvSearch.addTextChangedListener(new TextWatcher() {
@@ -55,7 +54,6 @@ public class SearchCategoryActivity extends AppCompatActivity {
 
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
                 if (apiRecyclerViewAdapter!=null){
                     apiRecyclerViewAdapter.Search(charSequence, categoryListRecyclerView);
                 }
@@ -84,9 +82,6 @@ public class SearchCategoryActivity extends AppCompatActivity {
     }
 
     private void getCategoryCall() {
-
-//        Toast.makeText(this, "No Entry", Toast.LENGTH_LONG).show();
-//    }
 
         restCall.getCategory("getCategory")
                 .subscribeOn(Schedulers.io())
@@ -172,7 +167,7 @@ public class SearchCategoryActivity extends AppCompatActivity {
         restCall.DeleteCategory("DeleteCategory",category_id)
                 .subscribeOn(Schedulers.io())
                 .observeOn((Schedulers.newThread()))
-                .subscribe(new Subscriber<CommonResponse>() {
+                .subscribe(new Subscriber<CategoryCommonResponse>() {
                     @Override
                     public void onCompleted() {
 
@@ -189,15 +184,15 @@ public class SearchCategoryActivity extends AppCompatActivity {
                     }
 
                     @Override
-                    public void onNext(CommonResponse commonResponse) {
+                    public void onNext(CategoryCommonResponse categoryCommonResponse) {
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
-                                if (commonResponse.getStatus().equalsIgnoreCase(VariableBag.SUCCESS_RESULT)) {
-                                    Toast.makeText(SearchCategoryActivity.this, commonResponse.getMessage(), Toast.LENGTH_SHORT).show();
+                                if (categoryCommonResponse.getStatus().equalsIgnoreCase(VariableBag.SUCCESS_RESULT)) {
+                                    Toast.makeText(SearchCategoryActivity.this, categoryCommonResponse.getMessage(), Toast.LENGTH_SHORT).show();
                                     getCategoryCall();
                                 } else {
-                                    Toast.makeText(SearchCategoryActivity.this, ""+commonResponse.getMessage(), Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(SearchCategoryActivity.this, ""+categoryCommonResponse.getMessage(), Toast.LENGTH_SHORT).show();
                                 }
                              }
                         });

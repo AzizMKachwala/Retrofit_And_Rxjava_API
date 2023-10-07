@@ -5,7 +5,7 @@ import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
 
-public class CommonResponse implements Serializable {
+public class CategoryCommonResponse implements Serializable {
 
     @SerializedName("category_id")
     @Expose

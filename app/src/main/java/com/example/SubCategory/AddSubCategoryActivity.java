@@ -33,11 +33,15 @@ public class AddSubCategoryActivity extends AppCompatActivity {
         btnSubAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (etvSubCategoryName.getText().toString().trim().equalsIgnoreCase("")) {
+                if (selectCategorySpinner != null && etvSubCategoryName.getText().toString().trim().equalsIgnoreCase("")) {
                     etvSubCategoryName.setError("Enter Sub-Category Name");
                     etvSubCategoryName.requestFocus();
+                }
+                else {
+
                 }
             }
         });
     }
+
 }

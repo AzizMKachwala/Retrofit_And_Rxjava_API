@@ -16,12 +16,12 @@
         android:layout_marginBottom="@dimen/_10sdp"
         android:background="#A681AF"
         android:hint="Search Category Name"
-        android:textColorHint="#FFFFFF"
         android:imeOptions="actionDone"
         android:inputType="textAutoComplete"
         android:minHeight="48dp"
         android:minLines="1"
-        android:padding="@dimen/_5sdp" />
+        android:padding="@dimen/_5sdp"
+        android:textColorHint="#212121" />
 
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"

@@ -1,6 +1,7 @@
 package com.example.Category;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,6 +21,7 @@ public class APICategoryRecyclerViewAdapter extends RecyclerView.Adapter<APICate
 
     List<CategoryListResponse.Category> categories,searchList;
     CategoryClick categoryClick;
+    Context context;
 
     public APICategoryRecyclerViewAdapter(List<CategoryListResponse.Category> categories) {
         this.categories = categories;
@@ -78,7 +80,6 @@ public class APICategoryRecyclerViewAdapter extends RecyclerView.Adapter<APICate
             txtCategoryName = itemView.findViewById(R.id.txtCategoryName);
             imgEditCategory = itemView.findViewById(R.id.imgEditCategory);
             imgDeleteCategory = itemView.findViewById(R.id.imgDeleteCategory);
-
         }
     }
     @SuppressLint("NotifyDataSetChanged")
