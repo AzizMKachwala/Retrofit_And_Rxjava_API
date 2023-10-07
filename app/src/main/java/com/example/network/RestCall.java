@@ -46,6 +46,7 @@ public interface RestCall {
     Single<SubCategoryCommonResponse> getSubCategory(
             @Field("tag") String tag,
             @Field("category_id") String category_id);
+
     @FormUrlEncoded
     @POST("SubCategoryController.php")
     Single<SubCategoryCommonResponse> AddSubCategory(

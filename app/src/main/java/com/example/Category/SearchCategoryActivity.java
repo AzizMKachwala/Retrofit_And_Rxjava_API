@@ -14,6 +14,7 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.example.SubCategory.SearchSubCategoryActivity;
 import com.example.VariableBag;
 import com.example.network.RestCall;
 import com.example.network.RestClient;
@@ -98,7 +99,7 @@ public class SearchCategoryActivity extends AppCompatActivity {
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
-                                Toast.makeText(SearchCategoryActivity.this, "Error fetching category list", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(SearchCategoryActivity.this, "Error fetching Category list", Toast.LENGTH_SHORT).show();
 
                             }
                         });
@@ -151,7 +152,6 @@ public class SearchCategoryActivity extends AppCompatActivity {
                                                 }
                                             });
                                             alertDialog.show();
-
                                         }
                                     });
                                 } else {
