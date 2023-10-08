@@ -3,6 +3,7 @@ package com.example.network;
 import com.example.networkResponse.CategoryListResponse;
 import com.example.networkResponse.CategoryCommonResponse;
 import com.example.networkResponse.SubCategoryCommonResponse;
+import com.example.networkResponse.SubCategoryListResponse;
 
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
@@ -45,20 +46,20 @@ public interface RestCall {
 
     @FormUrlEncoded
     @POST("SubCategoryController.php")
-    Single<SubCategoryCommonResponse> getSubCategory(
+    Single<SubCategoryListResponse> getSubCategory(
             @Field("tag") String tag,
             @Field("category_id") String category_id);
 
     @FormUrlEncoded
     @POST("SubCategoryController.php")
-    Single<SubCategoryCommonResponse> AddSubCategory(
+    Single<SubCategoryListResponse> AddSubCategory(
             @Field("tag") String tag,
             @Field("category_id") String category_id,
             @Field("subcategory_name") String subcategory_name);
 
     @FormUrlEncoded
     @POST("SubCategoryController.php")
-    Single<SubCategoryCommonResponse> EditSubCategory(
+    Single<SubCategoryListResponse> EditSubCategory(
             @Field("tag") String tag,
             @Field("category_id") String category_id,
             @Field("subcategory_name") String subcategory_name,
@@ -66,7 +67,7 @@ public interface RestCall {
 
     @FormUrlEncoded
     @POST("SubCategoryController.php")
-    Single<SubCategoryCommonResponse> DeleteSubCategory(
+    Single<SubCategoryListResponse> DeleteSubCategory(
             @Field("tag") String tag,
             @Field("sub_category_id") String sub_category_id);
 

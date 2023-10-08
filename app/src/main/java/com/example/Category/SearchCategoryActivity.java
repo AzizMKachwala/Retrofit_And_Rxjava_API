@@ -44,6 +44,7 @@ public class SearchCategoryActivity extends AppCompatActivity {
         btnAddCategory = findViewById(R.id.btnAddCategory);
 
         categoryListRecyclerView.setLayoutManager(new LinearLayoutManager(SearchCategoryActivity.this));
+
         restCall = RestClient.createService(RestCall.class, VariableBag.BASE_URL, VariableBag.API_KEY);
 
         etvSearch.addTextChangedListener(new TextWatcher() {

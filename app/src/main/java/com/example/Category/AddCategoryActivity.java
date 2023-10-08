@@ -34,6 +34,7 @@ public class AddCategoryActivity extends AppCompatActivity {
 
         etvCategoryName = findViewById(R.id.etvCategoryName);
         btnAdd = findViewById(R.id.btnAdd);
+
         restCall = RestClient.createService(RestCall.class, VariableBag.BASE_URL, VariableBag.API_KEY);
 
         if (getIntent() != null && getIntent().getStringExtra("category_id") != null) {
@@ -58,7 +59,7 @@ public class AddCategoryActivity extends AppCompatActivity {
                     etvCategoryName.requestFocus();
                 } else {
                     if (isEdit) {
-                        EditCategoryCall();
+                        editCategoryCall();
                     } else {
                         addCategoryCall();
                     }
@@ -67,7 +68,7 @@ public class AddCategoryActivity extends AppCompatActivity {
         });
     }
 
-    public void EditCategoryCall() {
+    public void editCategoryCall() {
         restCall.EditCategory("EditCategory", etvCategoryName.getText().toString(), category_id)
                 .subscribeOn(Schedulers.io())
                 .observeOn((Schedulers.newThread()))
@@ -101,7 +102,6 @@ public class AddCategoryActivity extends AppCompatActivity {
                                 else {
                                     Toast.makeText(AddCategoryActivity.this, categoryCommonResponse.getMessage(), Toast.LENGTH_SHORT).show();
                                 }
-
                             }
                         });
                     }

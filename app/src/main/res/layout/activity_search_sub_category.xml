@@ -30,7 +30,7 @@
         android:minHeight="48dp"
         android:minLines="1"
         android:padding="@dimen/_5sdp"
-        android:textColorHint="#212121" />
+        android:textColorHint="@color/white" />
 
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"

@@ -1,5 +1,6 @@
 package com.example.SubCategory;
 
+import android.annotation.SuppressLint;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,6 +10,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.Category.APICategoryRecyclerViewAdapter;
 import com.example.networkResponse.CategoryListResponse;
 import com.example.networkResponse.SubCategoryListResponse;
 import com.example.retrofitandrxjavaapidemo.R;
@@ -25,6 +27,17 @@ public class APISubCategoryRecyclerViewAdapter extends RecyclerView.Adapter<APIS
         this.subCategorySearchList = subCategories;
     }
 
+    SubCategoryClick subCategoryClick;
+
+    public interface SubCategoryClick{
+        void SubEditClick(SubCategoryListResponse.SubCategory subCategory);
+        void SubDeleteClick(SubCategoryListResponse.SubCategory subCategory);
+    }
+
+    public void SetUpInterface(APISubCategoryRecyclerViewAdapter.SubCategoryClick subCategoryClick){
+        this.subCategoryClick = subCategoryClick;
+    }
+
     @NonNull
     @Override
     public ApiSubCategoryDataViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -34,21 +47,21 @@ public class APISubCategoryRecyclerViewAdapter extends RecyclerView.Adapter<APIS
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ApiSubCategoryDataViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull ApiSubCategoryDataViewHolder holder, @SuppressLint("RecyclerView") int position) {
         SubCategoryListResponse.SubCategory subCategory = subCategorySearchList.get(position);
         holder.txtSubCategoryName.setText(subCategory.getSubCategoryId());
 
         holder.imgEditSubCategory.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                subCategoryClick.SubEditClick(subCategories.get(position));
             }
         });
 
         holder.imgDeleteSubCategory.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                subCategoryClick.SubDeleteClick(subCategory);
             }
         });
     }
