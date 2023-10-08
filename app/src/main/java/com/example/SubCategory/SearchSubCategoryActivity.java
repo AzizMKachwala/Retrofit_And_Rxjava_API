@@ -5,7 +5,6 @@ import androidx.appcompat.widget.AppCompatSpinner;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
-import android.icu.util.ULocale;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -14,19 +13,8 @@ import android.widget.ArrayAdapter;
 import android.widget.EditText;
 
 import com.example.network.RestCall;
-import com.example.networkResponse.CategoryCommonResponse;
-import com.example.networkResponse.CategoryListResponse;
 import com.example.retrofitandrxjavaapidemo.R;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Locale;
-import java.util.concurrent.Flow;
-
-import rx.Subscriber;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.schedulers.Schedulers;
 
 public class SearchSubCategoryActivity extends AppCompatActivity {
 
@@ -45,6 +33,21 @@ public class SearchSubCategoryActivity extends AppCompatActivity {
         etvSubCategorySearch = findViewById(R.id.etvSubCategorySearch);
         btnAddSubCategory = findViewById(R.id.btnAddSubCategory);
         categorySpinner = findViewById(R.id.categorySpinner);
+
+//        CategoryListResponse categoryListResponse = CategoryListResponse.getCategoryList();
+//        List<CategoryListResponse.Category> categoriesList =  cate goryListResponse.getCategoryList();  // Obtain from getCategory API
+
+// Extract category names from the list
+        String[] categories = {"1","2","3","4"};
+//                = new String[categoriesList.size()];
+//        for (int i = 0; i < categoriesList.size(); i++) {
+//            categories[i] = String.valueOf(categoriesList.get(i).getCategoryName());
+//        }
+
+        ArrayAdapter<String> categoryList = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, categories);
+        categoryList.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        categorySpinner.setAdapter(categoryList);
+
         etvSubCategorySearch.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -54,7 +57,7 @@ public class SearchSubCategoryActivity extends AppCompatActivity {
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                 if (apiSubCategoryRecyclerViewAdapter != null) {
-//                    apiSubCategoryRecyclerViewAdapter.Search(charSequence, subCategoryListRecyclerView);
+                    apiSubCategoryRecyclerViewAdapter.Search(charSequence, subCategoryListRecyclerView);
                 }
             }
 
@@ -79,15 +82,6 @@ public class SearchSubCategoryActivity extends AppCompatActivity {
         super.onResume();
 //        getSubCategoryCall();
     }
-
-
-//    private void updateCategorySpinner(List<CategoryListResponse.Category> categories) {
-//        // Create an adapter for the spinner
-//        ArrayAdapter<CategoryListResponse.Category> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, categories);
-//        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-//        // Set the adapter to the spinner
-//        categorySpinner.setAdapter(adapter);
-//    }
 
 //    private void getSubCategoryCall() {
 //

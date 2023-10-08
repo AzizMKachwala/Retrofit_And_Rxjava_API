@@ -17,6 +17,12 @@ public class CategoryCommonResponse implements Serializable {
     @Expose
     private String status;
 
+    public CategoryCommonResponse(Integer categoryId, String message, String status) {
+        this.categoryId = categoryId;
+        this.message = message;
+        this.status = status;
+    }
+
     public Integer getCategoryId() {
         return categoryId;
     }

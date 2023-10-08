@@ -72,33 +72,33 @@ public class APISubCategoryRecyclerViewAdapter extends RecyclerView.Adapter<APIS
         }
     }
 
-//    public void Search(CharSequence charSequence, RecyclerView subCategoryListRecyclerView) {
-//
-//        try{
-//            String charString=charSequence.toString().toLowerCase().trim();
-//            if(charString.isEmpty()){
-//                subCategorySearchList = subCategories;
-//                subCategoryListRecyclerView.setVisibility(View.VISIBLE);
-//            }else{
-//                int flag=0;
-//                List<SubCategoryListResponse.SubCategory> filterList=new ArrayList<>();
-//                for(SubCategoryListResponse.SubCategory Row:subCategories){
-//                    if(Row.getSubcategoryName().toString().toLowerCase().contains(charString.toLowerCase())){
-//                        filterList.add(Row);
-//                        flag=1;
-//                    }
-//                }
-//                if (flag == 1) {
-//                    subCategorySearchList = filterList;
-//                    subCategoryListRecyclerView.setVisibility(View.VISIBLE);
-//                }
-//                else{
-//                    subCategoryListRecyclerView.setVisibility(View.GONE);
-//                }
-//            }
-//            notifyDataSetChanged();
-//        }catch (Exception e){
-//            e.printStackTrace();
-//        }
-//    }
+    public void Search(CharSequence charSequence, RecyclerView subCategoryListRecyclerView) {
+
+        try{
+            String charString=charSequence.toString().toLowerCase().trim();
+            if(charString.isEmpty()){
+                subCategorySearchList = subCategories;
+                subCategoryListRecyclerView.setVisibility(View.VISIBLE);
+            }else{
+                int flag=0;
+                List<SubCategoryListResponse.SubCategory> filterList=new ArrayList<>();
+                for(SubCategoryListResponse.SubCategory Row:subCategories){
+                    if(Row.getSubcategoryName().toString().toLowerCase().contains(charString.toLowerCase())){
+                        filterList.add(Row);
+                        flag=1;
+                    }
+                }
+                if (flag == 1) {
+                    subCategorySearchList = filterList;
+                    subCategoryListRecyclerView.setVisibility(View.VISIBLE);
+                }
+                else{
+                    subCategoryListRecyclerView.setVisibility(View.GONE);
+                }
+            }
+            notifyDataSetChanged();
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+    }
 }
