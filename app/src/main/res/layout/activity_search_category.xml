@@ -13,15 +13,10 @@
         android:id="@+id/etvSearch"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/_10sdp"
-        android:background="#A681AF"
+        style="@style/EditTextTheme"
         android:hint="Search Category Name"
         android:imeOptions="actionDone"
-        android:inputType="textAutoComplete"
-        android:minHeight="48dp"
-        android:minLines="1"
-        android:padding="@dimen/_5sdp"
-        android:textColorHint="#212121" />
+        android:inputType="textAutoComplete"/>
 
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"

@@ -27,23 +27,16 @@
         android:id="@+id/selectCategorySpinner"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/_10sdp"
-        android:background="#A681AF"
-        android:minHeight="@dimen/_48sdp" />
+        style="@style/EditTextTheme" />
 
     <EditText
         android:id="@+id/etvSubCategoryName"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/_10sdp"
-        android:background="#A681AF"
-        android:hint="Add Sub-Category Name"
+        style="@style/EditTextTheme"
+        android:hint="Add Category Name"
         android:imeOptions="actionDone"
-        android:inputType="textAutoComplete"
-        android:minHeight="48dp"
-        android:minLines="1"
-        android:padding="@dimen/_10sdp"
-        android:textColorHint="#FFF" />
+        android:inputType="textAutoComplete"/>
 
     <Button
         android:id="@+id/btnSubAdd"

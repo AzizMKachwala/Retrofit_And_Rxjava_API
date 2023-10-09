@@ -1,6 +1,7 @@
 package com.example.SubCategory;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,8 +22,10 @@ import java.util.List;
 public class APISubCategoryRecyclerViewAdapter extends RecyclerView.Adapter<APISubCategoryRecyclerViewAdapter.ApiSubCategoryDataViewHolder> {
 
     List<SubCategoryListResponse.SubCategory> subCategories, subCategorySearchList;
+    Context context;
 
-    public APISubCategoryRecyclerViewAdapter(List<SubCategoryListResponse.SubCategory> subCategories) {
+    public APISubCategoryRecyclerViewAdapter(Context context, List<SubCategoryListResponse.SubCategory> subCategories) {
+        this.context = context;
         this.subCategories = subCategories;
         this.subCategorySearchList = subCategories;
     }
@@ -49,7 +52,8 @@ public class APISubCategoryRecyclerViewAdapter extends RecyclerView.Adapter<APIS
     @Override
     public void onBindViewHolder(@NonNull ApiSubCategoryDataViewHolder holder, @SuppressLint("RecyclerView") int position) {
         SubCategoryListResponse.SubCategory subCategory = subCategorySearchList.get(position);
-        holder.txtSubCategoryName.setText(subCategory.getSubCategoryId());
+        holder.txtSubCategoryName.setText(subCategory.getSubcategoryName());
+        holder.txtSubCategoryId.setText(subCategory.getSubCategoryId());
 
         holder.imgEditSubCategory.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -73,13 +77,14 @@ public class APISubCategoryRecyclerViewAdapter extends RecyclerView.Adapter<APIS
 
     public class ApiSubCategoryDataViewHolder extends RecyclerView.ViewHolder{
 
-        TextView txtSubCategoryName;
+        TextView txtSubCategoryName,txtSubCategoryId;
         ImageView imgEditSubCategory,imgDeleteSubCategory;
 
         public ApiSubCategoryDataViewHolder(@NonNull View itemView) {
             super(itemView);
 
             txtSubCategoryName = itemView.findViewById(R.id.txtSubCategoryName);
+            txtSubCategoryId = itemView.findViewById(R.id.txtSubCategoryId);
             imgEditSubCategory = itemView.findViewById(R.id.imgEditSubCategory);
             imgDeleteSubCategory = itemView.findViewById(R.id.imgDeleteSubCategory);
         }

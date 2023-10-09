@@ -1,10 +1,12 @@
 package com.example.SubCategory;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatSpinner;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
@@ -37,6 +39,9 @@ public class SearchSubCategoryActivity extends AppCompatActivity {
     RecyclerView subCategoryListRecyclerView;
     APISubCategoryRecyclerViewAdapter apiSubCategoryRecyclerViewAdapter;
     RestCall restCall;
+    int selectedPos = 0;
+    String selectedCategoryId, selectedCategoryName;
+    List<CategoryListResponse.Category> categoryList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,32 +51,11 @@ public class SearchSubCategoryActivity extends AppCompatActivity {
         etvSubCategorySearch = findViewById(R.id.etvSubCategorySearch);
         btnAddSubCategory = findViewById(R.id.btnAddSubCategory);
         categorySpinner = findViewById(R.id.categorySpinner);
+        subCategoryListRecyclerView = findViewById(R.id.subCategoryListRecyclerView);
 
         restCall = RestClient.createService(RestCall.class, VariableBag.BASE_URL, VariableBag.API_KEY);
 
-        List<CategoryListResponse.Category> categoriesList = new ArrayList<>();
-        String[] categories = new String[categoriesList.size() + 1];
-        categories[0] = "Select Category";
-
-        for (int i = 0; i < categoriesList.size(); i++) {
-            categories[i + 1] = categoriesList.get(i).getCategoryId();
-        }
-
-        ArrayAdapter<String> ArrayList = new ArrayAdapter<>(SearchSubCategoryActivity.this, android.R.layout.simple_spinner_item, categories);
-        ArrayList.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        categorySpinner.setAdapter(ArrayList);
-
-        categorySpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> adapterView) {
-
-            }
-        });
+        getCateCall();
 
         etvSubCategorySearch.addTextChangedListener(new TextWatcher() {
             @Override
@@ -105,15 +89,15 @@ public class SearchSubCategoryActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-//        getSubCategoryCall();
+        getCateCall();
     }
 
-    private void getSubCategoryCall() {
+    private void getCateCall() {
 
-        restCall.getSubCategory("getSubCategory", "")
+        restCall.getCategory("getCategory")
                 .subscribeOn(Schedulers.io())
                 .observeOn(Schedulers.newThread())
-                .subscribe(new Subscriber<SubCategoryListResponse>() {
+                .subscribe(new Subscriber<CategoryListResponse>() {
                     @Override
                     public void onCompleted() {
 
@@ -130,11 +114,85 @@ public class SearchSubCategoryActivity extends AppCompatActivity {
                     }
 
                     @Override
-                    public void onNext(SubCategoryListResponse subCategoryListResponse) {
+                    public void onNext(CategoryListResponse categoryListResponse) {
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
 
+                                if (categoryListResponse.getStatus().equalsIgnoreCase(VariableBag.SUCCESS_RESULT) && categoryListResponse.getCategoryList() != null
+                                        && categoryListResponse.getCategoryList().size() > 0) {
+
+                                    List<CategoryListResponse.Category> categories = categoryListResponse.getCategoryList();
+                                    String[] categoryNameArray = new String[categories.size() + 1];
+                                    String[] categoryIdArray = new String[categories.size() + 1];
+
+                                    categoryNameArray[0] = "Select Category";
+                                    categoryIdArray[0] = "-1";
+
+                                    for (int i = 0; i < categories.size(); i++) {
+
+                                        categoryNameArray[i + 1] = categories.get(i).getCategoryName();
+                                        categoryIdArray[i + 1] = categories.get(i).getCategoryId();
+                                    }
+
+                                    ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(SearchSubCategoryActivity.this, android.R.layout.simple_spinner_dropdown_item, categoryNameArray);
+                                    arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                                    categorySpinner.setAdapter(arrayAdapter);
+
+                                    categorySpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                                        @Override
+                                        public void onItemSelected(AdapterView<?> adapterView, View view, int position, long id) {
+                                            selectedPos = position;
+                                            if (selectedPos >= 0 && selectedPos < categoryIdArray.length) {
+                                                selectedCategoryId = categoryIdArray[selectedPos];
+                                                selectedCategoryName = categoryNameArray[selectedPos];
+
+                                                if (selectedCategoryId.equalsIgnoreCase("-1")) {
+                                                    Toast.makeText(SearchSubCategoryActivity.this, "Select Category", Toast.LENGTH_SHORT).show();
+                                                }
+                                                else {
+                                                    GetSubCategory();
+                                                }
+                                            }
+                                        }
+                                        @Override
+                                        public void onNothingSelected(AdapterView<?> adapterView) {
+
+                                        }
+                                    });
+                                }
+                            }
+                        });
+                    }
+                });
+        apiSubCategoryRecyclerViewAdapter = new APISubCategoryRecyclerViewAdapter(SearchSubCategoryActivity.this, new ArrayList<>());
+    }
+
+    private void GetSubCategory(){
+        restCall.getSubCategory("getSubCategory",selectedCategoryId)
+                .subscribeOn(Schedulers.io())
+                .observeOn(Schedulers.newThread())
+                .subscribe(new Subscriber<SubCategoryListResponse>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                Toast.makeText(SearchSubCategoryActivity.this, "No Internet", Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                    }
+
+                    @Override
+                    public void onNext(SubCategoryListResponse subCategoryListResponse) {
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
                                 if (subCategoryListResponse.getStatus().equalsIgnoreCase(VariableBag.SUCCESS_RESULT)
                                         && subCategoryListResponse.getSubCategoryList() != null
                                         && subCategoryListResponse.getSubCategoryList().size() > 0) {
@@ -142,23 +200,51 @@ public class SearchSubCategoryActivity extends AppCompatActivity {
                                     LinearLayoutManager layoutManager = new LinearLayoutManager(SearchSubCategoryActivity.this);
                                     subCategoryListRecyclerView.setLayoutManager(layoutManager);
 
-                                    apiSubCategoryRecyclerViewAdapter = new APISubCategoryRecyclerViewAdapter(subCategoryListResponse.getSubCategoryList());
+                                    apiSubCategoryRecyclerViewAdapter = new APISubCategoryRecyclerViewAdapter(SearchSubCategoryActivity.this,subCategoryListResponse.getSubCategoryList());
                                     subCategoryListRecyclerView.setAdapter(apiSubCategoryRecyclerViewAdapter);
 
                                     apiSubCategoryRecyclerViewAdapter.SetUpInterface(new APISubCategoryRecyclerViewAdapter.SubCategoryClick() {
                                         @Override
                                         public void SubEditClick(SubCategoryListResponse.SubCategory subCategory) {
+                                            String categoryId = subCategory.getCategoryId();
+                                            String selectedSubCategoryId = subCategory.getSubCategoryId();
+                                            String subCategoryName = subCategory.getSubcategoryName();
 
+                                            Intent i = new Intent(SearchSubCategoryActivity.this, AddSubCategoryActivity.class);
+                                            Bundle bundle = new Bundle();
+                                            bundle.putString("category_id", categoryId);
+                                            bundle.putString("sub_category_id", selectedSubCategoryId);
+                                            bundle.putString("subCategoryName", subCategoryName);
+                                            i.putExtras(bundle);
+                                            startActivity(i);
                                         }
 
                                         @Override
                                         public void SubDeleteClick(SubCategoryListResponse.SubCategory subCategory) {
+                                            String subCategoryId = subCategory.getSubCategoryId();
 
+                                            AlertDialog.Builder alertDialog = new AlertDialog.Builder(SearchSubCategoryActivity.this);
+                                            alertDialog.setTitle("Alert!!");
+                                            alertDialog.setMessage("Are you sure, you want to delete " + subCategory.getSubcategoryName());
+
+                                            alertDialog.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                                                @Override
+                                                public void onClick(DialogInterface dialogInterface, int i) {
+                                                    deleteSubCategoryCall(subCategoryId);
+                                                    dialogInterface.dismiss();
+
+                                                }
+                                            });
+
+                                            alertDialog.setNegativeButton("No", new DialogInterface.OnClickListener() {
+                                                @Override
+                                                public void onClick(DialogInterface dialogInterface, int i) {
+                                                    dialogInterface.dismiss();
+                                                }
+                                            });
+                                            alertDialog.show();
                                         }
                                     });
-
-                                } else {
-                                    Toast.makeText(SearchSubCategoryActivity.this, subCategoryListResponse.getMessage(), Toast.LENGTH_SHORT).show();
                                 }
                             }
                         });
@@ -166,8 +252,8 @@ public class SearchSubCategoryActivity extends AppCompatActivity {
                 });
     }
 
-    private void deleteSubCategoryCall() {
-        restCall.DeleteSubCategory("DeleteSubCategory", "")
+    private void deleteSubCategoryCall(String subCategoryId) {
+        restCall.DeleteSubCategory("DeleteSubCategory", subCategoryId)
                 .subscribeOn(Schedulers.io())
                 .observeOn(Schedulers.newThread())
                 .subscribe(new Subscriber<SubCategoryListResponse>() {
@@ -192,11 +278,9 @@ public class SearchSubCategoryActivity extends AppCompatActivity {
                             @Override
                             public void run() {
                                 if (subCategoryListResponse.getStatus().equalsIgnoreCase(VariableBag.SUCCESS_RESULT)) {
-                                    Toast.makeText(SearchSubCategoryActivity.this, subCategoryListResponse.getMessage(), Toast.LENGTH_SHORT).show();
-                                    getSubCategoryCall();
-                                } else {
-                                    Toast.makeText(SearchSubCategoryActivity.this, "" + subCategoryListResponse.getMessage(), Toast.LENGTH_SHORT).show();
+                                    GetSubCategory();
                                 }
+                                Toast.makeText(SearchSubCategoryActivity.this, subCategoryListResponse.getMessage(), Toast.LENGTH_SHORT).show();
                             }
                         });
                     }

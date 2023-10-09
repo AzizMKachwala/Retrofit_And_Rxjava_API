@@ -7,7 +7,7 @@
     android:gravity="center"
     android:orientation="vertical"
     android:background="@drawable/bg"
-    tools:context="com.example.MainActivity">
+    tools:context="com.example.HomePageActivity">
 
     <Button
         android:id="@+id/btnCategory"

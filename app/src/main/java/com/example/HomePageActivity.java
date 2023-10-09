@@ -11,13 +11,13 @@ import com.example.Category.SearchCategoryActivity;
 import com.example.SubCategory.SearchSubCategoryActivity;
 import com.example.retrofitandrxjavaapidemo.R;
 
-public class MainActivity extends AppCompatActivity {
+public class HomePageActivity extends AppCompatActivity {
 
     Button btnCategory,btnSubCategory;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_home_page);
 
         btnCategory = findViewById(R.id.btnCategory);
         btnSubCategory = findViewById(R.id.btnSubCategory);
@@ -25,7 +25,7 @@ public class MainActivity extends AppCompatActivity {
         btnCategory.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(MainActivity.this, SearchCategoryActivity.class);
+                Intent intent = new Intent(HomePageActivity.this, SearchCategoryActivity.class);
                 startActivity(intent);
             }
         });
@@ -34,7 +34,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 //                Toast.makeText(MainActivity.this, "SubCategory Will Be Added Soon", Toast.LENGTH_SHORT).show();
-                Intent intent = new Intent(MainActivity.this, SearchSubCategoryActivity.class);
+                Intent intent = new Intent(HomePageActivity.this, SearchSubCategoryActivity.class);
                 startActivity(intent);
             }
         });
