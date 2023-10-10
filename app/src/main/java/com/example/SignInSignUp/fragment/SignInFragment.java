@@ -88,7 +88,7 @@ public class SignInFragment extends Fragment {
                                     Toast.makeText(getContext(), "Login successful", Toast.LENGTH_SHORT).show();
                                     startActivity(new Intent(getContext(), HomePageActivity.class));
                                 } else {
-                                    Toast.makeText(getContext(), "Login failed. Check your credentials.", Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(getContext(), "Login failed. Check your Credentials.", Toast.LENGTH_SHORT).show();
                                 }
                             }
                         });
