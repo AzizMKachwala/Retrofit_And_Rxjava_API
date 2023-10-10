@@ -1,4 +1,4 @@
-package com.example.networkResponse;
+package com.example.networkResponse.cate;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;

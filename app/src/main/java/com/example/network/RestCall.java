@@ -1,15 +1,12 @@
 package com.example.network;
 
-import com.example.networkResponse.CategoryListResponse;
-import com.example.networkResponse.CategoryCommonResponse;
-import com.example.networkResponse.SubCategoryCommonResponse;
-import com.example.networkResponse.SubCategoryListResponse;
+import com.example.networkResponse.cate.CategoryListResponse;
+import com.example.networkResponse.cate.CategoryCommonResponse;
+import com.example.networkResponse.subcate.SubCategoryListResponse;
 
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
-import retrofit2.http.GET;
 import retrofit2.http.POST;
-import rx.Observable;
 import rx.Single;
 
 public interface RestCall {

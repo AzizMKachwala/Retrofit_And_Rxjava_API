@@ -20,8 +20,8 @@ import android.widget.Toast;
 import com.example.VariableBag;
 import com.example.network.RestCall;
 import com.example.network.RestClient;
-import com.example.networkResponse.CategoryListResponse;
-import com.example.networkResponse.SubCategoryListResponse;
+import com.example.networkResponse.cate.CategoryListResponse;
+import com.example.networkResponse.subcate.SubCategoryListResponse;
 import com.example.retrofitandrxjavaapidemo.R;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 

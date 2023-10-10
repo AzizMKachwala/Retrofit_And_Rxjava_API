@@ -14,12 +14,11 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.example.SubCategory.SearchSubCategoryActivity;
 import com.example.VariableBag;
 import com.example.network.RestCall;
 import com.example.network.RestClient;
-import com.example.networkResponse.CategoryListResponse;
-import com.example.networkResponse.CategoryCommonResponse;
+import com.example.networkResponse.cate.CategoryListResponse;
+import com.example.networkResponse.cate.CategoryCommonResponse;
 import com.example.retrofitandrxjavaapidemo.R;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
@@ -101,7 +100,6 @@ public class SearchCategoryActivity extends AppCompatActivity {
                             @Override
                             public void run() {
                                 Toast.makeText(SearchCategoryActivity.this, "Error fetching Category list", Toast.LENGTH_SHORT).show();
-
                             }
                         });
                     }

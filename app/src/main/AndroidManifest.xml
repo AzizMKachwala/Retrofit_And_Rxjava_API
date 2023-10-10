@@ -16,13 +16,10 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
-            android:name="com.example.SubCategory.SearchSubCategoryActivity"
+            android:name="com.example.SignInSignUp.SignInSignUpActivity"
             android:exported="false" />
         <activity
-            android:name="com.example.SubCategory.AddSubCategoryActivity"
-            android:exported="false" />
-        <activity
-            android:name="com.example.HomePageActivity"
+            android:name="com.example.SplashActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -30,6 +27,15 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name="com.example.SubCategory.SearchSubCategoryActivity"
+            android:exported="false" />
+        <activity
+            android:name="com.example.SubCategory.AddSubCategoryActivity"
+            android:exported="false" />
+        <activity
+            android:name="com.example.HomePageActivity"
+            android:exported="true"></activity>
         <activity
             android:name="com.example.Category.SearchCategoryActivity"
             android:exported="true" />

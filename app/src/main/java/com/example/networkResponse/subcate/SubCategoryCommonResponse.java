@@ -1,15 +1,15 @@
-package com.example.networkResponse;
+package com.example.networkResponse.subcate;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
 
-public class CategoryCommonResponse implements Serializable {
+public class SubCategoryCommonResponse implements Serializable {
 
-    @SerializedName("category_id")
+    @SerializedName("sub_category_id")
     @Expose
-    private Integer categoryId;
+    private String subCategoryId;
     @SerializedName("message")
     @Expose
     private String message;
@@ -17,18 +17,18 @@ public class CategoryCommonResponse implements Serializable {
     @Expose
     private String status;
 
-    public CategoryCommonResponse(Integer categoryId, String message, String status) {
-        this.categoryId = categoryId;
+    public SubCategoryCommonResponse(String subCategoryId, String message, String status) {
+        this.subCategoryId = subCategoryId;
         this.message = message;
         this.status = status;
     }
 
-    public Integer getCategoryId() {
-        return categoryId;
+    public String getSubCategoryId() {
+        return subCategoryId;
     }
 
-    public void setCategoryId(Integer categoryId) {
-        this.categoryId = categoryId;
+    public void setSubCategoryId(String subCategoryId) {
+        this.subCategoryId = subCategoryId;
     }
 
     public String getMessage() {

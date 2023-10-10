@@ -10,10 +10,11 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.example.Tools;
 import com.example.VariableBag;
 import com.example.network.RestCall;
 import com.example.network.RestClient;
-import com.example.networkResponse.CategoryCommonResponse;
+import com.example.networkResponse.cate.CategoryCommonResponse;
 import com.example.retrofitandrxjavaapidemo.R;
 
 import rx.Subscriber;
@@ -25,6 +26,7 @@ public class AddCategoryActivity extends AppCompatActivity {
     Button btnAdd;
     RestCall restCall;
     boolean isEdit = false;
+    Tools tools;
     String category_name,category_id;
 
     @Override
@@ -60,8 +62,10 @@ public class AddCategoryActivity extends AppCompatActivity {
                 } else {
                     if (isEdit) {
                         editCategoryCall();
+                        tools.showLoading();
                     } else {
                         addCategoryCall();
+                        tools.showLoading();
                     }
                 }
             }
@@ -80,6 +84,7 @@ public class AddCategoryActivity extends AppCompatActivity {
 
                     @Override
                     public void onError(Throwable e) {
+                        tools.stopLoading();
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
@@ -90,6 +95,7 @@ public class AddCategoryActivity extends AppCompatActivity {
 
                     @Override
                     public void onNext(CategoryCommonResponse categoryCommonResponse) {
+                        tools.stopLoading();
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
@@ -121,6 +127,7 @@ public class AddCategoryActivity extends AppCompatActivity {
 
                     @Override
                     public void onError(Throwable e) {
+                        tools.stopLoading();
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
@@ -131,6 +138,7 @@ public class AddCategoryActivity extends AppCompatActivity {
 
                     @Override
                     public void onNext(CategoryCommonResponse categoryCommonResponse) {
+                        tools.stopLoading();
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {

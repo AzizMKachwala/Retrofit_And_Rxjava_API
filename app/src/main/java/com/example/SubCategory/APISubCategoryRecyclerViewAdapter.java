@@ -11,9 +11,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.Category.APICategoryRecyclerViewAdapter;
-import com.example.networkResponse.CategoryListResponse;
-import com.example.networkResponse.SubCategoryListResponse;
+import com.example.networkResponse.subcate.SubCategoryListResponse;
 import com.example.retrofitandrxjavaapidemo.R;
 
 import java.util.ArrayList;

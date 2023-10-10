@@ -5,7 +5,6 @@ import androidx.appcompat.widget.AppCompatSpinner;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -13,21 +12,16 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.example.Category.AddCategoryActivity;
-import com.example.Category.SearchCategoryActivity;
 import com.example.VariableBag;
 import com.example.network.RestCall;
 import com.example.network.RestClient;
-import com.example.networkResponse.CategoryListResponse;
-import com.example.networkResponse.SubCategoryCommonResponse;
-import com.example.networkResponse.SubCategoryListResponse;
+import com.example.networkResponse.cate.CategoryListResponse;
+import com.example.networkResponse.subcate.SubCategoryListResponse;
 import com.example.retrofitandrxjavaapidemo.R;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import rx.Subscriber;
-import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
 public class AddSubCategoryActivity extends AppCompatActivity {
@@ -52,19 +46,6 @@ public class AddSubCategoryActivity extends AppCompatActivity {
         restCall = RestClient.createService(RestCall.class, VariableBag.BASE_URL, VariableBag.API_KEY);
 
         getCateCall();
-
-//        selectCategorySpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-//            @Override
-//            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-//
-//            }
-//
-//            @Override
-//            public void onNothingSelected(AdapterView<?> adapterView) {
-//
-//            }
-//        });
-
 
         Bundle bundle = getIntent().getExtras();
         if (bundle != null && bundle.getString("category_id") != null) {

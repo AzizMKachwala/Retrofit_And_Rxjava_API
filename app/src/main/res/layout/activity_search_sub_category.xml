@@ -13,6 +13,7 @@
         android:id="@+id/categorySpinner"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@drawable/etv"
         style="@style/EditTextTheme" />
 
     <EditText
@@ -22,6 +23,7 @@
         style="@style/EditTextTheme"
         android:hint="Search Category Name"
         android:imeOptions="actionDone"
+        android:background="@drawable/etv"
         android:inputType="textAutoComplete"
         android:layout_below="@id/categorySpinner"/>
 
@@ -36,7 +38,7 @@
             android:id="@+id/subCategoryListRecyclerView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="#A681AF"
+            android:background="#f2f1d3"
             android:padding="@dimen/_5sdp" />
 
     </androidx.cardview.widget.CardView>
@@ -51,6 +53,7 @@
         android:layout_marginTop="@dimen/_10sdp"
         android:layout_marginEnd="@dimen/_10sdp"
         android:layout_marginBottom="@dimen/_10sdp"
+        android:background="@drawable/btn"
         android:src="@drawable/baseline_add_24"
         tools:ignore="SpeakableTextPresentCheck" />
 

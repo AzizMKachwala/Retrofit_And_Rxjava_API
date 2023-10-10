@@ -1,6 +1,6 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
-    <style name="Base.Theme.RetrofitAndRxjavaAPIDemo" parent="Theme.Material3.DayNight.NoActionBar">
+    <style name="Base.Theme.RetrofitAndRxjavaAPIDemo" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- Customize your light theme here. -->
         <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
     </style>
@@ -17,4 +17,16 @@
         <item name="minHeight">@dimen/_48sdp</item>
         <item name="android:minLines">1</item>
     </style>
+
+<!--    <style name="SignEtv">-->
+<!--        <item name="android:background">"#f2f1d3"</item>-->
+<!--        <item name="android:padding">@dimen/_5sdp</item>-->
+<!--        <item name="android:layout_margin">@dimen/_10sdp</item>-->
+<!--    </style>-->
+
+<!--    <style name="SignBtn">-->
+<!--        <item name="android:background">"#f6bc13"</item>-->
+<!--        <item name="android:padding">@dimen/_5sdp</item>-->
+<!--        <item name="android:layout_margin">@dimen/_10sdp</item>-->
+<!--    </style>-->
 </resources>

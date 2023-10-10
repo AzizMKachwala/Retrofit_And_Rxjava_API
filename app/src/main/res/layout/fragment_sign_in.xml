@@ -1,0 +1,57 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="@dimen/_10sdp"
+    tools:context="com.example.SignInSignUp.fragment.SignInFragment">
+
+    <EditText
+        android:id="@+id/etvEmail"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_margin="@dimen/_5sdp"
+        android:background="@drawable/etv"
+        android:hint="EMAIL"
+        android:inputType="text"
+        android:minHeight="48dp"
+        android:padding="@dimen/_10sdp" />
+
+    <EditText
+        android:id="@+id/etvPassword"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/etvEmail"
+        android:layout_centerHorizontal="true"
+        android:layout_marginStart="@dimen/_5sdp"
+        android:layout_marginTop="@dimen/_5sdp"
+        android:layout_marginEnd="@dimen/_5sdp"
+        android:layout_marginBottom="@dimen/_5sdp"
+        android:background="@drawable/etv"
+        android:hint="PASSWORD"
+        android:inputType="text"
+        android:minHeight="48dp"
+        android:padding="@dimen/_10sdp" />
+
+    <Button
+        android:id="@+id/btnSignIn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/etvPassword"
+        android:layout_marginStart="@dimen/_5sdp"
+        android:layout_marginTop="@dimen/_5sdp"
+        android:layout_marginEnd="@dimen/_5sdp"
+        android:layout_marginBottom="@dimen/_5sdp"
+        android:background="@drawable/btn"
+        android:text="SIGN IN" />
+
+    <Button
+        android:id="@+id/btnResetPassword"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="#fcffff"
+        android:layout_below="@id/btnSignIn"
+        style="@style/Widget.AppCompat.Button.Borderless"
+        android:text="Reset My Password"/>
+
+</RelativeLayout>
