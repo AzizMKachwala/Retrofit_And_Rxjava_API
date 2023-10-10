@@ -15,6 +15,7 @@ import android.widget.Toast;
 import com.example.VariableBag;
 import com.example.network.RestCall;
 import com.example.network.RestClient;
+import com.example.networkResponse.UserResponse;
 import com.example.networkResponse.cate.CategoryListResponse;
 import com.example.networkResponse.subcate.SubCategoryListResponse;
 import com.example.retrofitandrxjavaapidemo.R;
@@ -82,7 +83,7 @@ public class AddSubCategoryActivity extends AppCompatActivity {
     }
 
     private void addSubCategoryCall() {
-        restCall.AddSubCategory("AddSubCategory", selectedCategoryId, etvSubCategoryName.getText().toString().trim())
+        restCall.AddSubCategory("AddSubCategory", selectedCategoryId, etvSubCategoryName.getText().toString().trim(),"")
                 .subscribeOn(Schedulers.io())
                 .observeOn(Schedulers.newThread())
                 .subscribe(new Subscriber<SubCategoryListResponse>() {
@@ -121,7 +122,8 @@ public class AddSubCategoryActivity extends AppCompatActivity {
     }
 
     private void editSubCategoryCall() {
-        restCall.EditSubCategory("EditSubCategory", selectedCategoryId, etvSubCategoryName.getText().toString(), selectedSubCategoryId)
+        restCall.EditSubCategory("EditSubCategory", selectedCategoryId,
+                        etvSubCategoryName.getText().toString(), selectedSubCategoryId,"")
                 .subscribeOn(Schedulers.io())
                 .observeOn(Schedulers.newThread())
                 .subscribe(new Subscriber<SubCategoryListResponse>() {
@@ -162,7 +164,7 @@ public class AddSubCategoryActivity extends AppCompatActivity {
 
     private void getCateCall() {
 
-        restCall.getCategory("getCategory")
+        restCall.getCategory("getCategory","")
                 .subscribeOn(Schedulers.io())
                 .observeOn(Schedulers.newThread())
                 .subscribe(new Subscriber<CategoryListResponse>() {
@@ -187,7 +189,8 @@ public class AddSubCategoryActivity extends AppCompatActivity {
                             @Override
                             public void run() {
 
-                                if (categoryListResponse.getStatus().equalsIgnoreCase(VariableBag.SUCCESS_RESULT) && categoryListResponse.getCategoryList() != null
+                                if (categoryListResponse.getStatus().equalsIgnoreCase(VariableBag.SUCCESS_RESULT)
+                                        && categoryListResponse.getCategoryList() != null
                                         && categoryListResponse.getCategoryList().size() > 0) {
 
                                     List<CategoryListResponse.Category> categories = categoryListResponse.getCategoryList();
@@ -198,7 +201,6 @@ public class AddSubCategoryActivity extends AppCompatActivity {
                                     categoryIdArray[0] = "-1";
 
                                     for (int i = 0; i < categories.size(); i++) {
-
                                         categoryNameArray[i + 1] = categories.get(i).getCategoryName();
                                         categoryIdArray[i + 1] = categories.get(i).getCategoryId();
                                     }
@@ -231,5 +233,4 @@ public class AddSubCategoryActivity extends AppCompatActivity {
                     }
                 });
     }
-
 }

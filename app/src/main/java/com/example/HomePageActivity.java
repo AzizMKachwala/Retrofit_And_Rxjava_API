@@ -6,9 +6,12 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
 
+import com.example.Category.AddCategoryActivity;
 import com.example.Category.SearchCategoryActivity;
 import com.example.SubCategory.SearchSubCategoryActivity;
+import com.example.networkResponse.UserResponse;
 import com.example.retrofitandrxjavaapidemo.R;
 
 public class HomePageActivity extends AppCompatActivity {

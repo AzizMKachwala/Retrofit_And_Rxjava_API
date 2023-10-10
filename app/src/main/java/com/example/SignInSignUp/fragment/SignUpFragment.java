@@ -58,7 +58,8 @@ public class SignUpFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 if (etvFirstName.getText().toString().trim().isEmpty() || etvLastName.getText().toString().trim().isEmpty()
-                        || !Tools.isValidEmail(etvEmail.getText().toString().trim()) || !isValidPassword(etvPassword.getText().toString().trim())) {
+                        || !Tools.isValidEmail(etvEmail.getText().toString().trim())
+                        || !isValidPassword(etvPassword.getText().toString().trim())) {
                     Toast.makeText(getContext(), "Enter Valid Details", Toast.LENGTH_SHORT).show();
                 } else {
                     Toast.makeText(getContext(), "Login to Start", Toast.LENGTH_SHORT).show();
@@ -123,5 +124,4 @@ public class SignUpFragment extends Fragment {
                     }
                 });
     }
-
 }

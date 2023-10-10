@@ -10,10 +10,12 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.example.SubCategory.AddSubCategoryActivity;
 import com.example.Tools;
 import com.example.VariableBag;
 import com.example.network.RestCall;
 import com.example.network.RestClient;
+import com.example.networkResponse.UserResponse;
 import com.example.networkResponse.cate.CategoryCommonResponse;
 import com.example.retrofitandrxjavaapidemo.R;
 
@@ -26,7 +28,6 @@ public class AddCategoryActivity extends AppCompatActivity {
     Button btnAdd;
     RestCall restCall;
     boolean isEdit = false;
-    Tools tools;
     String category_name,category_id;
 
     @Override
@@ -47,7 +48,6 @@ public class AddCategoryActivity extends AppCompatActivity {
 
             etvCategoryName.setText(category_name);
             btnAdd.setText("Edit");
-
         } else {
             isEdit = false;
             btnAdd.setText("Add");
@@ -71,7 +71,7 @@ public class AddCategoryActivity extends AppCompatActivity {
     }
 
     public void editCategoryCall() {
-        restCall.EditCategory("EditCategory", etvCategoryName.getText().toString(), category_id)
+        restCall.EditCategory("EditCategory", etvCategoryName.getText().toString(), category_id,"")
                 .subscribeOn(Schedulers.io())
                 .observeOn((Schedulers.newThread()))
                 .subscribe(new Subscriber<CategoryCommonResponse>() {
@@ -112,7 +112,7 @@ public class AddCategoryActivity extends AppCompatActivity {
 
     public void addCategoryCall() {
 
-        restCall.AddCategory("AddCategory", etvCategoryName.getText().toString().trim())
+        restCall.AddCategory("AddCategory", "", etvCategoryName.getText().toString().trim())
                 .subscribeOn(Schedulers.io())
                 .observeOn(Schedulers.newThread())
                 .subscribe(new Subscriber<CategoryCommonResponse>() {

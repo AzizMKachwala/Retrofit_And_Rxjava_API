@@ -84,7 +84,7 @@ public class SearchCategoryActivity extends AppCompatActivity {
 
     private void getCategoryCall() {
 
-        restCall.getCategory("getCategory")
+        restCall.getCategory("getCategory","")
                 .subscribeOn(Schedulers.io())
                 .observeOn(Schedulers.newThread())
                 .subscribe(new Subscriber<CategoryListResponse>() {
@@ -163,7 +163,7 @@ public class SearchCategoryActivity extends AppCompatActivity {
     }
 
     public void DeleteCategoryCall(String category_id) {
-        restCall.DeleteCategory("DeleteCategory",category_id)
+        restCall.DeleteCategory("DeleteCategory","",category_id)
                 .subscribeOn(Schedulers.io())
                 .observeOn((Schedulers.newThread()))
                 .subscribe(new Subscriber<CategoryCommonResponse>() {

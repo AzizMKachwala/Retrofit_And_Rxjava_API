@@ -79,8 +79,7 @@ public class SearchSubCategoryActivity extends AppCompatActivity {
         btnAddSubCategory.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(SearchSubCategoryActivity.this, AddSubCategoryActivity.class);
-                startActivity(intent);
+                startActivity(new Intent(SearchSubCategoryActivity.this, AddSubCategoryActivity.class));
             }
         });
 
@@ -94,7 +93,7 @@ public class SearchSubCategoryActivity extends AppCompatActivity {
 
     private void getCateCall() {
 
-        restCall.getCategory("getCategory")
+        restCall.getCategory("getCategory","")
                 .subscribeOn(Schedulers.io())
                 .observeOn(Schedulers.newThread())
                 .subscribe(new Subscriber<CategoryListResponse>() {
@@ -130,7 +129,6 @@ public class SearchSubCategoryActivity extends AppCompatActivity {
                                     categoryIdArray[0] = "-1";
 
                                     for (int i = 0; i < categories.size(); i++) {
-
                                         categoryNameArray[i + 1] = categories.get(i).getCategoryName();
                                         categoryIdArray[i + 1] = categories.get(i).getCategoryId();
                                     }
@@ -169,7 +167,7 @@ public class SearchSubCategoryActivity extends AppCompatActivity {
     }
 
     private void GetSubCategory(){
-        restCall.getSubCategory("getSubCategory",selectedCategoryId)
+        restCall.getSubCategory("getSubCategory",selectedCategoryId,"")
                 .subscribeOn(Schedulers.io())
                 .observeOn(Schedulers.newThread())
                 .subscribe(new Subscriber<SubCategoryListResponse>() {
@@ -232,7 +230,6 @@ public class SearchSubCategoryActivity extends AppCompatActivity {
                                                 public void onClick(DialogInterface dialogInterface, int i) {
                                                     deleteSubCategoryCall(subCategoryId);
                                                     dialogInterface.dismiss();
-
                                                 }
                                             });
 
@@ -253,7 +250,7 @@ public class SearchSubCategoryActivity extends AppCompatActivity {
     }
 
     private void deleteSubCategoryCall(String subCategoryId) {
-        restCall.DeleteSubCategory("DeleteSubCategory", subCategoryId)
+        restCall.DeleteSubCategory("DeleteSubCategory", subCategoryId,"")
                 .subscribeOn(Schedulers.io())
                 .observeOn(Schedulers.newThread())
                 .subscribe(new Subscriber<SubCategoryListResponse>() {
