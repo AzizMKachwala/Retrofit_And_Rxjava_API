@@ -29,7 +29,7 @@
         android:layout_marginBottom="@dimen/_5sdp"
         android:background="@drawable/etv"
         android:hint="PASSWORD"
-        android:inputType="text"
+        android:inputType="textPassword"
         android:minHeight="48dp"
         android:padding="@dimen/_10sdp" />
 
@@ -50,8 +50,19 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textColor="#fcffff"
+        android:layout_marginStart="@dimen/_5sdp"
+        android:layout_marginTop="@dimen/_5sdp"
+        android:layout_marginEnd="@dimen/_5sdp"
+        android:layout_marginBottom="@dimen/_5sdp"
         android:layout_below="@id/btnSignIn"
         style="@style/Widget.AppCompat.Button.Borderless"
         android:text="Reset My Password"/>
 
 </RelativeLayout>
+
+<!--<com.google.android.material.switchmaterial.SwitchMaterial-->
+<!--android:id="@+id/switchStatus"-->
+<!--android:layout_width="wrap_content"-->
+<!--android:layout_height="wrap_content"-->
+<!--android:layout_below="@id/btnResetPassword"-->
+<!--android:layout_centerInParent="true" />-->

@@ -21,18 +21,26 @@
                 android:layout_height="match_parent"
                 android:layout_gravity="center"
                 android:layout_weight="1"
-                android:hint="SUB CATEGORY NAME"
+                android:hint="SCN"
                 android:paddingLeft="@dimen/_10sdp"
                 android:textSize="@dimen/_20sdp" />
+
             <TextView
                 android:id="@+id/txtSubCategoryId"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_gravity="center"
                 android:layout_weight="1"
-                android:hint="SUB CATEGORY NAME"
+                android:hint="SCID"
                 android:paddingLeft="@dimen/_10sdp"
                 android:textSize="@dimen/_20sdp" />
+
+            <com.google.android.material.switchmaterial.SwitchMaterial
+                android:id="@+id/switchStatus"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="@dimen/_5sdp"
+                android:layout_marginRight="@dimen/_5sdp"/>
 
             <ImageView
                 android:id="@+id/imgEditSubCategory"

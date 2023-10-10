@@ -1,5 +1,6 @@
 package com.example.network;
 
+import com.example.networkResponse.UserResponse;
 import com.example.networkResponse.cate.CategoryListResponse;
 import com.example.networkResponse.cate.CategoryCommonResponse;
 import com.example.networkResponse.subcate.SubCategoryListResponse;
@@ -67,5 +68,21 @@ public interface RestCall {
     Single<SubCategoryListResponse> DeleteSubCategory(
             @Field("tag") String tag,
             @Field("sub_category_id") String sub_category_id);
+
+    @FormUrlEncoded
+    @POST("UserController.php")
+    Single<UserResponse> AddUser(
+            @Field("tag") String tag,
+            @Field("first_name") String first_name,
+            @Field("last_name") String last_name,
+            @Field("email") String email,
+            @Field("password") String password);
+
+    @FormUrlEncoded
+    @POST("UserController.php")
+    Single<UserResponse> LoginUser(
+            @Field("tag") String tag,
+            @Field("email") String email,
+            @Field("password") String password);
 
 }

@@ -10,7 +10,6 @@ import android.widget.TextView;
 
 import com.example.SignInSignUp.fragment.SignInFragment;
 import com.example.SignInSignUp.fragment.SignUpFragment;
-import com.example.Tools;
 import com.example.retrofitandrxjavaapidemo.R;
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;

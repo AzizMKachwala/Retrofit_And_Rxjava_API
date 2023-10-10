@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:padding="@dimen/_10sdp"
-    android:background="@drawable/bg"
+    android:background="#293859"
     tools:context="com.example.Category.SearchCategoryActivity">
 
     <EditText

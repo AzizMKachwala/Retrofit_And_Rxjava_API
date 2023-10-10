@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     tools:context="com.example.SplashActivity"
     android:orientation="vertical"
-    android:background="@drawable/bg"
+    android:background="#293859"
     android:gravity="center">
 
     <ImageView
@@ -20,13 +20,15 @@
         android:layout_height="wrap_content"
         android:gravity="center"
         android:text="Category"
-        android:textSize="@dimen/_50sdp"/>
+        android:textColor="#0288D1"
+        android:textSize="@dimen/_50sdp" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:gravity="center"
         android:text="Sub - Category"
-        android:textSize="@dimen/_40sdp"/>
+        android:textColor="#0288D1"
+        android:textSize="@dimen/_40sdp" />
 
 </LinearLayout>

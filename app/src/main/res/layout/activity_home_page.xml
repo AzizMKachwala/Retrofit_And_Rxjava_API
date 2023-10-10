@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:gravity="center"
     android:orientation="vertical"
-    android:background="@drawable/bg"
+    android:background="#293859"
     tools:context="com.example.HomePageActivity">
 
     <Button

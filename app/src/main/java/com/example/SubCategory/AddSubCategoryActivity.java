@@ -145,6 +145,7 @@ public class AddSubCategoryActivity extends AppCompatActivity {
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
+                                Toast.makeText(AddSubCategoryActivity.this, "Select Category to Edit", Toast.LENGTH_SHORT).show();
                                 if (subCategoryListResponse.getStatus().equalsIgnoreCase(VariableBag.SUCCESS_RESULT)) {
                                     etvSubCategoryName.setText("");
 

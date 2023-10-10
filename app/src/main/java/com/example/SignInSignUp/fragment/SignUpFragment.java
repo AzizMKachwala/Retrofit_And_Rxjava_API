@@ -13,16 +13,23 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.HomePageActivity;
+import com.example.SignInSignUp.SignInSignUpActivity;
+import com.example.SubCategory.AddSubCategoryActivity;
+import com.example.SubCategory.SearchSubCategoryActivity;
 import com.example.Tools;
 import com.example.VariableBag;
 import com.example.network.RestCall;
 import com.example.network.RestClient;
+import com.example.networkResponse.UserResponse;
 import com.example.retrofitandrxjavaapidemo.R;
+
+import rx.Subscriber;
+import rx.schedulers.Schedulers;
 
 public class SignUpFragment extends Fragment {
 
-    EditText etvFirstName,etvLastName,etvEmail,etvPassword;
-    Button btnSignUp,btnResetPassword;
+    EditText etvFirstName, etvLastName, etvEmail, etvPassword;
+    Button btnSignUp, btnResetPassword;
     RestCall restCall;
 
     @Override
@@ -40,7 +47,7 @@ public class SignUpFragment extends Fragment {
 
         restCall = RestClient.createService(RestCall.class, VariableBag.BASE_URL, VariableBag.API_KEY);
 
-//        if(Tools.isValidEmail("ghdfhgvgmail.com")){
+//        if(Tools.isValidEmail(etvEmail.getText().toString().trim())){
 //            Toast.makeText(getContext(), "Valid Email", Toast.LENGTH_SHORT).show();
 //        }
 //        else{
@@ -50,13 +57,18 @@ public class SignUpFragment extends Fragment {
         btnSignUp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                if(etvFirstName.getText().toString().trim() != null) {
-//                    etvFirstName.setError("Enter First Name");
-//                    etvFirstName.requestFocus();
-//                }
-//                else {
-                    startActivity(new Intent(getContext(), HomePageActivity.class));
-//                }
+                if (etvFirstName.getText().toString().trim().isEmpty() || etvLastName.getText().toString().trim().isEmpty()
+                        || !Tools.isValidEmail(etvEmail.getText().toString().trim()) || !isValidPassword(etvPassword.getText().toString().trim())) {
+                    Toast.makeText(getContext(), "Enter Valid Details", Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(getContext(), "Login to Start", Toast.LENGTH_SHORT).show();
+                    addUser();
+                }
+            }
+
+            private boolean isValidPassword(String password) {
+                return password.length() >= 7 && password.matches(".*[A-Z].*") && password.matches(".*[a-z].*")
+                        && password.matches(".*\\d.*") && password.matches(".*[@#$%^&+=].*");
             }
         });
 
@@ -69,4 +81,47 @@ public class SignUpFragment extends Fragment {
 
         return view;
     }
+
+    public void addUser() {
+        restCall.AddUser("AddUser", etvFirstName.getText().toString().trim(), etvLastName.getText().toString().trim(),
+                        etvEmail.getText().toString().trim(), etvPassword.getText().toString().trim())
+                .subscribeOn(Schedulers.io())
+                .observeOn(Schedulers.newThread())
+                .subscribe(new Subscriber<UserResponse>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        getActivity().runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                Toast.makeText(getContext(), "No Internet", Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                    }
+
+                    @Override
+                    public void onNext(UserResponse userResponse) {
+                        getActivity().runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                if (userResponse.getStatus().equalsIgnoreCase(VariableBag.SUCCESS_RESULT)) {
+                                    etvFirstName.setText("");
+                                    etvLastName.setText("");
+                                    etvEmail.setText("");
+                                    etvPassword.setText("");
+
+                                    startActivity(new Intent(getContext(), SignInSignUpActivity.class));
+                                } else {
+                                    Toast.makeText(getContext(), userResponse.getMessage(), Toast.LENGTH_SHORT).show();
+                                }
+                            }
+                        });
+                    }
+                });
+    }
+
 }

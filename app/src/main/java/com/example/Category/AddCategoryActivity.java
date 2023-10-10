@@ -62,10 +62,8 @@ public class AddCategoryActivity extends AppCompatActivity {
                 } else {
                     if (isEdit) {
                         editCategoryCall();
-                        tools.showLoading();
                     } else {
                         addCategoryCall();
-                        tools.showLoading();
                     }
                 }
             }
@@ -84,7 +82,6 @@ public class AddCategoryActivity extends AppCompatActivity {
 
                     @Override
                     public void onError(Throwable e) {
-                        tools.stopLoading();
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
@@ -95,7 +92,6 @@ public class AddCategoryActivity extends AppCompatActivity {
 
                     @Override
                     public void onNext(CategoryCommonResponse categoryCommonResponse) {
-                        tools.stopLoading();
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
@@ -127,7 +123,6 @@ public class AddCategoryActivity extends AppCompatActivity {
 
                     @Override
                     public void onError(Throwable e) {
-                        tools.stopLoading();
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
@@ -138,7 +133,6 @@ public class AddCategoryActivity extends AppCompatActivity {
 
                     @Override
                     public void onNext(CategoryCommonResponse categoryCommonResponse) {
-                        tools.stopLoading();
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
