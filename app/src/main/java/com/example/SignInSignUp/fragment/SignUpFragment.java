@@ -13,6 +13,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.HomePageActivity;
+import com.example.Tools;
 import com.example.VariableBag;
 import com.example.network.RestCall;
 import com.example.network.RestClient;
@@ -38,6 +39,13 @@ public class SignUpFragment extends Fragment {
         btnResetPassword = view.findViewById(R.id.btnResetPassword);
 
         restCall = RestClient.createService(RestCall.class, VariableBag.BASE_URL, VariableBag.API_KEY);
+
+//        if(Tools.isValidEmail("ghdfhgvgmail.com")){
+//            Toast.makeText(getContext(), "Valid Email", Toast.LENGTH_SHORT).show();
+//        }
+//        else{
+//            Toast.makeText(getContext(), "InValid Email", Toast.LENGTH_SHORT).show();
+//        }
 
         btnSignUp.setOnClickListener(new View.OnClickListener() {
             @Override
