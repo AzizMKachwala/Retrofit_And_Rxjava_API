@@ -12,6 +12,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.example.SignInSignUp.PreferenceManager;
 import com.example.VariableBag;
 import com.example.network.RestCall;
 import com.example.network.RestClient;
@@ -34,6 +35,7 @@ public class AddSubCategoryActivity extends AppCompatActivity {
     boolean isEdit = false;
     String selectedCategoryId, selectedCategoryName, subcategory_name, category_id, selectedSubCategoryId;
     int selectedPos = 0;
+    com.example.SignInSignUp.PreferenceManager preferenceManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,6 +47,8 @@ public class AddSubCategoryActivity extends AppCompatActivity {
         btnSubAdd = findViewById(R.id.btnSubAdd);
 
         restCall = RestClient.createService(RestCall.class, VariableBag.BASE_URL, VariableBag.API_KEY);
+
+        preferenceManager = new PreferenceManager(this);
 
         getCateCall();
 
@@ -83,7 +87,7 @@ public class AddSubCategoryActivity extends AppCompatActivity {
     }
 
     private void addSubCategoryCall() {
-        restCall.AddSubCategory("AddSubCategory", selectedCategoryId, etvSubCategoryName.getText().toString().trim(),"")
+        restCall.AddSubCategory("AddSubCategory", selectedCategoryId, etvSubCategoryName.getText().toString().trim(),preferenceManager.getUserId())
                 .subscribeOn(Schedulers.io())
                 .observeOn(Schedulers.newThread())
                 .subscribe(new Subscriber<SubCategoryListResponse>() {
@@ -123,7 +127,7 @@ public class AddSubCategoryActivity extends AppCompatActivity {
 
     private void editSubCategoryCall() {
         restCall.EditSubCategory("EditSubCategory", selectedCategoryId,
-                        etvSubCategoryName.getText().toString(), selectedSubCategoryId,"")
+                        etvSubCategoryName.getText().toString(), selectedSubCategoryId,preferenceManager.getUserId())
                 .subscribeOn(Schedulers.io())
                 .observeOn(Schedulers.newThread())
                 .subscribe(new Subscriber<SubCategoryListResponse>() {
@@ -164,7 +168,7 @@ public class AddSubCategoryActivity extends AppCompatActivity {
 
     private void getCateCall() {
 
-        restCall.getCategory("getCategory","")
+        restCall.getCategory("getCategory",preferenceManager.getUserId())
                 .subscribeOn(Schedulers.io())
                 .observeOn(Schedulers.newThread())
                 .subscribe(new Subscriber<CategoryListResponse>() {

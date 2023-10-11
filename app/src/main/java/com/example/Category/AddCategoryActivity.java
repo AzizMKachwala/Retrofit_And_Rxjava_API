@@ -10,12 +10,10 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.example.SubCategory.AddSubCategoryActivity;
-import com.example.Tools;
+import com.example.SignInSignUp.PreferenceManager;
 import com.example.VariableBag;
 import com.example.network.RestCall;
 import com.example.network.RestClient;
-import com.example.networkResponse.UserResponse;
 import com.example.networkResponse.cate.CategoryCommonResponse;
 import com.example.retrofitandrxjavaapidemo.R;
 
@@ -29,6 +27,7 @@ public class AddCategoryActivity extends AppCompatActivity {
     RestCall restCall;
     boolean isEdit = false;
     String category_name,category_id;
+    com.example.SignInSignUp.PreferenceManager preferenceManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,8 +36,11 @@ public class AddCategoryActivity extends AppCompatActivity {
 
         etvCategoryName = findViewById(R.id.etvCategoryName);
         btnAdd = findViewById(R.id.btnAdd);
+        preferenceManager = new PreferenceManager(this);
 
         restCall = RestClient.createService(RestCall.class, VariableBag.BASE_URL, VariableBag.API_KEY);
+
+        preferenceManager = new PreferenceManager(this);
 
         if (getIntent() != null && getIntent().getStringExtra("category_id") != null) {
 
@@ -71,7 +73,7 @@ public class AddCategoryActivity extends AppCompatActivity {
     }
 
     public void editCategoryCall() {
-        restCall.EditCategory("EditCategory", etvCategoryName.getText().toString(), category_id,"")
+        restCall.EditCategory("EditCategory", etvCategoryName.getText().toString(), category_id,preferenceManager.getUserId())
                 .subscribeOn(Schedulers.io())
                 .observeOn((Schedulers.newThread()))
                 .subscribe(new Subscriber<CategoryCommonResponse>() {
@@ -112,7 +114,7 @@ public class AddCategoryActivity extends AppCompatActivity {
 
     public void addCategoryCall() {
 
-        restCall.AddCategory("AddCategory", "", etvCategoryName.getText().toString().trim())
+        restCall.AddCategory("AddCategory", preferenceManager.getUserId(), etvCategoryName.getText().toString().trim())
                 .subscribeOn(Schedulers.io())
                 .observeOn(Schedulers.newThread())
                 .subscribe(new Subscriber<CategoryCommonResponse>() {

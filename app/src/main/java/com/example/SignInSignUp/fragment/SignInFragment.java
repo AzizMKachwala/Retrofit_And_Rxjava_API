@@ -13,7 +13,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.HomePageActivity;
-import com.example.SubCategory.AddSubCategoryActivity;
+import com.example.SignInSignUp.PreferenceManager;
 import com.example.VariableBag;
 import com.example.network.RestCall;
 import com.example.network.RestClient;
@@ -21,7 +21,6 @@ import com.example.networkResponse.UserResponse;
 import com.example.retrofitandrxjavaapidemo.R;
 
 import rx.Subscriber;
-import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
 public class SignInFragment extends Fragment {
@@ -29,6 +28,7 @@ public class SignInFragment extends Fragment {
     EditText etvEmail, etvPassword;
     Button btnSignIn, btnResetPassword;
     RestCall restCall;
+    com.example.SignInSignUp.PreferenceManager preferenceManager;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -41,6 +41,8 @@ public class SignInFragment extends Fragment {
         btnResetPassword = view.findViewById(R.id.btnResetPassword);
 
         restCall = RestClient.createService(RestCall.class, VariableBag.BASE_URL, VariableBag.API_KEY);
+
+        preferenceManager = new PreferenceManager(getContext());
 
         btnSignIn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -86,6 +88,9 @@ public class SignInFragment extends Fragment {
                             public void run() {
                                 if (userResponse.getStatus().equalsIgnoreCase(VariableBag.SUCCESS_RESULT)) {
                                     Toast.makeText(getContext(), "Login successful", Toast.LENGTH_SHORT).show();
+
+                                    preferenceManager.setUserId(userResponse.getUserId());
+//                                    preferenceManager.setUserLoggedIn(VariableBag.USER_LOGGED_IN,);
                                     startActivity(new Intent(getContext(), HomePageActivity.class));
                                 } else {
                                     Toast.makeText(getContext(), "Login failed. Check your Credentials.", Toast.LENGTH_SHORT).show();

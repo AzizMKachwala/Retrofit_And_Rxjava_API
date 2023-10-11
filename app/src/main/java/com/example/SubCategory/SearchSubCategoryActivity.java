@@ -17,6 +17,7 @@ import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.example.SignInSignUp.PreferenceManager;
 import com.example.VariableBag;
 import com.example.network.RestCall;
 import com.example.network.RestClient;
@@ -42,6 +43,7 @@ public class SearchSubCategoryActivity extends AppCompatActivity {
     int selectedPos = 0;
     String selectedCategoryId, selectedCategoryName;
     List<CategoryListResponse.Category> categoryList;
+    com.example.SignInSignUp.PreferenceManager preferenceManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,6 +56,8 @@ public class SearchSubCategoryActivity extends AppCompatActivity {
         subCategoryListRecyclerView = findViewById(R.id.subCategoryListRecyclerView);
 
         restCall = RestClient.createService(RestCall.class, VariableBag.BASE_URL, VariableBag.API_KEY);
+
+        preferenceManager = new PreferenceManager(this);
 
         getCateCall();
 
@@ -93,7 +97,7 @@ public class SearchSubCategoryActivity extends AppCompatActivity {
 
     private void getCateCall() {
 
-        restCall.getCategory("getCategory","")
+        restCall.getCategory("getCategory",preferenceManager.getUserId())
                 .subscribeOn(Schedulers.io())
                 .observeOn(Schedulers.newThread())
                 .subscribe(new Subscriber<CategoryListResponse>() {
@@ -167,7 +171,7 @@ public class SearchSubCategoryActivity extends AppCompatActivity {
     }
 
     private void GetSubCategory(){
-        restCall.getSubCategory("getSubCategory",selectedCategoryId,"")
+        restCall.getSubCategory("getSubCategory",selectedCategoryId,preferenceManager.getUserId())
                 .subscribeOn(Schedulers.io())
                 .observeOn(Schedulers.newThread())
                 .subscribe(new Subscriber<SubCategoryListResponse>() {
@@ -250,7 +254,7 @@ public class SearchSubCategoryActivity extends AppCompatActivity {
     }
 
     private void deleteSubCategoryCall(String subCategoryId) {
-        restCall.DeleteSubCategory("DeleteSubCategory", subCategoryId,"")
+        restCall.DeleteSubCategory("DeleteSubCategory", subCategoryId,preferenceManager.getUserId())
                 .subscribeOn(Schedulers.io())
                 .observeOn(Schedulers.newThread())
                 .subscribe(new Subscriber<SubCategoryListResponse>() {

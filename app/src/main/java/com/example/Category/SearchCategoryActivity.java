@@ -14,6 +14,7 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.example.SignInSignUp.PreferenceManager;
 import com.example.VariableBag;
 import com.example.network.RestCall;
 import com.example.network.RestClient;
@@ -32,6 +33,7 @@ public class SearchCategoryActivity extends AppCompatActivity {
     APICategoryRecyclerViewAdapter apiRecyclerViewAdapter;
     FloatingActionButton btnAddCategory;
     RestCall restCall;
+    com.example.SignInSignUp.PreferenceManager preferenceManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,6 +45,8 @@ public class SearchCategoryActivity extends AppCompatActivity {
         btnAddCategory = findViewById(R.id.btnAddCategory);
 
         categoryListRecyclerView.setLayoutManager(new LinearLayoutManager(SearchCategoryActivity.this));
+
+        preferenceManager = new PreferenceManager(this);
 
         restCall = RestClient.createService(RestCall.class, VariableBag.BASE_URL, VariableBag.API_KEY);
 
@@ -83,8 +87,7 @@ public class SearchCategoryActivity extends AppCompatActivity {
     }
 
     private void getCategoryCall() {
-
-        restCall.getCategory("getCategory","")
+        restCall.getCategory("getCategory",preferenceManager.getUserId())
                 .subscribeOn(Schedulers.io())
                 .observeOn(Schedulers.newThread())
                 .subscribe(new Subscriber<CategoryListResponse>() {
@@ -163,7 +166,7 @@ public class SearchCategoryActivity extends AppCompatActivity {
     }
 
     public void DeleteCategoryCall(String category_id) {
-        restCall.DeleteCategory("DeleteCategory","",category_id)
+        restCall.DeleteCategory("DeleteCategory", preferenceManager.getUserId(), category_id)
                 .subscribeOn(Schedulers.io())
                 .observeOn((Schedulers.newThread()))
                 .subscribe(new Subscriber<CategoryCommonResponse>() {
