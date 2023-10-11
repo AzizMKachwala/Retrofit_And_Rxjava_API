@@ -143,7 +143,6 @@ public class SearchCategoryActivity extends AppCompatActivity {
                                                 public void onClick(DialogInterface dialogInterface, int i) {
                                                     DeleteCategoryCall(category.getCategoryId());
                                                     dialogInterface.dismiss();
-
                                                 }
                                             });
 

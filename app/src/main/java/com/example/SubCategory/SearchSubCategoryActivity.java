@@ -42,7 +42,6 @@ public class SearchSubCategoryActivity extends AppCompatActivity {
     RestCall restCall;
     int selectedPos = 0;
     String selectedCategoryId, selectedCategoryName;
-    List<CategoryListResponse.Category> categoryList;
     com.example.SignInSignUp.PreferenceManager preferenceManager;
 
     @Override
