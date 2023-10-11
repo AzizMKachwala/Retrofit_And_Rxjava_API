@@ -96,7 +96,6 @@ public class SearchSubCategoryActivity extends AppCompatActivity {
     }
 
     private void getCateCall() {
-
         restCall.getCategory("getCategory",preferenceManager.getUserId())
                 .subscribeOn(Schedulers.io())
                 .observeOn(Schedulers.newThread())

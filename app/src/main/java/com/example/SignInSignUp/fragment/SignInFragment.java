@@ -89,7 +89,7 @@ public class SignInFragment extends Fragment {
                                 if (userResponse.getStatus().equalsIgnoreCase(VariableBag.SUCCESS_RESULT)) {
                                     Toast.makeText(getContext(), "Login successful", Toast.LENGTH_SHORT).show();
 
-                                    preferenceManager.setUserId(userResponse.getUserId());
+                                    preferenceManager.setUserId(userResponse.getUserId()); // sets UserID (Remember to commit userId in PM set method)
 //                                    preferenceManager.setUserLoggedIn(VariableBag.USER_LOGGED_IN,);
                                     startActivity(new Intent(getContext(), HomePageActivity.class));
                                 } else {

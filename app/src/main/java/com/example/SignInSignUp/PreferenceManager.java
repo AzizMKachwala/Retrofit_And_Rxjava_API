@@ -54,7 +54,7 @@ public class PreferenceManager {
     }
 
     public void setUserId(String userId) {
-       editor.putString(VariableBag.USER_ID,userId);
+       editor.putString(VariableBag.USER_ID,userId).commit();
     }
 
     public String getUserId() {
