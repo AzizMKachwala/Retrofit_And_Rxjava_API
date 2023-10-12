@@ -4,7 +4,10 @@ import android.app.Dialog;
 import android.content.Context;
 import android.text.TextUtils;
 import android.util.Patterns;
+import android.widget.ImageView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.example.retrofitandrxjavaapidemo.R;
 
 public class Tools {
@@ -46,6 +49,18 @@ public class Tools {
             if(dialog != null && dialog.isShowing()){
                 dialog.dismiss();
             }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void DisplayImage(Context context, ImageView img, String urlimg){
+        try {
+            Glide.with(context)
+                    .load(urlimg)
+                    .apply(new RequestOptions().placeholder(R.drawable.ic_launcher_foreground)
+                            .error(R.drawable.bg))
+                    .into(img);
         } catch (Exception e) {
             e.printStackTrace();
         }

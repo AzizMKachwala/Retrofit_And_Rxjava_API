@@ -13,7 +13,7 @@
         android:layout_margin="@dimen/_5sdp"
         android:background="@drawable/etv"
         android:hint="EMAIL"
-        android:inputType="text"
+        android:inputType="textAutoComplete"
         android:minHeight="48dp"
         android:padding="@dimen/_10sdp" />
 
@@ -43,6 +43,7 @@
         android:layout_marginEnd="@dimen/_5sdp"
         android:layout_marginBottom="@dimen/_5sdp"
         android:background="@drawable/btn"
+        android:backgroundTint="#f6bc13"
         android:text="SIGN IN" />
 
     <Button

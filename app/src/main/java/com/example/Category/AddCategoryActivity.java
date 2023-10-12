@@ -113,7 +113,6 @@ public class AddCategoryActivity extends AppCompatActivity {
     }
 
     public void addCategoryCall() {
-
         restCall.AddCategory("AddCategory", preferenceManager.getUserId(), etvCategoryName.getText().toString().trim())
                 .subscribeOn(Schedulers.io())
                 .observeOn(Schedulers.newThread())

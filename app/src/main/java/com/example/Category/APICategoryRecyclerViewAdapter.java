@@ -5,6 +5,7 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -13,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.networkResponse.cate.CategoryListResponse;
 import com.example.retrofitandrxjavaapidemo.R;
+import com.google.android.material.switchmaterial.SwitchMaterial;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,6 +33,7 @@ public class APICategoryRecyclerViewAdapter extends RecyclerView.Adapter<APICate
     public interface CategoryClick{
         void EditClick(CategoryListResponse.Category category);
         void DeleteClick(CategoryListResponse.Category category);
+        void onSwitchChanged(CategoryListResponse.Category category, boolean isChecked);
     }
 
     public void SetUpInterface(CategoryClick categoryClick){
@@ -63,6 +66,13 @@ public class APICategoryRecyclerViewAdapter extends RecyclerView.Adapter<APICate
                 categoryClick.DeleteClick(category);
             }
         });
+
+        holder.switchStatus.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
+                categoryClick.onSwitchChanged(searchList.get(position), isChecked);
+            }
+        });
     }
 
     @Override
@@ -74,12 +84,14 @@ public class APICategoryRecyclerViewAdapter extends RecyclerView.Adapter<APICate
 
         TextView txtCategoryName;
         ImageView imgEditCategory,imgDeleteCategory;
+        SwitchMaterial switchStatus;
         public ApiCategoryDataViewHolder(@NonNull View itemView) {
             super(itemView);
 
             txtCategoryName = itemView.findViewById(R.id.txtCategoryName);
             imgEditCategory = itemView.findViewById(R.id.imgEditCategory);
             imgDeleteCategory = itemView.findViewById(R.id.imgDeleteCategory);
+            switchStatus = itemView.findViewById(R.id.switchStatus);
         }
     }
     @SuppressLint("NotifyDataSetChanged")

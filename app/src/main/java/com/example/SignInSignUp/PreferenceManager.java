@@ -61,5 +61,4 @@ public class PreferenceManager {
         return sharedpreferences.getString(VariableBag.USER_ID,"");
     }
 
-
 }

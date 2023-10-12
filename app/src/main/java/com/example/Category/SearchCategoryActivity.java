@@ -59,7 +59,7 @@ public class SearchCategoryActivity extends AppCompatActivity {
 
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                if (apiRecyclerViewAdapter!=null){
+                if (apiRecyclerViewAdapter != null) {
                     apiRecyclerViewAdapter.Search(charSequence, categoryListRecyclerView);
                 }
             }
@@ -77,7 +77,6 @@ public class SearchCategoryActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-
     }
 
     @Override
@@ -87,7 +86,7 @@ public class SearchCategoryActivity extends AppCompatActivity {
     }
 
     private void getCategoryCall() {
-        restCall.getCategory("getCategory",preferenceManager.getUserId())
+        restCall.getCategory("getCategory", preferenceManager.getUserId())
                 .subscribeOn(Schedulers.io())
                 .observeOn(Schedulers.newThread())
                 .subscribe(new Subscriber<CategoryListResponse>() {
@@ -136,7 +135,7 @@ public class SearchCategoryActivity extends AppCompatActivity {
 
                                             AlertDialog.Builder alertDialog = new AlertDialog.Builder(SearchCategoryActivity.this);
                                             alertDialog.setTitle("Alert!!");
-                                            alertDialog.setMessage("Are you sure, you want to delete " + category.getCategoryName());
+                                            alertDialog.setMessage("Are you sure, you want to delete Category " + category.getCategoryName());
 
                                             alertDialog.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                                                 @Override
@@ -154,10 +153,53 @@ public class SearchCategoryActivity extends AppCompatActivity {
                                             });
                                             alertDialog.show();
                                         }
+
+                                        @Override
+                                        public void onSwitchChanged(CategoryListResponse.Category category, boolean isChecked) {
+                                            String categoryId = category.getCategoryId();
+                                            ActiveDeactiveCategoryCall(categoryId, isChecked);
+                                        }
+
                                     });
                                 } else {
                                     Toast.makeText(SearchCategoryActivity.this, categoryListResponse.getMessage(), Toast.LENGTH_SHORT).show();
                                 }
+                            }
+                        });
+                    }
+                });
+    }
+
+    public void ActiveDeactiveCategoryCall(String categoryId, boolean isChecked){
+        String status = isChecked ? "0" : "1";
+        restCall.ActiveDeactiveCategory("ActiveDeactiveCategory", status, categoryId)
+                .subscribeOn(Schedulers.io())
+                .observeOn(Schedulers.newThread())
+                .subscribe(new Subscriber<CategoryCommonResponse>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                Toast.makeText(SearchCategoryActivity.this, "No Internet", Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                    }
+
+                    @Override
+                    public void onNext(CategoryCommonResponse categoryCommonResponse) {
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                if (categoryCommonResponse.getStatus().equalsIgnoreCase(VariableBag.SUCCESS_RESULT)) {
+                                    Toast.makeText(SearchCategoryActivity.this, "Category Status Updated: "+status, Toast.LENGTH_SHORT).show();
+                                }
+                                Toast.makeText(SearchCategoryActivity.this, categoryCommonResponse.getMessage(), Toast.LENGTH_SHORT).show();
                             }
                         });
                     }
@@ -193,9 +235,9 @@ public class SearchCategoryActivity extends AppCompatActivity {
                                     Toast.makeText(SearchCategoryActivity.this, categoryCommonResponse.getMessage(), Toast.LENGTH_SHORT).show();
                                     getCategoryCall();
                                 } else {
-                                    Toast.makeText(SearchCategoryActivity.this, ""+categoryCommonResponse.getMessage(), Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(SearchCategoryActivity.this, "" + categoryCommonResponse.getMessage(), Toast.LENGTH_SHORT).show();
                                 }
-                             }
+                            }
                         });
                     }
                 });

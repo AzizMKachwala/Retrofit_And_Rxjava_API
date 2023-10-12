@@ -16,7 +16,6 @@ import com.example.SignInSignUp.PreferenceManager;
 import com.example.VariableBag;
 import com.example.network.RestCall;
 import com.example.network.RestClient;
-import com.example.networkResponse.UserResponse;
 import com.example.networkResponse.cate.CategoryListResponse;
 import com.example.networkResponse.subcate.SubCategoryListResponse;
 import com.example.retrofitandrxjavaapidemo.R;
@@ -48,7 +47,7 @@ public class AddSubCategoryActivity extends AppCompatActivity {
 
         restCall = RestClient.createService(RestCall.class, VariableBag.BASE_URL, VariableBag.API_KEY);
 
-        preferenceManager = new PreferenceManager(this);
+        preferenceManager = new PreferenceManager(this); //Always create a class object before using any method of it
 
         getCateCall();
 
@@ -62,11 +61,9 @@ public class AddSubCategoryActivity extends AppCompatActivity {
 
             etvSubCategoryName.setText(subcategory_name);
             btnSubAdd.setText("Edit");
-            editSubCategoryCall();
         } else {
             isEdit = false;
             btnSubAdd.setText("Add");
-            addSubCategoryCall();
         }
 
         btnSubAdd.setOnClickListener(new View.OnClickListener() {
@@ -167,7 +164,6 @@ public class AddSubCategoryActivity extends AppCompatActivity {
     }
 
     private void getCateCall() {
-
         restCall.getCategory("getCategory",preferenceManager.getUserId())
                 .subscribeOn(Schedulers.io())
                 .observeOn(Schedulers.newThread())

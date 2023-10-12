@@ -44,6 +44,12 @@ public class SignInFragment extends Fragment {
 
         preferenceManager = new PreferenceManager(getContext());
 
+        if (preferenceManager.getUserLoggedIn()) {
+            startActivity(new Intent(getContext(), HomePageActivity.class));
+            getActivity().finish();
+        }
+
+
         btnSignIn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -89,9 +95,10 @@ public class SignInFragment extends Fragment {
                                 if (userResponse.getStatus().equalsIgnoreCase(VariableBag.SUCCESS_RESULT)) {
                                     Toast.makeText(getContext(), "Login successful", Toast.LENGTH_SHORT).show();
 
-                                    preferenceManager.setUserId(userResponse.getUserId()); // sets UserID (Remember to commit userId in PM set method)
-//                                    preferenceManager.setUserLoggedIn(VariableBag.USER_LOGGED_IN,);
+                                    preferenceManager.setUserId(userResponse.getUserId());
+                                    preferenceManager.setUserLoggedIn(true);
                                     startActivity(new Intent(getContext(), HomePageActivity.class));
+                                    getActivity().finish();
                                 } else {
                                     Toast.makeText(getContext(), "Login failed. Check your Credentials.", Toast.LENGTH_SHORT).show();
                                 }

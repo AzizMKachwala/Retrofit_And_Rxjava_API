@@ -225,7 +225,7 @@ public class SearchSubCategoryActivity extends AppCompatActivity {
 
                                             AlertDialog.Builder alertDialog = new AlertDialog.Builder(SearchSubCategoryActivity.this);
                                             alertDialog.setTitle("Alert!!");
-                                            alertDialog.setMessage("Are you sure, you want to delete " + subCategory.getSubcategoryName());
+                                            alertDialog.setMessage("Are you sure, you want to delete Sub Category " + subCategory.getSubcategoryName());
 
                                             alertDialog.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                                                 @Override

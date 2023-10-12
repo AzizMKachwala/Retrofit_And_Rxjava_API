@@ -3,6 +3,17 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.CAMERA" />
+
+    <uses-feature android:name="android.hardware.camera" />
+    <uses-feature android:name="android.hardware.camera.autofocus" />
+
+    <queries>
+        <intent>
+            <action android:name="android.media.action.IMAGE_CAPTURE" />
+        </intent>
+    </queries>
+
 
     <application
         android:allowBackup="true"
@@ -15,10 +26,26 @@
         android:theme="@style/Theme.RetrofitAndRxjavaAPIDemo"
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
+
+        <activity
+            android:name="com.example.Category.AddProductActivity"
+            android:exported="false" />
+
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="com.example.Category"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_paths" />
+        </provider>
+
         <activity
             android:name="com.example.SignInSignUp.SignInSignUpActivity"
-            android:windowSoftInputMode="stateVisible|adjustResize"
-            android:exported="false" />
+            android:exported="false"
+            android:isScrollContainer="true"
+            android:windowSoftInputMode="stateVisible|adjustPan" />
         <activity
             android:name="com.example.SplashActivity"
             android:exported="true">
@@ -36,9 +63,7 @@
             android:exported="false" />
         <activity
             android:name="com.example.HomePageActivity"
-            android:exported="true">
-
-        </activity>
+            android:exported="true" />
         <activity
             android:name="com.example.Category.SearchCategoryActivity"
             android:exported="true" />
