@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.annotation.SuppressLint;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -35,12 +36,13 @@ public class SearchCategoryActivity extends AppCompatActivity {
     RestCall restCall;
     com.example.SignInSignUp.PreferenceManager preferenceManager;
 
+    @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search_category);
 
-        etvSearch = findViewById(R.id.etvSearch);
+        etvSearch = findViewById(R.id.etvCategorySearch);
         categoryListRecyclerView = findViewById(R.id.categoryListRecyclerView);
         btnAddCategory = findViewById(R.id.btnAddCategory);
 

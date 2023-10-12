@@ -51,7 +51,7 @@ public class SearchSubCategoryActivity extends AppCompatActivity {
 
         etvSubCategorySearch = findViewById(R.id.etvSubCategorySearch);
         btnAddSubCategory = findViewById(R.id.btnAddSubCategory);
-        categorySpinner = findViewById(R.id.categorySpinner);
+        categorySpinner = findViewById(R.id.categorySpinnerSubCategory);
         subCategoryListRecyclerView = findViewById(R.id.subCategoryListRecyclerView);
 
         restCall = RestClient.createService(RestCall.class, VariableBag.BASE_URL, VariableBag.API_KEY);

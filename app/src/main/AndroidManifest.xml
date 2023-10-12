@@ -14,7 +14,6 @@
         </intent>
     </queries>
 
-
     <application
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
@@ -26,7 +25,9 @@
         android:theme="@style/Theme.RetrofitAndRxjavaAPIDemo"
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
-
+        <activity
+            android:name="com.example.Category.SearchProductActivity"
+            android:exported="false" />
         <activity
             android:name="com.example.Category.AddProductActivity"
             android:exported="false" />

@@ -10,7 +10,7 @@
     tools:context="com.example.Category.SearchCategoryActivity">
 
     <EditText
-        android:id="@+id/etvSearch"
+        android:id="@+id/etvCategorySearch"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         style="@style/EditTextTheme"
@@ -22,7 +22,7 @@
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/etvSearch"
+        android:layout_below="@id/etvCategorySearch"
         android:elevation="@dimen/_1sdp"
         app:cardUseCompatPadding="true">
 

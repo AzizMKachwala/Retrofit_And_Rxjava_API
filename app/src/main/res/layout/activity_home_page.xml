@@ -42,7 +42,7 @@
         android:background="@drawable/btn"
         android:backgroundTint="#f6bc13"
         android:gravity="center"
-        android:text="Add Product" />
+        android:text="Product" />
 
     <Button
         android:id="@+id/btnSignOut"

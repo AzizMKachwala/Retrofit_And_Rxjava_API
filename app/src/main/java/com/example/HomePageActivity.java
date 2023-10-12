@@ -10,6 +10,7 @@ import android.widget.Button;
 
 import com.example.Category.AddProductActivity;
 import com.example.Category.SearchCategoryActivity;
+import com.example.Category.SearchProductActivity;
 import com.example.SignInSignUp.PreferenceManager;
 import com.example.SignInSignUp.SignInSignUpActivity;
 import com.example.SubCategory.SearchSubCategoryActivity;
@@ -48,7 +49,7 @@ public class HomePageActivity extends AppCompatActivity {
         btnAddProduct.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(HomePageActivity.this, AddProductActivity.class);
+                Intent intent = new Intent(HomePageActivity.this, SearchProductActivity.class);
                 startActivity(intent);
             }
         });

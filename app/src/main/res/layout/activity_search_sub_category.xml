@@ -10,7 +10,7 @@
     tools:context="com.example.SubCategory.SearchSubCategoryActivity">
 
     <androidx.appcompat.widget.AppCompatSpinner
-        android:id="@+id/categorySpinner"
+        android:id="@+id/categorySpinnerSubCategory"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/etv"
@@ -25,7 +25,7 @@
         android:imeOptions="actionDone"
         android:background="@drawable/etv"
         android:inputType="textAutoComplete"
-        android:layout_below="@id/categorySpinner"/>
+        android:layout_below="@id/categorySpinnerSubCategory"/>
 
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
