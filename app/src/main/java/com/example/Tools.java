@@ -23,19 +23,19 @@ public class Tools {
         dialog = new Dialog(context);
     }
 
-    public static boolean isValidEmail(String str){
-        if(!TextUtils.isEmpty(str)){
+    public static boolean isValidEmail(String str) {
+        if (!TextUtils.isEmpty(str)) {
             return Patterns.EMAIL_ADDRESS.matcher(str.toLowerCase()).matches();
         }
         return false;
     }
 
-    public void showLoading(){
+    public void showLoading() {
         try {
-            if(dialog != null){
+            if (dialog != null) {
                 dialog.setContentView(R.layout.loadingdialog);
                 dialog.setCancelable(false);
-                if(!dialog.isShowing()){
+                if (!dialog.isShowing()) {
                     dialog.show();
                 }
             }
@@ -44,9 +44,9 @@ public class Tools {
         }
     }
 
-    public void stopLoading(){
+    public void stopLoading() {
         try {
-            if(dialog != null && dialog.isShowing()){
+            if (dialog != null && dialog.isShowing()) {
                 dialog.dismiss();
             }
         } catch (Exception e) {
@@ -54,7 +54,7 @@ public class Tools {
         }
     }
 
-    public static void DisplayImage(Context context, ImageView img, String urlimg){
+    public static void DisplayImage(Context context, ImageView img, String urlimg) {
         try {
             Glide.with(context)
                     .load(urlimg)

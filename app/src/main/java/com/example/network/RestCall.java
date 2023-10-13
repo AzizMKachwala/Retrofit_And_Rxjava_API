@@ -2,6 +2,7 @@ package com.example.network;
 
 import android.app.DownloadManager;
 
+import com.example.networkResponse.ProductListResponse;
 import com.example.networkResponse.UserResponse;
 import com.example.networkResponse.cate.CategoryListResponse;
 import com.example.networkResponse.cate.CategoryCommonResponse;
@@ -112,4 +113,13 @@ public interface RestCall {
             @Part("is_veg") RequestBody is_veg,
             @Part("user_id") RequestBody user_id,
             @Part MultipartBody.Part product_image);
+
+    @FormUrlEncoded
+    @POST("ProductController.php")
+    Single<ProductListResponse> getProduct(
+            @Field("tag") String tag,
+            @Field("category_id") String category_id,
+            @Field("sub_category_id") String sub_category_id,
+            @Field("user_id") String user_id);
+
 }
