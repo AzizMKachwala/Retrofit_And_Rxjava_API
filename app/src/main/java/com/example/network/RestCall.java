@@ -122,4 +122,26 @@ public interface RestCall {
             @Field("sub_category_id") String sub_category_id,
             @Field("user_id") String user_id);
 
+    @FormUrlEncoded
+    @POST("ProductController.php")
+    Single<ProductListResponse> DeleteProduct(
+            @Field("tag") String tag,
+            @Field("product_id") String product_id,
+            @Field("user_id") String user_id);
+
+    @Multipart
+    @POST("ProductController.php")
+    Single<CategoryCommonResponse> EditProduct(
+            @Part("tag") RequestBody tag,
+            @Part("category_id") RequestBody category_id,
+            @Part("sub_category_id") RequestBody sub_category_id,
+            @Part("product_id") RequestBody product_id,
+            @Part("product_name") RequestBody product_name,
+            @Part("product_price") RequestBody product_price,
+            @Part("product_desc") RequestBody product_desc,
+            @Part("old_product_image") RequestBody old_product_image,
+            @Part("is_veg") RequestBody is_veg,
+            @Part("user_id") RequestBody user_id,
+            @Part MultipartBody.Part product_image);
+
 }

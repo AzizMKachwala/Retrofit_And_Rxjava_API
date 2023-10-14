@@ -72,46 +72,6 @@ public class AddCategoryActivity extends AppCompatActivity {
         });
     }
 
-    public void editCategoryCall() {
-        restCall.EditCategory("EditCategory", etvCategoryName.getText().toString(), category_id,preferenceManager.getUserId())
-                .subscribeOn(Schedulers.io())
-                .observeOn((Schedulers.newThread()))
-                .subscribe(new Subscriber<CategoryCommonResponse>() {
-                    @Override
-                    public void onCompleted() {
-
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-                        runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                Toast.makeText(AddCategoryActivity.this, "No Internet", Toast.LENGTH_SHORT).show();
-                            }
-                        });
-                    }
-
-                    @Override
-                    public void onNext(CategoryCommonResponse categoryCommonResponse) {
-                        runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                if (categoryCommonResponse.getStatus().equalsIgnoreCase(VariableBag.SUCCESS_RESULT)) {
-                                    etvCategoryName.setText("");
-
-                                    startActivity(new Intent(AddCategoryActivity.this, SearchCategoryActivity.class));
-                                    finish();
-                                }
-                                else {
-                                    Toast.makeText(AddCategoryActivity.this, categoryCommonResponse.getMessage(), Toast.LENGTH_SHORT).show();
-                                }
-                            }
-                        });
-                    }
-                });
-    }
-
     public void addCategoryCall() {
         restCall.AddCategory("AddCategory", preferenceManager.getUserId(), etvCategoryName.getText().toString().trim())
                 .subscribeOn(Schedulers.io())
@@ -147,6 +107,46 @@ public class AddCategoryActivity extends AppCompatActivity {
                                     Toast.makeText(AddCategoryActivity.this, categoryCommonResponse.getMessage(), Toast.LENGTH_SHORT).show();
                                 }
 
+                            }
+                        });
+                    }
+                });
+    }
+
+    public void editCategoryCall() {
+        restCall.EditCategory("EditCategory", etvCategoryName.getText().toString(), category_id,preferenceManager.getUserId())
+                .subscribeOn(Schedulers.io())
+                .observeOn((Schedulers.newThread()))
+                .subscribe(new Subscriber<CategoryCommonResponse>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                Toast.makeText(AddCategoryActivity.this, "No Internet", Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                    }
+
+                    @Override
+                    public void onNext(CategoryCommonResponse categoryCommonResponse) {
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                if (categoryCommonResponse.getStatus().equalsIgnoreCase(VariableBag.SUCCESS_RESULT)) {
+                                    etvCategoryName.setText("");
+
+                                    startActivity(new Intent(AddCategoryActivity.this, SearchCategoryActivity.class));
+                                    finish();
+                                }
+                                else {
+                                    Toast.makeText(AddCategoryActivity.this, categoryCommonResponse.getMessage(), Toast.LENGTH_SHORT).show();
+                                }
                             }
                         });
                     }

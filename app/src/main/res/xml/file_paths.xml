@@ -14,7 +14,7 @@
         path="." />
     <external-path
         name="chat_doc"
-        path="Android/data/com.example.Category/Img" />
+        path="Android/data/com.example.Product/Img" />
     <external-files-path
         name="my_images"
         path="Pictures" />

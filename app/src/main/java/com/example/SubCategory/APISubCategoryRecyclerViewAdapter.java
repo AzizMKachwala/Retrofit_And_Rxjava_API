@@ -51,7 +51,6 @@ public class APISubCategoryRecyclerViewAdapter extends RecyclerView.Adapter<APIS
     public void onBindViewHolder(@NonNull ApiSubCategoryDataViewHolder holder, @SuppressLint("RecyclerView") int position) {
         SubCategoryListResponse.SubCategory subCategory = subCategorySearchList.get(position);
         holder.txtSubCategoryName.setText(subCategory.getSubcategoryName());
-//        holder.txtSubCategoryId.setText(subCategory.getSubCategoryId());
 
         holder.imgEditSubCategory.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -82,7 +81,6 @@ public class APISubCategoryRecyclerViewAdapter extends RecyclerView.Adapter<APIS
             super(itemView);
 
             txtSubCategoryName = itemView.findViewById(R.id.txtSubCategoryName);
-//            txtSubCategoryId = itemView.findViewById(R.id.txtSubCategoryId);
             imgEditSubCategory = itemView.findViewById(R.id.imgEditSubCategory);
             imgDeleteSubCategory = itemView.findViewById(R.id.imgDeleteSubCategory);
         }

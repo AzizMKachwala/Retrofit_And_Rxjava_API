@@ -8,9 +8,8 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
-import com.example.Category.AddProductActivity;
 import com.example.Category.SearchCategoryActivity;
-import com.example.Category.SearchProductActivity;
+import com.example.Product.SearchProductActivity;
 import com.example.SignInSignUp.PreferenceManager;
 import com.example.SignInSignUp.SignInSignUpActivity;
 import com.example.SubCategory.SearchSubCategoryActivity;
@@ -18,7 +17,7 @@ import com.example.retrofitandrxjavaapidemo.R;
 
 public class HomePageActivity extends AppCompatActivity {
 
-    Button btnCategory,btnSubCategory,btnSignOut,btnAddProduct;
+    Button btnCategory,btnSubCategory,btnSignOut,btnAddProduct,btnProductCatalogue;
     @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,6 +28,7 @@ public class HomePageActivity extends AppCompatActivity {
         btnSubCategory = findViewById(R.id.btnSubCategory);
         btnSignOut = findViewById(R.id.btnSignOut);
         btnAddProduct = findViewById(R.id.btnAddProduct);
+        btnProductCatalogue = findViewById(R.id.btnProductCatalogue);
 
         btnCategory.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -50,6 +50,14 @@ public class HomePageActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(HomePageActivity.this, SearchProductActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        btnProductCatalogue.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(HomePageActivity.this, ProductCatalogueActivity.class);
                 startActivity(intent);
             }
         });

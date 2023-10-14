@@ -10,7 +10,7 @@
         android:layout_width="0dp"
         android:layout_height="@dimen/_100sdp"
         android:background="@color/black"
-        android:layout_weight="1"/>
+        android:layout_weight="4"/>
 
     <LinearLayout
         android:layout_width="wrap_content"
@@ -22,28 +22,32 @@
         <TextView
             android:id="@+id/txtProductName"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="0dp"
+            android:layout_weight="1"
             android:padding="@dimen/_5sdp"
             android:hint="Product Name"/>
 
         <TextView
             android:id="@+id/txtProductPrice"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="0dp"
+            android:layout_weight="1"
             android:padding="@dimen/_5sdp"
             android:hint="Product Price" />
 
         <TextView
             android:id="@+id/txtProductDescription"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="0dp"
+            android:layout_weight="1"
             android:padding="@dimen/_5sdp"
             android:hint="Product Description" />
 
         <TextView
             android:id="@+id/txtProductVegNonVeg"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="0dp"
+            android:layout_weight="1"
             android:padding="@dimen/_5sdp"
             android:hint="Veg - NonVeg" />
 

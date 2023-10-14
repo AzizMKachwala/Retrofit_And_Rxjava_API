@@ -1,5 +1,6 @@
-package com.example.Category;
+package com.example.Product;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,6 +17,7 @@ import com.bumptech.glide.request.RequestOptions;
 import com.example.networkResponse.ProductListResponse;
 import com.example.retrofitandrxjavaapidemo.R;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class APIProductRecyclerViewAdapter extends RecyclerView.Adapter<APIProductRecyclerViewAdapter.APIProductDataViewHolder> {
@@ -27,7 +29,17 @@ public class APIProductRecyclerViewAdapter extends RecyclerView.Adapter<APIProdu
         this.context = context;
         this.products = products;
         this.productSearchList = products;
+    }
 
+    ProductClick productClick;
+
+    public interface ProductClick{
+        void productEditClick(ProductListResponse.Product product);
+        void productDeleteClick(ProductListResponse.Product product);
+    }
+
+    public void SetUpInterface(APIProductRecyclerViewAdapter.ProductClick ProductClick){
+        this.productClick = ProductClick;
     }
 
     @NonNull
@@ -39,7 +51,7 @@ public class APIProductRecyclerViewAdapter extends RecyclerView.Adapter<APIProdu
     }
 
     @Override
-    public void onBindViewHolder(@NonNull APIProductDataViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull APIProductDataViewHolder holder, @SuppressLint("RecyclerView") int position) {
         ProductListResponse.Product product = productSearchList.get(position);
 
         try {
@@ -62,6 +74,7 @@ public class APIProductRecyclerViewAdapter extends RecyclerView.Adapter<APIProdu
             @Override
             public void onClick(View view) {
                 Toast.makeText(context, "Edit Clicked", Toast.LENGTH_SHORT).show();
+                productClick.productEditClick(products.get(position));
             }
         });
 
@@ -69,6 +82,7 @@ public class APIProductRecyclerViewAdapter extends RecyclerView.Adapter<APIProdu
             @Override
             public void onClick(View view) {
                 Toast.makeText(context, "Delete Clicked", Toast.LENGTH_SHORT).show();
+                productClick.productDeleteClick(products.get(position));
             }
         });
     }
@@ -93,6 +107,35 @@ public class APIProductRecyclerViewAdapter extends RecyclerView.Adapter<APIProdu
             txtProductPrice = itemView.findViewById(R.id.txtProductPrice);
             txtProductDescription = itemView.findViewById(R.id.txtProductDescription);
             txtProductVegNonVeg = itemView.findViewById(R.id.txtProductVegNonVeg);
+        }
+    }
+    public void Search(CharSequence charSequence, RecyclerView productRecyclerView) {
+
+        try{
+            String charString=charSequence.toString().toLowerCase().trim();
+            if(charString.isEmpty()){
+                productSearchList = products;
+                productRecyclerView.setVisibility(View.VISIBLE);
+            }else{
+                int flag=0;
+                List<ProductListResponse.Product> filterList=new ArrayList<>();
+                for(ProductListResponse.Product Row:products){
+                    if(Row.getProductName().toString().toLowerCase().contains(charString.toLowerCase())){
+                        filterList.add(Row);
+                        flag=1;
+                    }
+                }
+                if (flag == 1) {
+                    productSearchList = filterList;
+                    productRecyclerView.setVisibility(View.VISIBLE);
+                }
+                else{
+                    productRecyclerView.setVisibility(View.GONE);
+                }
+            }
+            notifyDataSetChanged();
+        }catch (Exception e){
+            e.printStackTrace();
         }
     }
 }

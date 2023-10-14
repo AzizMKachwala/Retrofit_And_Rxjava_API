@@ -1,4 +1,4 @@
-package com.example.Category;
+package com.example.Product;
 
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
@@ -56,6 +56,7 @@ public class AddProductActivity extends AppCompatActivity {
     SwitchMaterial switchStatusProduct;
     AppCompatSpinner selectedCategorySpinnerProduct,selectedSubCategorySpinnerProduct;
     int selectedPos = 0;
+    boolean isEdit = false;
     String selectedCategoryId, selectedCategoryName,selectedSubCategoryId, selectedSubCategoryName;
     ActivityResultLauncher<Intent> cameraLauncher;
     String currentPhotoPath = "";
@@ -84,6 +85,17 @@ public class AddProductActivity extends AppCompatActivity {
         restCall = RestClient.createService(RestCall.class, VariableBag.BASE_URL, VariableBag.API_KEY);
 
         preferenceManager = new PreferenceManager(this);
+
+//        Bundle bundle = getIntent().getExtras();
+//        if (bundle != null && bundle.getString("productId") != null) {
+////
+//            isEdit = true;
+//
+//            btnSubmit.setText("Edit");
+//        } else {
+//            isEdit = false;
+//            btnSubmit.setText("SUBMIT");
+//        }
 
         cameraLauncher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {
             if (result.getResultCode() == RESULT_OK) {
@@ -128,8 +140,17 @@ public class AddProductActivity extends AppCompatActivity {
                     etvProductPrice.setError("Enter Product Price");
                     etvProductPrice.requestFocus();
                 }
+                else if (etvProductDescription.getText().toString().trim().isEmpty()){
+                    etvProductDescription.setError("Enter Product Description");
+                    etvProductDescription.requestFocus();
+                }
                 else {
-                    AddProductCall();
+//                    if (isEdit){
+//                        EditProductCall();
+//                    }
+//                    else{
+                        AddProductCall();
+//                    }
                 }
             }
         });
@@ -142,7 +163,6 @@ public class AddProductActivity extends AppCompatActivity {
     }
 
     private void getProductCateCall() {
-
         restCall.getCategory("getCategory",preferenceManager.getUserId())
                 .subscribeOn(Schedulers.io())
                 .observeOn(Schedulers.newThread())
@@ -285,18 +305,16 @@ public class AddProductActivity extends AppCompatActivity {
                                         }
                                     });
                                 }
-
                             }
                         });
                     }
                 });
-
     }
 
     private void AddProductCall() {
         RequestBody tag = RequestBody.create(MediaType.parse("text/plain"), "AddProduct");
         RequestBody rbCategoryId = RequestBody.create(MediaType.parse("text/plain"), selectedCategoryId);
-        RequestBody rbSubCategoryID = RequestBody.create(MediaType.parse("text/plain"), selectedSubCategoryId);
+        RequestBody rbSubCategoryId = RequestBody.create(MediaType.parse("text/plain"), selectedSubCategoryId);
         RequestBody rbProductName = RequestBody.create(MediaType.parse("text/plain"), etvProductName.getText().toString().trim());
         RequestBody rbProductPrice = RequestBody.create(MediaType.parse("text/plain"), etvProductPrice.getText().toString().trim());
         RequestBody rbProductDesc = RequestBody.create(MediaType.parse("text/plain"), etvProductDescription.getText().toString().trim());
@@ -317,8 +335,8 @@ public class AddProductActivity extends AppCompatActivity {
             }
         }
 
-        restCall.AddProduct(tag, rbCategoryId, rbSubCategoryID, rbProductName, rbProductPrice, rbProductDesc,
-                        rbIsVeg, rbUserId, fileToUpload)
+        restCall.AddProduct(tag, rbCategoryId, rbSubCategoryId, rbProductName, rbProductPrice, rbProductDesc, rbIsVeg, rbUserId,
+                        fileToUpload)
                 .subscribeOn(Schedulers.io())
                 .observeOn(Schedulers.newThread())
                 .subscribe(new Subscriber<CategoryCommonResponse>() {
@@ -332,7 +350,8 @@ public class AddProductActivity extends AppCompatActivity {
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
-                                Toast.makeText(AddProductActivity.this, "No Internet", Toast.LENGTH_SHORT).show();
+//                                Toast.makeText(AddProductActivity.this, "No Internet", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(AddProductActivity.this, "" + e.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
                             }
                         });
                     }
@@ -346,6 +365,7 @@ public class AddProductActivity extends AppCompatActivity {
                                 if (categoryCommonResponse.getStatus().equalsIgnoreCase(VariableBag.SUCCESS_RESULT)) {
                                     if (currentPhotoFile != null && currentPhotoPath != null) {
                                         currentPhotoFile.delete();
+                                        Toast.makeText(AddProductActivity.this, "Photo Deleted from the Package", Toast.LENGTH_SHORT).show();
                                     }
                                     startActivity(new Intent(AddProductActivity.this, SearchProductActivity.class));
                                     Toast.makeText(AddProductActivity.this, ""+categoryCommonResponse.getMessage(), Toast.LENGTH_SHORT).show();
@@ -355,6 +375,69 @@ public class AddProductActivity extends AppCompatActivity {
                     }
                 });
     }
+
+//    private void EditProductCall(){
+//        RequestBody tag = RequestBody.create(MediaType.parse("text/plain"), "AddProduct");
+//        RequestBody rbCategoryId = RequestBody.create(MediaType.parse("text/plain"), selectedCategoryId);
+//        RequestBody rbSubCategoryId = RequestBody.create(MediaType.parse("text/plain"), selectedSubCategoryId);
+//        RequestBody rbProductName = RequestBody.create(MediaType.parse("text/plain"), etvProductName.getText().toString().trim());
+//        RequestBody rbProductPrice = RequestBody.create(MediaType.parse("text/plain"), etvProductPrice.getText().toString().trim());
+//        RequestBody rbProductDesc = RequestBody.create(MediaType.parse("text/plain"), etvProductDescription.getText().toString().trim());
+//        RequestBody rbIsVeg = RequestBody.create(MediaType.parse("text/plain"), switchStatusProduct.isChecked() ? "1" : "0");
+//        RequestBody rbUserId = RequestBody.create(MediaType.parse("text/plain"), preferenceManager.getUserId());
+//        MultipartBody.Part fileToUpload = null;
+//
+//        if (fileToUpload == null && currentPhotoPath != "") {
+//            try {
+//                StrictMode.VmPolicy.Builder builder = new StrictMode.VmPolicy.Builder();
+//                StrictMode.setVmPolicy(builder.build());
+//                File file = new File(currentPhotoPath);
+//                RequestBody rbPhoto = RequestBody.create(MediaType.parse("multipart/form-data"), file);
+//                fileToUpload = MultipartBody.Part.createFormData("product_image", file.getName(), rbPhoto);
+//            } catch (Exception e) {
+//                Toast.makeText(this, "" + e.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
+//                e.printStackTrace();
+//            }
+//        }
+//
+//        restCall.EditProduct(tag,rbCategoryId,rbSubCategoryId,"",rbProductName,rbProductPrice,rbProductDesc
+//                ,"",rbIsVeg,rbUserId,fileToUpload)
+//                .subscribeOn(Schedulers.io())
+//                .observeOn(Schedulers.newThread())
+//                .subscribe(new Subscriber<CategoryCommonResponse>() {
+//                    @Override
+//                    public void onCompleted() {
+//
+//                    }
+//
+//                    @Override
+//                    public void onError(Throwable e) {
+//                        runOnUiThread(new Runnable() {
+//                            @Override
+//                            public void run() {
+//                                Toast.makeText(AddProductActivity.this, ""+e.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
+//                            }
+//                        });
+//                    }
+//
+//                    @Override
+//                    public void onNext(CategoryCommonResponse categoryCommonResponse) {
+//                        runOnUiThread(new Runnable() {
+//                            @Override
+//                            public void run() {
+//                                if (categoryCommonResponse.getStatus().equalsIgnoreCase(VariableBag.SUCCESS_RESULT)) {
+//                                    if (currentPhotoFile != null && currentPhotoPath != null) {
+//                                        currentPhotoFile.delete();
+//                                        Toast.makeText(AddProductActivity.this, "Photo Updated and Deleted", Toast.LENGTH_SHORT).show();
+//                                    }
+//                                    startActivity(new Intent(AddProductActivity.this, SearchProductActivity.class));
+//                                    Toast.makeText(AddProductActivity.this, ""+categoryCommonResponse.getMessage(), Toast.LENGTH_SHORT).show();
+//                                }
+//                            }
+//                        });
+//                    }
+//                });
+//    }
 
     private boolean checkCameraPermission() {
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
@@ -378,7 +461,7 @@ public class AddProductActivity extends AppCompatActivity {
             }
             // Continue only if the File was successfully created
             if (photoFile != null) {
-                Uri photoURI = FileProvider.getUriForFile(this, "com.example.Category", photoFile);
+                Uri photoURI = FileProvider.getUriForFile(this, "com.example.Product", photoFile);
                 takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
                 cameraLauncher.launch(takePictureIntent);
             }

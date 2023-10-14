@@ -1,12 +1,16 @@
-package com.example.Category;
+package com.example.Product;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatSpinner;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -14,13 +18,10 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.SignInSignUp.PreferenceManager;
-import com.example.SubCategory.APISubCategoryRecyclerViewAdapter;
-import com.example.SubCategory.SearchSubCategoryActivity;
 import com.example.VariableBag;
 import com.example.network.RestCall;
 import com.example.network.RestClient;
 import com.example.networkResponse.ProductListResponse;
-import com.example.networkResponse.cate.CategoryCommonResponse;
 import com.example.networkResponse.cate.CategoryListResponse;
 import com.example.networkResponse.subcate.SubCategoryListResponse;
 import com.example.retrofitandrxjavaapidemo.R;
@@ -60,6 +61,25 @@ public class SearchProductActivity extends AppCompatActivity {
         preferenceManager = new PreferenceManager(this);
 
         getProductCateCall();
+
+        etvProductSearch.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                if(apiProductRecyclerViewAdapter != null){
+                    apiProductRecyclerViewAdapter.Search(charSequence, productRecyclerView);
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+            }
+        });
 
         btnAddProduct.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -262,8 +282,75 @@ public class SearchProductActivity extends AppCompatActivity {
 
                                     apiProductRecyclerViewAdapter = new APIProductRecyclerViewAdapter(SearchProductActivity.this,productListResponse.getProductList());
                                     productRecyclerView.setAdapter(apiProductRecyclerViewAdapter);
+
+                                    apiProductRecyclerViewAdapter.SetUpInterface(new APIProductRecyclerViewAdapter.ProductClick() {
+                                        @Override
+                                        public void productEditClick(ProductListResponse.Product product) {
+
+                                        }
+
+                                        @Override
+                                        public void productDeleteClick(ProductListResponse.Product product) {
+                                            String productId = product.getProductId();
+
+                                            AlertDialog.Builder alertDialog = new AlertDialog.Builder(SearchProductActivity.this);
+                                            alertDialog.setTitle("Alert!!");
+                                            alertDialog.setMessage("Are you sure, you want to delete Product " + product.getProductName());
+
+                                            alertDialog.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                                                @Override
+                                                public void onClick(DialogInterface dialogInterface, int i) {
+                                                    deleteProductCall(productId);
+                                                    dialogInterface.dismiss();
+                                                }
+                                            });
+
+                                            alertDialog.setNegativeButton("No", new DialogInterface.OnClickListener() {
+                                                @Override
+                                                public void onClick(DialogInterface dialogInterface, int i) {
+                                                    dialogInterface.dismiss();
+                                                }
+                                            });
+                                            alertDialog.show();
+                                        }
+                                    });
                                     
                                 }
+                            }
+                        });
+                    }
+                });
+    }
+
+    private void deleteProductCall(String productId) {
+        restCall.DeleteProduct("DeleteProduct",productId,preferenceManager.getUserId())
+                .subscribeOn(Schedulers.io())
+                .observeOn(Schedulers.newThread())
+                .subscribe(new Subscriber<ProductListResponse>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                Toast.makeText(SearchProductActivity.this, "No Internet", Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                    }
+
+                    @Override
+                    public void onNext(ProductListResponse productListResponse) {
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                if (productListResponse.getStatus().equalsIgnoreCase(VariableBag.SUCCESS_RESULT)) {
+                                    getProduct();
+                                }
+                                Toast.makeText(SearchProductActivity.this, productListResponse.getMessage(), Toast.LENGTH_SHORT).show();
                             }
                         });
                     }
