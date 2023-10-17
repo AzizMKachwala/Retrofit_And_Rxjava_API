@@ -1,13 +1,5 @@
 package com.example.Product;
 
-import androidx.activity.result.ActivityResultLauncher;
-import androidx.activity.result.contract.ActivityResultContracts;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.AppCompatSpinner;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
-import androidx.core.content.FileProvider;
-
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.Intent;
@@ -24,11 +16,20 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.AppCompatSpinner;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
+import androidx.core.content.FileProvider;
+
 import com.example.SignInSignUp.PreferenceManager;
 import com.example.Tools;
 import com.example.VariableBag;
 import com.example.network.RestCall;
 import com.example.network.RestClient;
+import com.example.networkResponse.ProductListResponse;
 import com.example.networkResponse.cate.CategoryCommonResponse;
 import com.example.networkResponse.cate.CategoryListResponse;
 import com.example.networkResponse.subcate.SubCategoryListResponse;
@@ -53,11 +54,12 @@ public class AddProductActivity extends AppCompatActivity {
     ImageView imgEditProduct, imgProduct;
     TextInputEditText etvProductName, etvProductPrice, etvProductDescription;
     Button btnCancel, btnSubmit;
-    SwitchMaterial switchStatusProduct;
-    AppCompatSpinner selectedCategorySpinnerProduct,selectedSubCategorySpinnerProduct;
+    SwitchMaterial IsVeg;
+    AppCompatSpinner selectedCategorySpinnerProduct, selectedSubCategorySpinnerProduct;
     int selectedPos = 0;
     boolean isEdit = false;
-    String selectedCategoryId, selectedCategoryName,selectedSubCategoryId, selectedSubCategoryName;
+    String selectedCategoryId, selectedCategoryName, selectedSubCategoryId, selectedSubCategoryName;
+    String fetchedCategoryId, fetchedSubCategoryId, fetchedProductId, fetchedProductName, fetchedOldImage = "", fetchedProductPrice, fetchedProductDesc, fetchedIsVeg;
     ActivityResultLauncher<Intent> cameraLauncher;
     String currentPhotoPath = "";
     private File currentPhotoFile;
@@ -80,26 +82,36 @@ public class AddProductActivity extends AppCompatActivity {
         selectedSubCategorySpinnerProduct = findViewById(R.id.selectedSubCategorySpinnerProduct);
         btnCancel = findViewById(R.id.btnCancel);
         btnSubmit = findViewById(R.id.btnSubmit);
-        switchStatusProduct = findViewById(R.id.switchStatusProduct);
+        IsVeg = findViewById(R.id.switchStatusProduct);
 
         restCall = RestClient.createService(RestCall.class, VariableBag.BASE_URL, VariableBag.API_KEY);
 
         preferenceManager = new PreferenceManager(this);
+        tools = new Tools(this);
 
-//        Bundle bundle = getIntent().getExtras();
-//        if (bundle != null && bundle.getString("productId") != null) {
-////
-//            isEdit = true;
-//
-//            btnSubmit.setText("Edit");
-//        } else {
-//            isEdit = false;
-//            btnSubmit.setText("SUBMIT");
-//        }
+        getProductCateCall();
+
+        Bundle bundle = getIntent().getExtras();
+        if (bundle != null && bundle.getString("productId") != null) {
+            isEdit = true;
+            fetchedCategoryId = bundle.getString("category_id");
+            fetchedSubCategoryId = bundle.getString("sub_category_id");
+            fetchedProductId = bundle.getString("productId");
+            fetchedProductName = bundle.getString("productName");
+            fetchedOldImage = "" + bundle.getString("old_product_image");
+            fetchedProductPrice = bundle.getString("product_price");
+            fetchedProductDesc = bundle.getString("product_desc");
+            fetchedIsVeg = bundle.getString("is_veg");
+            btnSubmit.setText("Edit");
+            EditProductCall();
+        } else {
+            isEdit = false;
+            btnSubmit.setText("Submit");
+        }
 
         cameraLauncher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {
             if (result.getResultCode() == RESULT_OK) {
-                if(currentPhotoFile != null && currentPhotoPath != null){
+                if (currentPhotoFile != null && currentPhotoPath != null) {
                     Tools.DisplayImage(AddProductActivity.this, imgProduct, currentPhotoPath);
                 }
             } else {
@@ -135,35 +147,26 @@ public class AddProductActivity extends AppCompatActivity {
                 if (etvProductName.getText().toString().trim().isEmpty()) {
                     etvProductName.setError("Enter Product Name");
                     etvProductName.requestFocus();
-                }
-                else if (etvProductPrice.getText().toString().trim().isEmpty()){
+                } else if (etvProductPrice.getText().toString().trim().isEmpty()) {
                     etvProductPrice.setError("Enter Product Price");
                     etvProductPrice.requestFocus();
-                }
-                else if (etvProductDescription.getText().toString().trim().isEmpty()){
+                } else if (etvProductDescription.getText().toString().trim().isEmpty()) {
                     etvProductDescription.setError("Enter Product Description");
                     etvProductDescription.requestFocus();
-                }
-                else {
-//                    if (isEdit){
-//                        EditProductCall();
-//                    }
-//                    else{
+                } else {
+                    if (isEdit) {
+                        EditProductCall();
+                    } else {
                         AddProductCall();
-//                    }
+                    }
                 }
             }
         });
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        getProductCateCall();
-    }
-
     private void getProductCateCall() {
-        restCall.getCategory("getCategory",preferenceManager.getUserId())
+        tools.showLoading();
+        restCall.getCategory("getCategory", preferenceManager.getUserId())
                 .subscribeOn(Schedulers.io())
                 .observeOn(Schedulers.newThread())
                 .subscribe(new Subscriber<CategoryListResponse>() {
@@ -177,7 +180,7 @@ public class AddProductActivity extends AppCompatActivity {
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
-                                Toast.makeText(AddProductActivity.this, "No Internet", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(AddProductActivity.this, e.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
                             }
                         });
                     }
@@ -187,6 +190,7 @@ public class AddProductActivity extends AppCompatActivity {
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
+                                tools.stopLoading();
                                 if (categoryListResponse.getStatus().equalsIgnoreCase(VariableBag.SUCCESS_RESULT) && categoryListResponse.getCategoryList() != null
                                         && categoryListResponse.getCategoryList().size() > 0) {
 
@@ -216,8 +220,7 @@ public class AddProductActivity extends AppCompatActivity {
 
                                                 if (selectedCategoryId.equalsIgnoreCase("-1")) {
                                                     Toast.makeText(AddProductActivity.this, "Select Category", Toast.LENGTH_SHORT).show();
-                                                }
-                                                else {
+                                                } else {
 //                                                    Toast.makeText(AddProductActivity.this, "SubCategory Loading", Toast.LENGTH_SHORT).show();
                                                     getProductSubCateCall();
                                                 }
@@ -237,7 +240,8 @@ public class AddProductActivity extends AppCompatActivity {
     }
 
     private void getProductSubCateCall() {
-        restCall.getSubCategory("getSubCategory",selectedCategoryId,preferenceManager.getUserId())
+        tools.showLoading();
+        restCall.getSubCategory("getSubCategory", selectedCategoryId, preferenceManager.getUserId())
                 .subscribeOn(Schedulers.io())
                 .observeOn(Schedulers.newThread())
                 .subscribe(new Subscriber<SubCategoryListResponse>() {
@@ -251,7 +255,7 @@ public class AddProductActivity extends AppCompatActivity {
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
-                                Toast.makeText(AddProductActivity.this, "No Internet", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(AddProductActivity.this, e.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
                             }
                         });
                     }
@@ -261,6 +265,7 @@ public class AddProductActivity extends AppCompatActivity {
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
+                                tools.stopLoading();
                                 if (subCategoryListResponse.getStatus().equalsIgnoreCase(VariableBag.SUCCESS_RESULT) && subCategoryListResponse.getSubCategoryList() != null
                                         && subCategoryListResponse.getSubCategoryList().size() > 0) {
 
@@ -292,8 +297,7 @@ public class AddProductActivity extends AppCompatActivity {
 
                                                 if (selectedCategoryId.equalsIgnoreCase("-1") && selectedSubCategoryId.equalsIgnoreCase("-1")) {
                                                     Toast.makeText(AddProductActivity.this, "Select Sub Category", Toast.LENGTH_SHORT).show();
-                                                }
-                                                else {
+                                                } else {
 //                                                    Toast.makeText(AddProductActivity.this, "SubCategory Loading", Toast.LENGTH_SHORT).show();
                                                 }
                                             }
@@ -312,13 +316,14 @@ public class AddProductActivity extends AppCompatActivity {
     }
 
     private void AddProductCall() {
+        tools.showLoading();
         RequestBody tag = RequestBody.create(MediaType.parse("text/plain"), "AddProduct");
         RequestBody rbCategoryId = RequestBody.create(MediaType.parse("text/plain"), selectedCategoryId);
         RequestBody rbSubCategoryId = RequestBody.create(MediaType.parse("text/plain"), selectedSubCategoryId);
         RequestBody rbProductName = RequestBody.create(MediaType.parse("text/plain"), etvProductName.getText().toString().trim());
         RequestBody rbProductPrice = RequestBody.create(MediaType.parse("text/plain"), etvProductPrice.getText().toString().trim());
         RequestBody rbProductDesc = RequestBody.create(MediaType.parse("text/plain"), etvProductDescription.getText().toString().trim());
-        RequestBody rbIsVeg = RequestBody.create(MediaType.parse("text/plain"), switchStatusProduct.isChecked() ? "1" : "0");
+        RequestBody rbIsVeg = RequestBody.create(MediaType.parse("text/plain"), IsVeg.isChecked() ? "1" : "0");
         RequestBody rbUserId = RequestBody.create(MediaType.parse("text/plain"), preferenceManager.getUserId());
         MultipartBody.Part fileToUpload = null;
 
@@ -331,12 +336,12 @@ public class AddProductActivity extends AppCompatActivity {
                 fileToUpload = MultipartBody.Part.createFormData("product_image", file.getName(), rbPhoto);
             } catch (Exception e) {
                 Toast.makeText(this, "" + e.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
+
                 e.printStackTrace();
             }
         }
 
-        restCall.AddProduct(tag, rbCategoryId, rbSubCategoryId, rbProductName, rbProductPrice, rbProductDesc, rbIsVeg, rbUserId,
-                        fileToUpload)
+        restCall.AddProduct(tag, rbCategoryId, rbSubCategoryId, rbProductName, rbProductPrice, rbProductDesc, rbIsVeg, rbUserId, fileToUpload)
                 .subscribeOn(Schedulers.io())
                 .observeOn(Schedulers.newThread())
                 .subscribe(new Subscriber<CategoryCommonResponse>() {
@@ -350,6 +355,7 @@ public class AddProductActivity extends AppCompatActivity {
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
+                                tools.stopLoading();
 //                                Toast.makeText(AddProductActivity.this, "No Internet", Toast.LENGTH_SHORT).show();
                                 Toast.makeText(AddProductActivity.this, "" + e.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
                             }
@@ -361,6 +367,7 @@ public class AddProductActivity extends AppCompatActivity {
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
+                                tools.stopLoading();
                                 Toast.makeText(AddProductActivity.this, "" + categoryCommonResponse.getMessage(), Toast.LENGTH_SHORT).show();
                                 if (categoryCommonResponse.getStatus().equalsIgnoreCase(VariableBag.SUCCESS_RESULT)) {
                                     if (currentPhotoFile != null && currentPhotoPath != null) {
@@ -368,7 +375,8 @@ public class AddProductActivity extends AppCompatActivity {
                                         Toast.makeText(AddProductActivity.this, "Photo Deleted from the Package", Toast.LENGTH_SHORT).show();
                                     }
                                     startActivity(new Intent(AddProductActivity.this, SearchProductActivity.class));
-                                    Toast.makeText(AddProductActivity.this, ""+categoryCommonResponse.getMessage(), Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(AddProductActivity.this, "" + categoryCommonResponse.getMessage(), Toast.LENGTH_SHORT).show();
+                                    finish();
                                 }
                             }
                         });
@@ -376,68 +384,79 @@ public class AddProductActivity extends AppCompatActivity {
                 });
     }
 
-//    private void EditProductCall(){
-//        RequestBody tag = RequestBody.create(MediaType.parse("text/plain"), "AddProduct");
-//        RequestBody rbCategoryId = RequestBody.create(MediaType.parse("text/plain"), selectedCategoryId);
-//        RequestBody rbSubCategoryId = RequestBody.create(MediaType.parse("text/plain"), selectedSubCategoryId);
-//        RequestBody rbProductName = RequestBody.create(MediaType.parse("text/plain"), etvProductName.getText().toString().trim());
-//        RequestBody rbProductPrice = RequestBody.create(MediaType.parse("text/plain"), etvProductPrice.getText().toString().trim());
-//        RequestBody rbProductDesc = RequestBody.create(MediaType.parse("text/plain"), etvProductDescription.getText().toString().trim());
-//        RequestBody rbIsVeg = RequestBody.create(MediaType.parse("text/plain"), switchStatusProduct.isChecked() ? "1" : "0");
-//        RequestBody rbUserId = RequestBody.create(MediaType.parse("text/plain"), preferenceManager.getUserId());
-//        MultipartBody.Part fileToUpload = null;
-//
-//        if (fileToUpload == null && currentPhotoPath != "") {
-//            try {
-//                StrictMode.VmPolicy.Builder builder = new StrictMode.VmPolicy.Builder();
-//                StrictMode.setVmPolicy(builder.build());
-//                File file = new File(currentPhotoPath);
-//                RequestBody rbPhoto = RequestBody.create(MediaType.parse("multipart/form-data"), file);
-//                fileToUpload = MultipartBody.Part.createFormData("product_image", file.getName(), rbPhoto);
-//            } catch (Exception e) {
-//                Toast.makeText(this, "" + e.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
-//                e.printStackTrace();
-//            }
-//        }
-//
-//        restCall.EditProduct(tag,rbCategoryId,rbSubCategoryId,"",rbProductName,rbProductPrice,rbProductDesc
-//                ,"",rbIsVeg,rbUserId,fileToUpload)
-//                .subscribeOn(Schedulers.io())
-//                .observeOn(Schedulers.newThread())
-//                .subscribe(new Subscriber<CategoryCommonResponse>() {
-//                    @Override
-//                    public void onCompleted() {
-//
-//                    }
-//
-//                    @Override
-//                    public void onError(Throwable e) {
-//                        runOnUiThread(new Runnable() {
-//                            @Override
-//                            public void run() {
-//                                Toast.makeText(AddProductActivity.this, ""+e.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
-//                            }
-//                        });
-//                    }
-//
-//                    @Override
-//                    public void onNext(CategoryCommonResponse categoryCommonResponse) {
-//                        runOnUiThread(new Runnable() {
-//                            @Override
-//                            public void run() {
-//                                if (categoryCommonResponse.getStatus().equalsIgnoreCase(VariableBag.SUCCESS_RESULT)) {
-//                                    if (currentPhotoFile != null && currentPhotoPath != null) {
-//                                        currentPhotoFile.delete();
-//                                        Toast.makeText(AddProductActivity.this, "Photo Updated and Deleted", Toast.LENGTH_SHORT).show();
-//                                    }
-//                                    startActivity(new Intent(AddProductActivity.this, SearchProductActivity.class));
-//                                    Toast.makeText(AddProductActivity.this, ""+categoryCommonResponse.getMessage(), Toast.LENGTH_SHORT).show();
-//                                }
-//                            }
-//                        });
-//                    }
-//                });
-//    }
+    private void EditProductCall() {
+        tools.showLoading();
+        RequestBody tag = RequestBody.create(MediaType.parse("text/plain"), "AddProduct");
+        RequestBody rbCategoryId = RequestBody.create(MediaType.parse("text/plain"), fetchedCategoryId);
+        RequestBody rbSubCategoryId = RequestBody.create(MediaType.parse("text/plain"), fetchedSubCategoryId);
+        RequestBody rbProductId = RequestBody.create(MediaType.parse("text/plain"), fetchedProductId);
+        RequestBody rbOldImage = RequestBody.create(MediaType.parse("text/plain"), fetchedOldImage);
+        RequestBody rbProductName = RequestBody.create(MediaType.parse("text/plain"), fetchedProductName);
+        RequestBody rbProductPrice = RequestBody.create(MediaType.parse("text/plain"), fetchedProductPrice);
+        RequestBody rbProductDesc = RequestBody.create(MediaType.parse("text/plain"), fetchedProductDesc);
+        RequestBody rbIsVeg = RequestBody.create(MediaType.parse("text/plain"), fetchedIsVeg);
+        RequestBody rbUserId = RequestBody.create(MediaType.parse("text/plain"), preferenceManager.getUserId());
+        MultipartBody.Part UpdatedFileToUpload = null;
+
+        if (UpdatedFileToUpload == null && currentPhotoPath != "") {
+            try {
+                StrictMode.VmPolicy.Builder builder = new StrictMode.VmPolicy.Builder();
+                StrictMode.setVmPolicy(builder.build());
+                File file = new File(currentPhotoPath);
+                RequestBody rbPhoto = RequestBody.create(MediaType.parse("multipart/form-data"), file);
+                UpdatedFileToUpload = MultipartBody.Part.createFormData("product_image", file.getName(), rbPhoto);
+            } catch (Exception e) {
+                Toast.makeText(this, "" + e.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
+                e.printStackTrace();
+            }
+        }
+
+//        etvProductName.setText(fetchedProductName);
+//        etvProductPrice.setText(fetchedProductPrice);
+//        etvProductDescription.setText(fetchedProductDesc);
+
+        restCall.EditProduct(tag, rbCategoryId, rbSubCategoryId, rbProductId, rbProductName, rbProductPrice, rbProductDesc, rbOldImage, rbIsVeg, rbUserId, UpdatedFileToUpload)
+                .subscribeOn(Schedulers.io())
+                .observeOn(Schedulers.newThread())
+                .subscribe(new Subscriber<CategoryCommonResponse>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                Toast.makeText(AddProductActivity.this, "" + e.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                    }
+
+                    @Override
+                    public void onNext(CategoryCommonResponse categoryCommonResponse) {
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                tools.stopLoading();
+                                if (categoryCommonResponse.getStatus().equalsIgnoreCase(VariableBag.SUCCESS_RESULT)) {
+                                    currentPhotoFile.delete();
+
+                                    etvProductName.setText("");
+                                    etvProductPrice.setText("");
+                                    etvProductDescription.setText("");
+
+                                    Toast.makeText(AddProductActivity.this, "Photo Updated and Deleted", Toast.LENGTH_SHORT).show();
+                                    startActivity(new Intent(AddProductActivity.this, SearchProductActivity.class));
+                                    Toast.makeText(AddProductActivity.this, "" + categoryCommonResponse.getMessage(), Toast.LENGTH_SHORT).show();
+                                    finish();
+                                }
+                            }
+                        });
+                    }
+                });
+    }
 
     private boolean checkCameraPermission() {
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
@@ -472,8 +491,9 @@ public class AddProductActivity extends AppCompatActivity {
         @SuppressLint("SimpleDateFormat") String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
         String imageFileName = "JPEG_" + timeStamp + "_";
         File storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
-        currentPhotoFile = File.createTempFile(imageFileName, ".jpg", storageDir);
-        currentPhotoPath = currentPhotoFile.getAbsolutePath();
-        return currentPhotoFile;
+        File image  = File.createTempFile(imageFileName, ".jpg", storageDir);
+        currentPhotoFile = image;
+        currentPhotoPath = image.getAbsolutePath();
+        return image;
     }
 }

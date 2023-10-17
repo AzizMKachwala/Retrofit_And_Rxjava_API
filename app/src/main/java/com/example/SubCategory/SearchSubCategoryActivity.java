@@ -18,6 +18,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.SignInSignUp.PreferenceManager;
+import com.example.Tools;
 import com.example.VariableBag;
 import com.example.network.RestCall;
 import com.example.network.RestClient;
@@ -40,6 +41,7 @@ public class SearchSubCategoryActivity extends AppCompatActivity {
     RecyclerView subCategoryListRecyclerView;
     APISubCategoryRecyclerViewAdapter apiSubCategoryRecyclerViewAdapter;
     RestCall restCall;
+    Tools tools;
     int selectedPos = 0;
     String selectedCategoryId, selectedCategoryName;
     com.example.SignInSignUp.PreferenceManager preferenceManager;
@@ -55,6 +57,7 @@ public class SearchSubCategoryActivity extends AppCompatActivity {
         subCategoryListRecyclerView = findViewById(R.id.subCategoryListRecyclerView);
 
         restCall = RestClient.createService(RestCall.class, VariableBag.BASE_URL, VariableBag.API_KEY);
+        tools = new Tools(this);
 
         preferenceManager = new PreferenceManager(this);
 
@@ -95,6 +98,7 @@ public class SearchSubCategoryActivity extends AppCompatActivity {
     }
 
     private void getCateCall() {
+        tools.showLoading();
         restCall.getCategory("getCategory",preferenceManager.getUserId())
                 .subscribeOn(Schedulers.io())
                 .observeOn(Schedulers.newThread())
@@ -119,7 +123,7 @@ public class SearchSubCategoryActivity extends AppCompatActivity {
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
-
+                                tools.stopLoading();
                                 if (categoryListResponse.getStatus().equalsIgnoreCase(VariableBag.SUCCESS_RESULT) && categoryListResponse.getCategoryList() != null
                                         && categoryListResponse.getCategoryList().size() > 0) {
 
@@ -169,6 +173,7 @@ public class SearchSubCategoryActivity extends AppCompatActivity {
     }
 
     private void GetSubCategory(){
+        tools.showLoading();
         restCall.getSubCategory("getSubCategory",selectedCategoryId,preferenceManager.getUserId())
                 .subscribeOn(Schedulers.io())
                 .observeOn(Schedulers.newThread())
@@ -193,6 +198,7 @@ public class SearchSubCategoryActivity extends AppCompatActivity {
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
+                                tools.stopLoading();
                                 if (subCategoryListResponse.getStatus().equalsIgnoreCase(VariableBag.SUCCESS_RESULT)
                                         && subCategoryListResponse.getSubCategoryList() != null
                                         && subCategoryListResponse.getSubCategoryList().size() > 0) {
@@ -252,6 +258,7 @@ public class SearchSubCategoryActivity extends AppCompatActivity {
     }
 
     private void deleteSubCategoryCall(String subCategoryId) {
+        tools.showLoading();
         restCall.DeleteSubCategory("DeleteSubCategory", subCategoryId,preferenceManager.getUserId())
                 .subscribeOn(Schedulers.io())
                 .observeOn(Schedulers.newThread())
@@ -276,6 +283,7 @@ public class SearchSubCategoryActivity extends AppCompatActivity {
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
+                                tools.stopLoading();
                                 if (subCategoryListResponse.getStatus().equalsIgnoreCase(VariableBag.SUCCESS_RESULT)) {
                                     GetSubCategory();
                                 }

@@ -16,6 +16,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.SignInSignUp.PreferenceManager;
+import com.example.Tools;
 import com.example.VariableBag;
 import com.example.network.RestCall;
 import com.example.network.RestClient;
@@ -34,6 +35,7 @@ public class SearchCategoryActivity extends AppCompatActivity {
     APICategoryRecyclerViewAdapter apiRecyclerViewAdapter;
     FloatingActionButton btnAddCategory;
     RestCall restCall;
+    Tools tools;
     com.example.SignInSignUp.PreferenceManager preferenceManager;
 
     @SuppressLint("MissingInflatedId")
@@ -51,6 +53,7 @@ public class SearchCategoryActivity extends AppCompatActivity {
         preferenceManager = new PreferenceManager(this);
 
         restCall = RestClient.createService(RestCall.class, VariableBag.BASE_URL, VariableBag.API_KEY);
+        tools = new Tools(this);
 
         etvSearch.addTextChangedListener(new TextWatcher() {
 
@@ -88,6 +91,7 @@ public class SearchCategoryActivity extends AppCompatActivity {
     }
 
     private void getCategoryCall() {
+        tools.showLoading();
         restCall.getCategory("getCategory", preferenceManager.getUserId())
                 .subscribeOn(Schedulers.io())
                 .observeOn(Schedulers.newThread())
@@ -114,6 +118,7 @@ public class SearchCategoryActivity extends AppCompatActivity {
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
+                                tools.stopLoading();
                                 if (categoryListResponse.getStatus().equalsIgnoreCase(VariableBag.SUCCESS_RESULT)
                                         && categoryListResponse.getCategoryList() != null
                                         && categoryListResponse.getCategoryList().size() > 0) {
@@ -173,6 +178,7 @@ public class SearchCategoryActivity extends AppCompatActivity {
     }
 
     public void ActiveDeactiveCategoryCall(String categoryId, boolean isChecked){
+        tools.showLoading();
         String status = isChecked ? "0" : "1";
         restCall.ActiveDeactiveCategory("ActiveDeactiveCategory", status, categoryId)
                 .subscribeOn(Schedulers.io())
@@ -198,6 +204,7 @@ public class SearchCategoryActivity extends AppCompatActivity {
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
+                                tools.stopLoading();
                                 if (categoryCommonResponse.getStatus().equalsIgnoreCase(VariableBag.SUCCESS_RESULT)) {
                                     Toast.makeText(SearchCategoryActivity.this, "Category Status Updated: "+status, Toast.LENGTH_SHORT).show();
                                 }
@@ -209,6 +216,7 @@ public class SearchCategoryActivity extends AppCompatActivity {
     }
 
     public void DeleteCategoryCall(String category_id) {
+        tools.showLoading();
         restCall.DeleteCategory("DeleteCategory", preferenceManager.getUserId(), category_id)
                 .subscribeOn(Schedulers.io())
                 .observeOn((Schedulers.newThread()))
@@ -233,6 +241,7 @@ public class SearchCategoryActivity extends AppCompatActivity {
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
+                                tools.stopLoading();
                                 if (categoryCommonResponse.getStatus().equalsIgnoreCase(VariableBag.SUCCESS_RESULT)) {
                                     Toast.makeText(SearchCategoryActivity.this, categoryCommonResponse.getMessage(), Toast.LENGTH_SHORT).show();
                                     getCategoryCall();

@@ -88,7 +88,7 @@
                 android:layout_height="wrap_content"
                 android:hint="Enter Price*"
                 android:imeOptions="actionNext"
-                android:inputType="textAutoComplete"
+                android:inputType="number"
                 android:layout_marginRight="@dimen/_5sdp"
                 android:minHeight="@dimen/_48sdp"
                 android:minLines="1"

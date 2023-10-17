@@ -11,6 +11,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.SignInSignUp.PreferenceManager;
+import com.example.Tools;
 import com.example.VariableBag;
 import com.example.network.RestCall;
 import com.example.network.RestClient;
@@ -25,6 +26,7 @@ public class AddCategoryActivity extends AppCompatActivity {
     EditText etvCategoryName;
     Button btnAdd;
     RestCall restCall;
+    Tools tools;
     boolean isEdit = false;
     String category_name,category_id;
     com.example.SignInSignUp.PreferenceManager preferenceManager;
@@ -39,6 +41,7 @@ public class AddCategoryActivity extends AppCompatActivity {
         preferenceManager = new PreferenceManager(this);
 
         restCall = RestClient.createService(RestCall.class, VariableBag.BASE_URL, VariableBag.API_KEY);
+        tools = new Tools(this);
 
         preferenceManager = new PreferenceManager(this);
 
@@ -73,6 +76,7 @@ public class AddCategoryActivity extends AppCompatActivity {
     }
 
     public void addCategoryCall() {
+        tools.showLoading();
         restCall.AddCategory("AddCategory", preferenceManager.getUserId(), etvCategoryName.getText().toString().trim())
                 .subscribeOn(Schedulers.io())
                 .observeOn(Schedulers.newThread())
@@ -87,7 +91,7 @@ public class AddCategoryActivity extends AppCompatActivity {
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
-                                Toast.makeText(AddCategoryActivity.this, "No Internet", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(AddCategoryActivity.this, e.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
                             }
                         });
                     }
@@ -97,6 +101,7 @@ public class AddCategoryActivity extends AppCompatActivity {
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
+                                tools.stopLoading();
                                 if (categoryCommonResponse.getStatus().equalsIgnoreCase(VariableBag.SUCCESS_RESULT)) {
                                     etvCategoryName.setText("");
 
@@ -114,6 +119,7 @@ public class AddCategoryActivity extends AppCompatActivity {
     }
 
     public void editCategoryCall() {
+        tools.showLoading();
         restCall.EditCategory("EditCategory", etvCategoryName.getText().toString(), category_id,preferenceManager.getUserId())
                 .subscribeOn(Schedulers.io())
                 .observeOn((Schedulers.newThread()))
@@ -128,7 +134,7 @@ public class AddCategoryActivity extends AppCompatActivity {
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
-                                Toast.makeText(AddCategoryActivity.this, "No Internet", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(AddCategoryActivity.this, e.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
                             }
                         });
                     }
@@ -138,6 +144,7 @@ public class AddCategoryActivity extends AppCompatActivity {
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
+                                tools.stopLoading();
                                 if (categoryCommonResponse.getStatus().equalsIgnoreCase(VariableBag.SUCCESS_RESULT)) {
                                     etvCategoryName.setText("");
 

@@ -15,10 +15,7 @@ public class Tools {
     Context context;
     private Dialog dialog;
 
-    public Tools() {
-    }
-
-    public Tools(Context context, Dialog dialog) {
+    public Tools(Context context) {
         this.context = context;
         dialog = new Dialog(context);
     }

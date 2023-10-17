@@ -13,6 +13,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.SignInSignUp.PreferenceManager;
+import com.example.Tools;
 import com.example.VariableBag;
 import com.example.network.RestCall;
 import com.example.network.RestClient;
@@ -31,6 +32,7 @@ public class AddSubCategoryActivity extends AppCompatActivity {
     AppCompatSpinner selectCategorySpinner;
     Button btnSubAdd;
     RestCall restCall;
+    Tools tools;
     boolean isEdit = false;
     String selectedCategoryId, selectedCategoryName, subcategory_name, category_id, selectedSubCategoryId;
     int selectedPos = 0;
@@ -46,6 +48,7 @@ public class AddSubCategoryActivity extends AppCompatActivity {
         btnSubAdd = findViewById(R.id.btnSubAdd);
 
         restCall = RestClient.createService(RestCall.class, VariableBag.BASE_URL, VariableBag.API_KEY);
+        tools = new Tools(this);
 
         preferenceManager = new PreferenceManager(this); //Always create a class object before using any method of it
 
@@ -84,6 +87,7 @@ public class AddSubCategoryActivity extends AppCompatActivity {
     }
 
     private void addSubCategoryCall() {
+        tools.showLoading();
         restCall.AddSubCategory("AddSubCategory", selectedCategoryId, etvSubCategoryName.getText().toString().trim(),preferenceManager.getUserId())
                 .subscribeOn(Schedulers.io())
                 .observeOn(Schedulers.newThread())
@@ -108,6 +112,7 @@ public class AddSubCategoryActivity extends AppCompatActivity {
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
+                                tools.stopLoading();
                                 if (subCategoryListResponse.getStatus().equalsIgnoreCase(VariableBag.SUCCESS_RESULT)) {
                                     etvSubCategoryName.setText("");
 
@@ -123,6 +128,7 @@ public class AddSubCategoryActivity extends AppCompatActivity {
     }
 
     private void editSubCategoryCall() {
+        tools.showLoading();
         restCall.EditSubCategory("EditSubCategory", selectedCategoryId,
                         etvSubCategoryName.getText().toString(), selectedSubCategoryId,preferenceManager.getUserId())
                 .subscribeOn(Schedulers.io())
@@ -148,6 +154,7 @@ public class AddSubCategoryActivity extends AppCompatActivity {
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
+                                tools.stopLoading();
                                 Toast.makeText(AddSubCategoryActivity.this, "Select Category to Edit", Toast.LENGTH_SHORT).show();
                                 if (subCategoryListResponse.getStatus().equalsIgnoreCase(VariableBag.SUCCESS_RESULT)) {
                                     etvSubCategoryName.setText("");
@@ -164,6 +171,7 @@ public class AddSubCategoryActivity extends AppCompatActivity {
     }
 
     private void getCateCall() {
+        tools.showLoading();
         restCall.getCategory("getCategory",preferenceManager.getUserId())
                 .subscribeOn(Schedulers.io())
                 .observeOn(Schedulers.newThread())
@@ -188,7 +196,7 @@ public class AddSubCategoryActivity extends AppCompatActivity {
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
-
+                                tools.stopLoading();
                                 if (categoryListResponse.getStatus().equalsIgnoreCase(VariableBag.SUCCESS_RESULT)
                                         && categoryListResponse.getCategoryList() != null
                                         && categoryListResponse.getCategoryList().size() > 0) {

@@ -1,11 +1,5 @@
 package com.example.Product;
 
-import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.AppCompatSpinner;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -17,7 +11,14 @@ import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.AppCompatSpinner;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.example.SignInSignUp.PreferenceManager;
+import com.example.Tools;
 import com.example.VariableBag;
 import com.example.network.RestCall;
 import com.example.network.RestClient;
@@ -35,15 +36,16 @@ import rx.schedulers.Schedulers;
 
 public class SearchProductActivity extends AppCompatActivity {
 
-    AppCompatSpinner categorySpinnerProduct,subCategorySpinnerProduct;
+    AppCompatSpinner categorySpinnerProduct, subCategorySpinnerProduct;
     EditText etvProductSearch;
     RecyclerView productRecyclerView;
     FloatingActionButton btnAddProduct;
     RestCall restCall;
+    Tools tools;
     PreferenceManager preferenceManager;
     APIProductRecyclerViewAdapter apiProductRecyclerViewAdapter;
     int selectedPos = 0;
-    String selectedCategoryId, selectedCategoryName,selectedSubCategoryId, selectedSubCategoryName;
+    String selectedCategoryId, selectedCategoryName, selectedSubCategoryId, selectedSubCategoryName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,6 +61,7 @@ public class SearchProductActivity extends AppCompatActivity {
         restCall = RestClient.createService(RestCall.class, VariableBag.BASE_URL, VariableBag.API_KEY);
 
         preferenceManager = new PreferenceManager(this);
+        tools = new Tools(this);
 
         getProductCateCall();
 
@@ -70,7 +73,7 @@ public class SearchProductActivity extends AppCompatActivity {
 
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                if(apiProductRecyclerViewAdapter != null){
+                if (apiProductRecyclerViewAdapter != null) {
                     apiProductRecyclerViewAdapter.Search(charSequence, productRecyclerView);
                 }
             }
@@ -89,15 +92,9 @@ public class SearchProductActivity extends AppCompatActivity {
         });
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        getProductCateCall();
-    }
-
     private void getProductCateCall() {
-
-        restCall.getCategory("getCategory",preferenceManager.getUserId())
+        tools.showLoading();
+        restCall.getCategory("getCategory", preferenceManager.getUserId())
                 .subscribeOn(Schedulers.io())
                 .observeOn(Schedulers.newThread())
                 .subscribe(new Subscriber<CategoryListResponse>() {
@@ -111,7 +108,7 @@ public class SearchProductActivity extends AppCompatActivity {
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
-                                Toast.makeText(SearchProductActivity.this, "No Internet", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(SearchProductActivity.this, e.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
                             }
                         });
                     }
@@ -121,6 +118,7 @@ public class SearchProductActivity extends AppCompatActivity {
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
+                                tools.stopLoading();
                                 if (categoryListResponse.getStatus().equalsIgnoreCase(VariableBag.SUCCESS_RESULT) && categoryListResponse.getCategoryList() != null
                                         && categoryListResponse.getCategoryList().size() > 0) {
 
@@ -150,8 +148,7 @@ public class SearchProductActivity extends AppCompatActivity {
 
                                                 if (selectedCategoryId.equalsIgnoreCase("-1")) {
                                                     Toast.makeText(SearchProductActivity.this, "Select Category", Toast.LENGTH_SHORT).show();
-                                                }
-                                                else {
+                                                } else {
 //                                                    Toast.makeText(AddProductActivity.this, "SubCategory Loading", Toast.LENGTH_SHORT).show();
                                                     getProductSubCateCall();
                                                 }
@@ -168,11 +165,12 @@ public class SearchProductActivity extends AppCompatActivity {
                         });
                     }
                 });
-        apiProductRecyclerViewAdapter = new APIProductRecyclerViewAdapter(SearchProductActivity.this,new ArrayList<>());
+        apiProductRecyclerViewAdapter = new APIProductRecyclerViewAdapter(SearchProductActivity.this, new ArrayList<>());
     }
 
     private void getProductSubCateCall() {
-        restCall.getSubCategory("getSubCategory",selectedCategoryId,preferenceManager.getUserId())
+        tools.showLoading();
+        restCall.getSubCategory("getSubCategory", selectedCategoryId, preferenceManager.getUserId())
                 .subscribeOn(Schedulers.io())
                 .observeOn(Schedulers.newThread())
                 .subscribe(new Subscriber<SubCategoryListResponse>() {
@@ -186,7 +184,7 @@ public class SearchProductActivity extends AppCompatActivity {
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
-                                Toast.makeText(SearchProductActivity.this, "No Internet", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(SearchProductActivity.this, e.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
                             }
                         });
                     }
@@ -196,6 +194,7 @@ public class SearchProductActivity extends AppCompatActivity {
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
+                                tools.stopLoading();
                                 if (subCategoryListResponse.getStatus().equalsIgnoreCase(VariableBag.SUCCESS_RESULT) && subCategoryListResponse.getSubCategoryList() != null
                                         && subCategoryListResponse.getSubCategoryList().size() > 0) {
 
@@ -227,8 +226,7 @@ public class SearchProductActivity extends AppCompatActivity {
 
                                                 if (selectedCategoryId.equalsIgnoreCase("-1") && selectedSubCategoryId.equalsIgnoreCase("-1")) {
                                                     Toast.makeText(SearchProductActivity.this, "Select Sub Category", Toast.LENGTH_SHORT).show();
-                                                }
-                                                else {
+                                                } else {
                                                     getProduct();
 //                                                    Toast.makeText(AddProductActivity.this, "SubCategory Loading", Toast.LENGTH_SHORT).show();
                                                 }
@@ -249,8 +247,9 @@ public class SearchProductActivity extends AppCompatActivity {
         apiProductRecyclerViewAdapter = new APIProductRecyclerViewAdapter(SearchProductActivity.this, new ArrayList<>());
     }
 
-    private void getProduct(){
-        restCall.getProduct("getProduct",selectedCategoryId,selectedSubCategoryId,preferenceManager.getUserId())
+    private void getProduct() {
+        tools.showLoading();
+        restCall.getProduct("getProduct", selectedCategoryId, selectedSubCategoryId, preferenceManager.getUserId())
                 .subscribeOn(Schedulers.io())
                 .observeOn(Schedulers.newThread())
                 .subscribe(new Subscriber<ProductListResponse>() {
@@ -264,7 +263,8 @@ public class SearchProductActivity extends AppCompatActivity {
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
-                                Toast.makeText(SearchProductActivity.this, "No Internet", Toast.LENGTH_SHORT).show();
+                                tools.stopLoading();
+                                Toast.makeText(SearchProductActivity.this, e.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
                             }
                         });
                     }
@@ -274,19 +274,41 @@ public class SearchProductActivity extends AppCompatActivity {
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
+                                tools.stopLoading();
                                 if (productListResponse.getStatus().equalsIgnoreCase(VariableBag.SUCCESS_RESULT)
-                                && productListResponse.getProductList() != null && productListResponse.getProductList().size() > 0){
+                                        && productListResponse.getProductList() != null
+                                        && productListResponse.getProductList().size() > 0) {
 
                                     LinearLayoutManager layoutManager = new LinearLayoutManager(SearchProductActivity.this);
                                     productRecyclerView.setLayoutManager(layoutManager);
 
-                                    apiProductRecyclerViewAdapter = new APIProductRecyclerViewAdapter(SearchProductActivity.this,productListResponse.getProductList());
+                                    apiProductRecyclerViewAdapter = new APIProductRecyclerViewAdapter(SearchProductActivity.this, productListResponse.getProductList());
                                     productRecyclerView.setAdapter(apiProductRecyclerViewAdapter);
 
                                     apiProductRecyclerViewAdapter.SetUpInterface(new APIProductRecyclerViewAdapter.ProductClick() {
                                         @Override
                                         public void productEditClick(ProductListResponse.Product product) {
+                                            String cateId = selectedCategoryId;
+                                            String subCateId = selectedSubCategoryId;
+                                            String productId = product.getProductId();
+                                            String productName = product.getProductName();
+                                            String old_product_image = product.getOldProductImage();
+                                            String productPrice = product.getProductPrice();
+                                            String productDesc = product.getProductDesc();
+                                            String isVeg = product.getIsVeg();
 
+                                            Intent intent = new Intent(SearchProductActivity.this, AddProductActivity.class);
+                                            Bundle bundle = new Bundle();
+                                            bundle.putString("category_id", cateId);
+                                            bundle.putString("sub_category_id", subCateId);
+                                            bundle.putString("productId", productId);
+                                            bundle.putString("productName", productName);
+                                            bundle.putString("old_product_image", old_product_image);
+                                            bundle.putString("product_price", productPrice);
+                                            bundle.putString("product_desc", productDesc);
+                                            bundle.putString("is_veg", isVeg);
+                                            intent.putExtras(bundle);
+                                            startActivity(intent);
                                         }
 
                                         @Override
@@ -314,7 +336,7 @@ public class SearchProductActivity extends AppCompatActivity {
                                             alertDialog.show();
                                         }
                                     });
-                                    
+
                                 }
                             }
                         });
@@ -323,7 +345,8 @@ public class SearchProductActivity extends AppCompatActivity {
     }
 
     private void deleteProductCall(String productId) {
-        restCall.DeleteProduct("DeleteProduct",productId,preferenceManager.getUserId())
+        tools.showLoading();
+        restCall.DeleteProduct("DeleteProduct", productId, preferenceManager.getUserId())
                 .subscribeOn(Schedulers.io())
                 .observeOn(Schedulers.newThread())
                 .subscribe(new Subscriber<ProductListResponse>() {
@@ -337,7 +360,8 @@ public class SearchProductActivity extends AppCompatActivity {
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
-                                Toast.makeText(SearchProductActivity.this, "No Internet", Toast.LENGTH_SHORT).show();
+                                tools.stopLoading();
+                                Toast.makeText(SearchProductActivity.this, e.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
                             }
                         });
                     }
@@ -347,6 +371,7 @@ public class SearchProductActivity extends AppCompatActivity {
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
+                                tools.stopLoading();
                                 if (productListResponse.getStatus().equalsIgnoreCase(VariableBag.SUCCESS_RESULT)) {
                                     getProduct();
                                 }
@@ -356,5 +381,4 @@ public class SearchProductActivity extends AppCompatActivity {
                     }
                 });
     }
-
 }
