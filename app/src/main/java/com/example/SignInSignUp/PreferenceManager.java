@@ -7,9 +7,9 @@ import com.example.VariableBag;
 
 public class PreferenceManager {
 
-    private SharedPreferences sharedpreferences;
+    private final SharedPreferences sharedpreferences;
 
-    private SharedPreferences.Editor editor;
+    private final SharedPreferences.Editor editor;
 
     public PreferenceManager(Context context) {
         this.sharedpreferences = context.getSharedPreferences(VariableBag.PREF_NAME,Context.MODE_PRIVATE);

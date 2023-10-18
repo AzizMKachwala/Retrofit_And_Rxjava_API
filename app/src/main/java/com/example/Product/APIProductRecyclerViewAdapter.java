@@ -120,7 +120,7 @@ public class APIProductRecyclerViewAdapter extends RecyclerView.Adapter<APIProdu
                 int flag=0;
                 List<ProductListResponse.Product> filterList=new ArrayList<>();
                 for(ProductListResponse.Product Row:products){
-                    if(Row.getProductName().toString().toLowerCase().contains(charString.toLowerCase())){
+                    if(Row.getProductName().toLowerCase().contains(charString.toLowerCase())){
                         filterList.add(Row);
                         flag=1;
                     }

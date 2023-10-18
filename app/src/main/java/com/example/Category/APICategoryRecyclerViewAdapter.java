@@ -105,7 +105,7 @@ public class APICategoryRecyclerViewAdapter extends RecyclerView.Adapter<APICate
                 int flag=0;
                 List<CategoryListResponse.Category> filterList=new ArrayList<>();
                 for(CategoryListResponse.Category Row:categories){
-                    if(Row.getCategoryName().toString().toLowerCase().contains(charString.toLowerCase())){
+                    if(Row.getCategoryName().toLowerCase().contains(charString.toLowerCase())){
                         filterList.add(Row);
                         flag=1;
                     }

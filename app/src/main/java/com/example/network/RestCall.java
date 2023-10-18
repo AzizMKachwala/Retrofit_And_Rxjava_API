@@ -144,4 +144,10 @@ public interface RestCall {
             @Part("user_id") RequestBody user_id,
             @Part MultipartBody.Part product_image);
 
+    @FormUrlEncoded
+    @POST("ProductController.php")
+    Single<ProductListResponse> GetCatalog(
+            @Field("tag") String tag,
+            @Field("user_id") String user_id);
+
 }

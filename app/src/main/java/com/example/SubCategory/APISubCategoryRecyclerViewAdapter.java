@@ -97,7 +97,7 @@ public class APISubCategoryRecyclerViewAdapter extends RecyclerView.Adapter<APIS
                 int flag=0;
                 List<SubCategoryListResponse.SubCategory> filterList=new ArrayList<>();
                 for(SubCategoryListResponse.SubCategory Row:subCategories){
-                    if(Row.getSubcategoryName().toString().toLowerCase().contains(charString.toLowerCase())){
+                    if(Row.getSubcategoryName().toLowerCase().contains(charString.toLowerCase())){
                         filterList.add(Row);
                         flag=1;
                     }

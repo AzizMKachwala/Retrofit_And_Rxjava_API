@@ -13,7 +13,7 @@ import com.example.retrofitandrxjavaapidemo.R;
 public class Tools {
 
     Context context;
-    private Dialog dialog;
+    private final Dialog dialog;
 
     public Tools(Context context) {
         this.context = context;
@@ -55,8 +55,7 @@ public class Tools {
         try {
             Glide.with(context)
                     .load(urlimg)
-                    .apply(new RequestOptions().placeholder(R.drawable.ic_launcher_foreground)
-                            .error(R.drawable.bg))
+                    .apply(new RequestOptions().placeholder(R.drawable.ic_launcher_foreground).error(R.drawable.bg))
                     .into(img);
         } catch (Exception e) {
             e.printStackTrace();

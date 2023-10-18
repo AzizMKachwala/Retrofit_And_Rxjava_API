@@ -4,6 +4,8 @@ import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -29,7 +31,6 @@ import com.example.Tools;
 import com.example.VariableBag;
 import com.example.network.RestCall;
 import com.example.network.RestClient;
-import com.example.networkResponse.ProductListResponse;
 import com.example.networkResponse.cate.CategoryCommonResponse;
 import com.example.networkResponse.cate.CategoryListResponse;
 import com.example.networkResponse.subcate.SubCategoryListResponse;
@@ -37,6 +38,7 @@ import com.example.retrofitandrxjavaapidemo.R;
 import com.google.android.material.switchmaterial.SwitchMaterial;
 import com.google.android.material.textfield.TextInputEditText;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
@@ -51,6 +53,7 @@ import rx.schedulers.Schedulers;
 
 public class AddProductActivity extends AppCompatActivity {
 
+    private static final int REQUEST_CAMERA_PERMISSION = 101;
     ImageView imgEditProduct, imgProduct;
     TextInputEditText etvProductName, etvProductPrice, etvProductDescription;
     Button btnCancel, btnSubmit;
@@ -59,14 +62,15 @@ public class AddProductActivity extends AppCompatActivity {
     int selectedPos = 0;
     boolean isEdit = false;
     String selectedCategoryId, selectedCategoryName, selectedSubCategoryId, selectedSubCategoryName;
-    String fetchedCategoryId, fetchedSubCategoryId, fetchedProductId, fetchedProductName, fetchedOldImage = "", fetchedProductPrice, fetchedProductDesc, fetchedIsVeg;
+    String fetchedCategoryId, fetchedSubCategoryId, fetchedProductId, fetchedProductName, fetchedOldImage;
+    String fetchedProductPrice, fetchedProductDesc, fetchedIsVeg;
     ActivityResultLauncher<Intent> cameraLauncher;
     String currentPhotoPath = "";
-    private File currentPhotoFile;
-    private static final int REQUEST_CAMERA_PERMISSION = 101;
     RestCall restCall;
     Tools tools;
     PreferenceManager preferenceManager;
+    Bitmap imageBitmap;
+    private File currentPhotoFile;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -98,12 +102,15 @@ public class AddProductActivity extends AppCompatActivity {
             fetchedSubCategoryId = bundle.getString("sub_category_id");
             fetchedProductId = bundle.getString("productId");
             fetchedProductName = bundle.getString("productName");
-            fetchedOldImage = "" + bundle.getString("old_product_image");
+            fetchedOldImage = bundle.getString("old_product_image");
             fetchedProductPrice = bundle.getString("product_price");
             fetchedProductDesc = bundle.getString("product_desc");
             fetchedIsVeg = bundle.getString("is_veg");
+            Tools.DisplayImage(this,imgProduct,fetchedOldImage);
+            etvProductName.setText(fetchedProductName);
+            etvProductPrice.setText(fetchedProductPrice);
+            etvProductDescription.setText(fetchedProductDesc);
             btnSubmit.setText("Edit");
-            EditProductCall();
         } else {
             isEdit = false;
             btnSubmit.setText("Submit");
@@ -323,7 +330,7 @@ public class AddProductActivity extends AppCompatActivity {
         RequestBody rbProductName = RequestBody.create(MediaType.parse("text/plain"), etvProductName.getText().toString().trim());
         RequestBody rbProductPrice = RequestBody.create(MediaType.parse("text/plain"), etvProductPrice.getText().toString().trim());
         RequestBody rbProductDesc = RequestBody.create(MediaType.parse("text/plain"), etvProductDescription.getText().toString().trim());
-        RequestBody rbIsVeg = RequestBody.create(MediaType.parse("text/plain"), IsVeg.isChecked() ? "1" : "0");
+        RequestBody rbIsVeg = RequestBody.create(MediaType.parse("text/plain"), IsVeg.isChecked() ? "Veg" : "Non-Veg");
         RequestBody rbUserId = RequestBody.create(MediaType.parse("text/plain"), preferenceManager.getUserId());
         MultipartBody.Part fileToUpload = null;
 
@@ -386,7 +393,11 @@ public class AddProductActivity extends AppCompatActivity {
 
     private void EditProductCall() {
         tools.showLoading();
-        RequestBody tag = RequestBody.create(MediaType.parse("text/plain"), "AddProduct");
+
+//        selectedCategorySpinnerProduct.setEnabled(false);
+//        selectedSubCategorySpinnerProduct.setEnabled(false);
+
+        RequestBody tag = RequestBody.create(MediaType.parse("text/plain"), "EditProduct");
         RequestBody rbCategoryId = RequestBody.create(MediaType.parse("text/plain"), fetchedCategoryId);
         RequestBody rbSubCategoryId = RequestBody.create(MediaType.parse("text/plain"), fetchedSubCategoryId);
         RequestBody rbProductId = RequestBody.create(MediaType.parse("text/plain"), fetchedProductId);
@@ -398,7 +409,7 @@ public class AddProductActivity extends AppCompatActivity {
         RequestBody rbUserId = RequestBody.create(MediaType.parse("text/plain"), preferenceManager.getUserId());
         MultipartBody.Part UpdatedFileToUpload = null;
 
-        if (UpdatedFileToUpload == null && currentPhotoPath != "") {
+        if (currentPhotoPath != null && !currentPhotoPath.isEmpty()) {
             try {
                 StrictMode.VmPolicy.Builder builder = new StrictMode.VmPolicy.Builder();
                 StrictMode.setVmPolicy(builder.build());
@@ -410,10 +421,6 @@ public class AddProductActivity extends AppCompatActivity {
                 e.printStackTrace();
             }
         }
-
-//        etvProductName.setText(fetchedProductName);
-//        etvProductPrice.setText(fetchedProductPrice);
-//        etvProductDescription.setText(fetchedProductDesc);
 
         restCall.EditProduct(tag, rbCategoryId, rbSubCategoryId, rbProductId, rbProductName, rbProductPrice, rbProductDesc, rbOldImage, rbIsVeg, rbUserId, UpdatedFileToUpload)
                 .subscribeOn(Schedulers.io())
@@ -451,6 +458,9 @@ public class AddProductActivity extends AppCompatActivity {
                                     startActivity(new Intent(AddProductActivity.this, SearchProductActivity.class));
                                     Toast.makeText(AddProductActivity.this, "" + categoryCommonResponse.getMessage(), Toast.LENGTH_SHORT).show();
                                     finish();
+                                }
+                                else {
+                                    Toast.makeText(AddProductActivity.this, ""+categoryCommonResponse.getMessage(), Toast.LENGTH_SHORT).show();
                                 }
                             }
                         });
