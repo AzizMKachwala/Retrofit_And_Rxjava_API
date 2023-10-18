@@ -1,7 +1,5 @@
 package com.example.network;
 
-import android.app.DownloadManager;
-
 import com.example.networkResponse.ProductListResponse;
 import com.example.networkResponse.UserResponse;
 import com.example.networkResponse.cate.CategoryListResponse;

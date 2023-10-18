@@ -1,5 +1,6 @@
 package com.example.networkResponse;
 
+import com.example.networkResponse.Catalogue.Category;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
@@ -72,8 +73,7 @@ public class ProductListResponse implements Serializable {
         @Expose
         private String isVeg;
 
-        public Product(String productId, String productName, String productImage, String oldProductImage, String productPrice,
-                       String productDesc, String isVeg) {
+        public Product(String productId, String productName, String productImage, String oldProductImage, String productPrice, String productDesc, String isVeg) {
             this.productId = productId;
             this.productName = productName;
             this.productImage = productImage;

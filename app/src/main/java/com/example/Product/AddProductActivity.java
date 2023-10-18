@@ -4,8 +4,6 @@ import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.graphics.Bitmap;
-import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -38,7 +36,6 @@ import com.example.retrofitandrxjavaapidemo.R;
 import com.google.android.material.switchmaterial.SwitchMaterial;
 import com.google.android.material.textfield.TextInputEditText;
 
-import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
@@ -69,7 +66,6 @@ public class AddProductActivity extends AppCompatActivity {
     RestCall restCall;
     Tools tools;
     PreferenceManager preferenceManager;
-    Bitmap imageBitmap;
     private File currentPhotoFile;
 
     @Override
@@ -106,10 +102,15 @@ public class AddProductActivity extends AppCompatActivity {
             fetchedProductPrice = bundle.getString("product_price");
             fetchedProductDesc = bundle.getString("product_desc");
             fetchedIsVeg = bundle.getString("is_veg");
-            Tools.DisplayImage(this,imgProduct,fetchedOldImage);
+
+            Tools.DisplayImage(AddProductActivity.this, imgProduct, fetchedOldImage);
+
             etvProductName.setText(fetchedProductName);
             etvProductPrice.setText(fetchedProductPrice);
             etvProductDescription.setText(fetchedProductDesc);
+            selectedCategorySpinnerProduct.setEnabled(false);
+            selectedSubCategorySpinnerProduct.setEnabled(false);
+
             btnSubmit.setText("Edit");
         } else {
             isEdit = false;
@@ -126,46 +127,35 @@ public class AddProductActivity extends AppCompatActivity {
             }
         });
 
-        imgEditProduct.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                try {
-                    currentPhotoPath = "";
-                    if (checkCameraPermission()) {
-                        Toast.makeText(AddProductActivity.this, "Camera Starting", Toast.LENGTH_SHORT).show();
-                        openCamera();
-                    }
-                } catch (Exception e) {
-                    e.printStackTrace();
+        imgEditProduct.setOnClickListener(view -> {
+            try {
+                currentPhotoPath = "";
+                if (checkCameraPermission()) {
+                    Toast.makeText(AddProductActivity.this, "Camera Starting", Toast.LENGTH_SHORT).show();
+                    openCamera();
                 }
+            } catch (Exception e) {
+                e.printStackTrace();
             }
         });
 
-        btnCancel.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                finish();
-            }
-        });
+        btnCancel.setOnClickListener(view -> finish());
 
-        btnSubmit.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (etvProductName.getText().toString().trim().isEmpty()) {
-                    etvProductName.setError("Enter Product Name");
-                    etvProductName.requestFocus();
-                } else if (etvProductPrice.getText().toString().trim().isEmpty()) {
-                    etvProductPrice.setError("Enter Product Price");
-                    etvProductPrice.requestFocus();
-                } else if (etvProductDescription.getText().toString().trim().isEmpty()) {
-                    etvProductDescription.setError("Enter Product Description");
-                    etvProductDescription.requestFocus();
+        btnSubmit.setOnClickListener(view -> {
+            if (etvProductName.getText().toString().trim().isEmpty()) {
+                etvProductName.setError("Enter Product Name");
+                etvProductName.requestFocus();
+            } else if (etvProductPrice.getText().toString().trim().isEmpty()) {
+                etvProductPrice.setError("Enter Product Price");
+                etvProductPrice.requestFocus();
+            } else if (etvProductDescription.getText().toString().trim().isEmpty()) {
+                etvProductDescription.setError("Enter Product Description");
+                etvProductDescription.requestFocus();
+            } else {
+                if (isEdit) {
+                    EditProductCall();
                 } else {
-                    if (isEdit) {
-                        EditProductCall();
-                    } else {
-                        AddProductCall();
-                    }
+                    AddProductCall();
                 }
             }
         });
@@ -184,62 +174,54 @@ public class AddProductActivity extends AppCompatActivity {
 
                     @Override
                     public void onError(Throwable e) {
-                        runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                Toast.makeText(AddProductActivity.this, e.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
-                            }
-                        });
+                        runOnUiThread(() -> Toast.makeText(AddProductActivity.this, e.getLocalizedMessage(), Toast.LENGTH_SHORT).show());
                     }
 
                     @Override
                     public void onNext(CategoryListResponse categoryListResponse) {
-                        runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                tools.stopLoading();
-                                if (categoryListResponse.getStatus().equalsIgnoreCase(VariableBag.SUCCESS_RESULT) && categoryListResponse.getCategoryList() != null
-                                        && categoryListResponse.getCategoryList().size() > 0) {
+                        runOnUiThread(() -> {
+                            tools.stopLoading();
+                            if (categoryListResponse.getStatus().equalsIgnoreCase(VariableBag.SUCCESS_RESULT) && categoryListResponse.getCategoryList() != null
+                                    && categoryListResponse.getCategoryList().size() > 0) {
 
-                                    List<CategoryListResponse.Category> categories = categoryListResponse.getCategoryList();
-                                    String[] categoryNameArray = new String[categories.size() + 1];
-                                    String[] categoryIdArray = new String[categories.size() + 1];
+                                List<CategoryListResponse.Category> categories = categoryListResponse.getCategoryList();
+                                String[] categoryNameArray = new String[categories.size() + 1];
+                                String[] categoryIdArray = new String[categories.size() + 1];
 
-                                    categoryNameArray[0] = "Select Category";
-                                    categoryIdArray[0] = "-1";
+                                categoryNameArray[0] = "Select Category";
+                                categoryIdArray[0] = "-1";
 
-                                    for (int i = 0; i < categories.size(); i++) {
-                                        categoryNameArray[i + 1] = categories.get(i).getCategoryName();
-                                        categoryIdArray[i + 1] = categories.get(i).getCategoryId();
-                                    }
+                                for (int i = 0; i < categories.size(); i++) {
+                                    categoryNameArray[i + 1] = categories.get(i).getCategoryName();
+                                    categoryIdArray[i + 1] = categories.get(i).getCategoryId();
+                                }
 
-                                    ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(AddProductActivity.this, android.R.layout.simple_spinner_dropdown_item, categoryNameArray);
-                                    arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-                                    selectedCategorySpinnerProduct.setAdapter(arrayAdapter);
+                                ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(AddProductActivity.this, android.R.layout.simple_spinner_dropdown_item, categoryNameArray);
+                                arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                                selectedCategorySpinnerProduct.setAdapter(arrayAdapter);
 
-                                    selectedCategorySpinnerProduct.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-                                        @Override
-                                        public void onItemSelected(AdapterView<?> adapterView, View view, int position, long id) {
-                                            selectedPos = position;
-                                            if (selectedPos >= 0 && selectedPos < categoryIdArray.length) {
-                                                selectedCategoryId = categoryIdArray[selectedPos];
-                                                selectedCategoryName = categoryNameArray[selectedPos];
+                                selectedCategorySpinnerProduct.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                                    @Override
+                                    public void onItemSelected(AdapterView<?> adapterView, View view, int position, long id) {
+                                        selectedPos = position;
+                                        if (selectedPos >= 0 && selectedPos < categoryIdArray.length) {
+                                            selectedCategoryId = categoryIdArray[selectedPos];
+                                            selectedCategoryName = categoryNameArray[selectedPos];
 
-                                                if (selectedCategoryId.equalsIgnoreCase("-1")) {
-                                                    Toast.makeText(AddProductActivity.this, "Select Category", Toast.LENGTH_SHORT).show();
-                                                } else {
+                                            if (selectedCategoryId.equalsIgnoreCase("-1")) {
+                                                Toast.makeText(AddProductActivity.this, "Select Category", Toast.LENGTH_SHORT).show();
+                                            } else {
 //                                                    Toast.makeText(AddProductActivity.this, "SubCategory Loading", Toast.LENGTH_SHORT).show();
-                                                    getProductSubCateCall();
-                                                }
+                                                getProductSubCateCall();
                                             }
                                         }
+                                    }
 
-                                        @Override
-                                        public void onNothingSelected(AdapterView<?> adapterView) {
+                                    @Override
+                                    public void onNothingSelected(AdapterView<?> adapterView) {
 
-                                        }
-                                    });
-                                }
+                                    }
+                                });
                             }
                         });
                     }
@@ -259,63 +241,56 @@ public class AddProductActivity extends AppCompatActivity {
 
                     @Override
                     public void onError(Throwable e) {
-                        runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                Toast.makeText(AddProductActivity.this, e.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
-                            }
-                        });
+                        runOnUiThread(() -> Toast.makeText(AddProductActivity.this, e.getLocalizedMessage(), Toast.LENGTH_SHORT).show());
                     }
 
                     @Override
                     public void onNext(SubCategoryListResponse subCategoryListResponse) {
-                        runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                tools.stopLoading();
-                                if (subCategoryListResponse.getStatus().equalsIgnoreCase(VariableBag.SUCCESS_RESULT) && subCategoryListResponse.getSubCategoryList() != null
-                                        && subCategoryListResponse.getSubCategoryList().size() > 0) {
+                        runOnUiThread(() -> {
+                            tools.stopLoading();
+                            if (subCategoryListResponse.getStatus().equalsIgnoreCase(VariableBag.SUCCESS_RESULT) && subCategoryListResponse.getSubCategoryList() != null
+                                    && subCategoryListResponse.getSubCategoryList().size() > 0) {
 
-                                    List<SubCategoryListResponse.SubCategory> subCategories = subCategoryListResponse.getSubCategoryList();
-                                    String[] subCategoryNameArray = new String[subCategories.size() + 1];
-                                    String[] subCategoryIdArray = new String[subCategories.size() + 1];
+                                List<SubCategoryListResponse.SubCategory> subCategories = subCategoryListResponse.getSubCategoryList();
+                                String[] subCategoryNameArray = new String[subCategories.size() + 1];
+                                String[] subCategoryIdArray = new String[subCategories.size() + 1];
 
-                                    subCategoryNameArray[0] = "Select Sub Category";
-                                    subCategoryIdArray[0] = "-1";
+                                subCategoryNameArray[0] = "Select Sub Category";
+                                subCategoryIdArray[0] = "-1";
 
-                                    for (int i = 0; i < subCategories.size(); i++) {
-                                        subCategoryNameArray[i + 1] = subCategories.get(i).getSubcategoryName();
-                                        subCategoryIdArray[i + 1] = subCategories.get(i).getSubCategoryId();
-                                    }
+                                for (int i = 0; i < subCategories.size(); i++) {
+                                    subCategoryNameArray[i + 1] = subCategories.get(i).getSubcategoryName();
+                                    subCategoryIdArray[i + 1] = subCategories.get(i).getSubCategoryId();
+                                }
 
-                                    ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(AddProductActivity.this, android.R.layout.simple_spinner_dropdown_item, subCategoryNameArray);
-                                    arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-                                    selectedSubCategorySpinnerProduct.setAdapter(arrayAdapter);
+                                ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(AddProductActivity.this, android.R.layout.simple_spinner_dropdown_item, subCategoryNameArray);
+                                arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                                selectedSubCategorySpinnerProduct.setAdapter(arrayAdapter);
 
-                                    selectedSubCategorySpinnerProduct.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-                                        @Override
-                                        public void onItemSelected(AdapterView<?> adapterView, View view, int position, long id) {
-                                            selectedPos = position;
-                                            if (selectedPos >= 0 && selectedPos < subCategoryIdArray.length) {
-                                                selectedSubCategoryId = subCategoryIdArray[selectedPos];
-                                                selectedSubCategoryName = subCategoryNameArray[selectedPos];
+                                selectedSubCategorySpinnerProduct.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                                    @Override
+                                    public void onItemSelected(AdapterView<?> adapterView, View view, int position, long id) {
+                                        selectedPos = position;
+                                        if (selectedPos >= 0 && selectedPos < subCategoryIdArray.length) {
+                                            selectedSubCategoryId = subCategoryIdArray[selectedPos];
+                                            selectedSubCategoryName = subCategoryNameArray[selectedPos];
 
 //                                                Toast.makeText(AddProductActivity.this, ""+selectedSubCategoryId, Toast.LENGTH_SHORT).show();
 
-                                                if (selectedCategoryId.equalsIgnoreCase("-1") && selectedSubCategoryId.equalsIgnoreCase("-1")) {
-                                                    Toast.makeText(AddProductActivity.this, "Select Sub Category", Toast.LENGTH_SHORT).show();
-                                                } else {
-//                                                    Toast.makeText(AddProductActivity.this, "SubCategory Loading", Toast.LENGTH_SHORT).show();
-                                                }
+                                            if (selectedCategoryId.equalsIgnoreCase("-1") && selectedSubCategoryId.equalsIgnoreCase("-1")) {
+                                                Toast.makeText(AddProductActivity.this, "Select Sub Category", Toast.LENGTH_SHORT).show();
                                             }
+//                                            else {
+//                                                    Toast.makeText(AddProductActivity.this, "SubCategory Loading", Toast.LENGTH_SHORT).show();
+//                                            }
                                         }
+                                    }
 
-                                        @Override
-                                        public void onNothingSelected(AdapterView<?> adapterView) {
+                                    @Override
+                                    public void onNothingSelected(AdapterView<?> adapterView) {
 
-                                        }
-                                    });
-                                }
+                                    }
+                                });
                             }
                         });
                     }
@@ -359,32 +334,26 @@ public class AddProductActivity extends AppCompatActivity {
 
                     @Override
                     public void onError(Throwable e) {
-                        runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                tools.stopLoading();
+                        runOnUiThread(() -> {
+                            tools.stopLoading();
 //                                Toast.makeText(AddProductActivity.this, "No Internet", Toast.LENGTH_SHORT).show();
-                                Toast.makeText(AddProductActivity.this, "" + e.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
-                            }
+                            Toast.makeText(AddProductActivity.this, "" + e.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
                         });
                     }
 
                     @Override
                     public void onNext(CategoryCommonResponse categoryCommonResponse) {
-                        runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                tools.stopLoading();
-                                Toast.makeText(AddProductActivity.this, "" + categoryCommonResponse.getMessage(), Toast.LENGTH_SHORT).show();
-                                if (categoryCommonResponse.getStatus().equalsIgnoreCase(VariableBag.SUCCESS_RESULT)) {
-                                    if (currentPhotoFile != null && currentPhotoPath != null) {
-                                        currentPhotoFile.delete();
-                                        Toast.makeText(AddProductActivity.this, "Photo Deleted from the Package", Toast.LENGTH_SHORT).show();
-                                    }
-                                    startActivity(new Intent(AddProductActivity.this, SearchProductActivity.class));
-                                    Toast.makeText(AddProductActivity.this, "" + categoryCommonResponse.getMessage(), Toast.LENGTH_SHORT).show();
-                                    finish();
+                        runOnUiThread(() -> {
+                            tools.stopLoading();
+                            Toast.makeText(AddProductActivity.this, "" + categoryCommonResponse.getMessage(), Toast.LENGTH_SHORT).show();
+                            if (categoryCommonResponse.getStatus().equalsIgnoreCase(VariableBag.SUCCESS_RESULT)) {
+                                if (currentPhotoFile != null && currentPhotoPath != null) {
+                                    currentPhotoFile.delete();
+                                    Toast.makeText(AddProductActivity.this, "Photo Deleted from the Package", Toast.LENGTH_SHORT).show();
                                 }
+                                startActivity(new Intent(AddProductActivity.this, SearchProductActivity.class));
+                                Toast.makeText(AddProductActivity.this, "" + categoryCommonResponse.getMessage(), Toast.LENGTH_SHORT).show();
+                                finish();
                             }
                         });
                     }
@@ -393,9 +362,6 @@ public class AddProductActivity extends AppCompatActivity {
 
     private void EditProductCall() {
         tools.showLoading();
-
-//        selectedCategorySpinnerProduct.setEnabled(false);
-//        selectedSubCategorySpinnerProduct.setEnabled(false);
 
         RequestBody tag = RequestBody.create(MediaType.parse("text/plain"), "EditProduct");
         RequestBody rbCategoryId = RequestBody.create(MediaType.parse("text/plain"), fetchedCategoryId);
@@ -407,6 +373,7 @@ public class AddProductActivity extends AppCompatActivity {
         RequestBody rbProductDesc = RequestBody.create(MediaType.parse("text/plain"), fetchedProductDesc);
         RequestBody rbIsVeg = RequestBody.create(MediaType.parse("text/plain"), fetchedIsVeg);
         RequestBody rbUserId = RequestBody.create(MediaType.parse("text/plain"), preferenceManager.getUserId());
+
         MultipartBody.Part UpdatedFileToUpload = null;
 
         if (currentPhotoPath != null && !currentPhotoPath.isEmpty()) {
@@ -433,35 +400,26 @@ public class AddProductActivity extends AppCompatActivity {
 
                     @Override
                     public void onError(Throwable e) {
-                        runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                Toast.makeText(AddProductActivity.this, "" + e.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
-                            }
-                        });
+                        runOnUiThread(() -> Toast.makeText(AddProductActivity.this, "" + e.getLocalizedMessage(), Toast.LENGTH_SHORT).show());
                     }
 
                     @Override
                     public void onNext(CategoryCommonResponse categoryCommonResponse) {
-                        runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                tools.stopLoading();
-                                if (categoryCommonResponse.getStatus().equalsIgnoreCase(VariableBag.SUCCESS_RESULT)) {
-                                    currentPhotoFile.delete();
+                        runOnUiThread(() -> {
+                            tools.stopLoading();
+                            if (categoryCommonResponse.getStatus().equalsIgnoreCase(VariableBag.SUCCESS_RESULT)) {
+                                currentPhotoFile.delete();
 
-                                    etvProductName.setText("");
-                                    etvProductPrice.setText("");
-                                    etvProductDescription.setText("");
+                                etvProductName.setText("");
+                                etvProductPrice.setText("");
+                                etvProductDescription.setText("");
 
-                                    Toast.makeText(AddProductActivity.this, "Photo Updated and Deleted", Toast.LENGTH_SHORT).show();
-                                    startActivity(new Intent(AddProductActivity.this, SearchProductActivity.class));
-                                    Toast.makeText(AddProductActivity.this, "" + categoryCommonResponse.getMessage(), Toast.LENGTH_SHORT).show();
-                                    finish();
-                                }
-                                else {
-                                    Toast.makeText(AddProductActivity.this, ""+categoryCommonResponse.getMessage(), Toast.LENGTH_SHORT).show();
-                                }
+                                Toast.makeText(AddProductActivity.this, "Photo Updated and Deleted", Toast.LENGTH_SHORT).show();
+                                startActivity(new Intent(AddProductActivity.this, SearchProductActivity.class));
+                                Toast.makeText(AddProductActivity.this, "" + categoryCommonResponse.getMessage(), Toast.LENGTH_SHORT).show();
+                                finish();
+                            } else {
+                                Toast.makeText(AddProductActivity.this, "" + categoryCommonResponse.getMessage(), Toast.LENGTH_SHORT).show();
                             }
                         });
                     }
@@ -501,7 +459,7 @@ public class AddProductActivity extends AppCompatActivity {
         @SuppressLint("SimpleDateFormat") String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
         String imageFileName = "JPEG_" + timeStamp + "_";
         File storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
-        File image  = File.createTempFile(imageFileName, ".jpg", storageDir);
+        File image = File.createTempFile(imageFileName, ".jpg", storageDir);
         currentPhotoFile = image;
         currentPhotoPath = image.getAbsolutePath();
         return image;

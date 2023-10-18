@@ -84,12 +84,7 @@ public class SearchProductActivity extends AppCompatActivity {
             }
         });
 
-        btnAddProduct.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivity(new Intent(SearchProductActivity.this, AddProductActivity.class));
-            }
-        });
+        btnAddProduct.setOnClickListener(view -> startActivity(new Intent(SearchProductActivity.this, AddProductActivity.class)));
     }
 
     private void getProductCateCall() {
@@ -105,62 +100,54 @@ public class SearchProductActivity extends AppCompatActivity {
 
                     @Override
                     public void onError(Throwable e) {
-                        runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                Toast.makeText(SearchProductActivity.this, e.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
-                            }
-                        });
+                        runOnUiThread(() -> Toast.makeText(SearchProductActivity.this, e.getLocalizedMessage(), Toast.LENGTH_SHORT).show());
                     }
 
                     @Override
                     public void onNext(CategoryListResponse categoryListResponse) {
-                        runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                tools.stopLoading();
-                                if (categoryListResponse.getStatus().equalsIgnoreCase(VariableBag.SUCCESS_RESULT) && categoryListResponse.getCategoryList() != null
-                                        && categoryListResponse.getCategoryList().size() > 0) {
+                        runOnUiThread(() -> {
+                            tools.stopLoading();
+                            if (categoryListResponse.getStatus().equalsIgnoreCase(VariableBag.SUCCESS_RESULT) && categoryListResponse.getCategoryList() != null
+                                    && categoryListResponse.getCategoryList().size() > 0) {
 
-                                    List<CategoryListResponse.Category> categories = categoryListResponse.getCategoryList();
-                                    String[] categoryNameArray = new String[categories.size() + 1];
-                                    String[] categoryIdArray = new String[categories.size() + 1];
+                                List<CategoryListResponse.Category> categories = categoryListResponse.getCategoryList();
+                                String[] categoryNameArray = new String[categories.size() + 1];
+                                String[] categoryIdArray = new String[categories.size() + 1];
 
-                                    categoryNameArray[0] = "Select Category";
-                                    categoryIdArray[0] = "-1";
+                                categoryNameArray[0] = "Select Category";
+                                categoryIdArray[0] = "-1";
 
-                                    for (int i = 0; i < categories.size(); i++) {
-                                        categoryNameArray[i + 1] = categories.get(i).getCategoryName();
-                                        categoryIdArray[i + 1] = categories.get(i).getCategoryId();
-                                    }
+                                for (int i = 0; i < categories.size(); i++) {
+                                    categoryNameArray[i + 1] = categories.get(i).getCategoryName();
+                                    categoryIdArray[i + 1] = categories.get(i).getCategoryId();
+                                }
 
-                                    ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(SearchProductActivity.this, android.R.layout.simple_spinner_dropdown_item, categoryNameArray);
-                                    arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-                                    categorySpinnerProduct.setAdapter(arrayAdapter);
+                                ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(SearchProductActivity.this, android.R.layout.simple_spinner_dropdown_item, categoryNameArray);
+                                arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                                categorySpinnerProduct.setAdapter(arrayAdapter);
 
-                                    categorySpinnerProduct.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-                                        @Override
-                                        public void onItemSelected(AdapterView<?> adapterView, View view, int position, long id) {
-                                            selectedPos = position;
-                                            if (selectedPos >= 0 && selectedPos < categoryIdArray.length) {
-                                                selectedCategoryId = categoryIdArray[selectedPos];
-                                                selectedCategoryName = categoryNameArray[selectedPos];
+                                categorySpinnerProduct.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                                    @Override
+                                    public void onItemSelected(AdapterView<?> adapterView, View view, int position, long id) {
+                                        selectedPos = position;
+                                        if (selectedPos >= 0 && selectedPos < categoryIdArray.length) {
+                                            selectedCategoryId = categoryIdArray[selectedPos];
+                                            selectedCategoryName = categoryNameArray[selectedPos];
 
-                                                if (selectedCategoryId.equalsIgnoreCase("-1")) {
-                                                    Toast.makeText(SearchProductActivity.this, "Select Category", Toast.LENGTH_SHORT).show();
-                                                } else {
+                                            if (selectedCategoryId.equalsIgnoreCase("-1")) {
+                                                Toast.makeText(SearchProductActivity.this, "Select Category", Toast.LENGTH_SHORT).show();
+                                            } else {
 //                                                    Toast.makeText(AddProductActivity.this, "SubCategory Loading", Toast.LENGTH_SHORT).show();
-                                                    getProductSubCateCall();
-                                                }
+                                                getProductSubCateCall();
                                             }
                                         }
+                                    }
 
-                                        @Override
-                                        public void onNothingSelected(AdapterView<?> adapterView) {
+                                    @Override
+                                    public void onNothingSelected(AdapterView<?> adapterView) {
 
-                                        }
-                                    });
-                                }
+                                    }
+                                });
                             }
                         });
                     }
@@ -181,66 +168,58 @@ public class SearchProductActivity extends AppCompatActivity {
 
                     @Override
                     public void onError(Throwable e) {
-                        runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                Toast.makeText(SearchProductActivity.this, e.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
-                            }
-                        });
+                        runOnUiThread(() -> Toast.makeText(SearchProductActivity.this, e.getLocalizedMessage(), Toast.LENGTH_SHORT).show());
                     }
 
                     @Override
                     public void onNext(SubCategoryListResponse subCategoryListResponse) {
-                        runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                tools.stopLoading();
-                                if (subCategoryListResponse.getStatus().equalsIgnoreCase(VariableBag.SUCCESS_RESULT) && subCategoryListResponse.getSubCategoryList() != null
-                                        && subCategoryListResponse.getSubCategoryList().size() > 0) {
+                        runOnUiThread(() -> {
+                            tools.stopLoading();
+                            if (subCategoryListResponse.getStatus().equalsIgnoreCase(VariableBag.SUCCESS_RESULT) && subCategoryListResponse.getSubCategoryList() != null
+                                    && subCategoryListResponse.getSubCategoryList().size() > 0) {
 
-                                    List<SubCategoryListResponse.SubCategory> subCategories = subCategoryListResponse.getSubCategoryList();
-                                    String[] subCategoryNameArray = new String[subCategories.size() + 1];
-                                    String[] subCategoryIdArray = new String[subCategories.size() + 1];
+                                List<SubCategoryListResponse.SubCategory> subCategories = subCategoryListResponse.getSubCategoryList();
+                                String[] subCategoryNameArray = new String[subCategories.size() + 1];
+                                String[] subCategoryIdArray = new String[subCategories.size() + 1];
 
-                                    subCategoryNameArray[0] = "Select Sub Category";
-                                    subCategoryIdArray[0] = "-1";
+                                subCategoryNameArray[0] = "Select Sub Category";
+                                subCategoryIdArray[0] = "-1";
 
-                                    for (int i = 0; i < subCategories.size(); i++) {
-                                        subCategoryNameArray[i + 1] = subCategories.get(i).getSubcategoryName();
-                                        subCategoryIdArray[i + 1] = subCategories.get(i).getSubCategoryId();
-                                    }
+                                for (int i = 0; i < subCategories.size(); i++) {
+                                    subCategoryNameArray[i + 1] = subCategories.get(i).getSubcategoryName();
+                                    subCategoryIdArray[i + 1] = subCategories.get(i).getSubCategoryId();
+                                }
 
-                                    ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(SearchProductActivity.this, android.R.layout.simple_spinner_dropdown_item, subCategoryNameArray);
-                                    arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-                                    subCategorySpinnerProduct.setAdapter(arrayAdapter);
+                                ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(SearchProductActivity.this, android.R.layout.simple_spinner_dropdown_item, subCategoryNameArray);
+                                arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                                subCategorySpinnerProduct.setAdapter(arrayAdapter);
 
-                                    subCategorySpinnerProduct.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-                                        @Override
-                                        public void onItemSelected(AdapterView<?> adapterView, View view, int position, long id) {
-                                            selectedPos = position;
-                                            if (selectedPos >= 0 && selectedPos < subCategoryIdArray.length) {
-                                                selectedSubCategoryId = subCategoryIdArray[selectedPos];
-                                                selectedSubCategoryName = subCategoryNameArray[selectedPos];
+                                subCategorySpinnerProduct.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                                    @Override
+                                    public void onItemSelected(AdapterView<?> adapterView, View view, int position, long id) {
+                                        selectedPos = position;
+                                        if (selectedPos >= 0 && selectedPos < subCategoryIdArray.length) {
+                                            selectedSubCategoryId = subCategoryIdArray[selectedPos];
+                                            selectedSubCategoryName = subCategoryNameArray[selectedPos];
 
 //                                                Toast.makeText(AddProductActivity.this, ""+selectedSubCategoryId, Toast.LENGTH_SHORT).show();
 
-                                                if (selectedCategoryId.equalsIgnoreCase("-1") && selectedSubCategoryId.equalsIgnoreCase("-1")) {
-                                                    Toast.makeText(SearchProductActivity.this, "Select Sub Category", Toast.LENGTH_SHORT).show();
-                                                } else {
-                                                    getProduct();
+                                            if (selectedCategoryId.equalsIgnoreCase("-1") && selectedSubCategoryId.equalsIgnoreCase("-1")) {
+                                                Toast.makeText(SearchProductActivity.this, "Select Sub Category", Toast.LENGTH_SHORT).show();
+                                            } else {
+                                                getProduct();
 //                                                    Toast.makeText(AddProductActivity.this, "SubCategory Loading", Toast.LENGTH_SHORT).show();
-                                                }
                                             }
                                         }
+                                    }
 
-                                        @Override
-                                        public void onNothingSelected(AdapterView<?> adapterView) {
+                                    @Override
+                                    public void onNothingSelected(AdapterView<?> adapterView) {
 
-                                        }
-                                    });
-                                }
-
+                                    }
+                                });
                             }
+
                         });
                     }
                 });
@@ -260,84 +239,75 @@ public class SearchProductActivity extends AppCompatActivity {
 
                     @Override
                     public void onError(Throwable e) {
-                        runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                tools.stopLoading();
-                                Toast.makeText(SearchProductActivity.this, e.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
-                            }
+                        runOnUiThread(() -> {
+                            tools.stopLoading();
+                            Toast.makeText(SearchProductActivity.this, e.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
                         });
                     }
 
                     @Override
                     public void onNext(ProductListResponse productListResponse) {
-                        runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                tools.stopLoading();
-                                if (productListResponse.getStatus().equalsIgnoreCase(VariableBag.SUCCESS_RESULT)
-                                        && productListResponse.getProductList() != null
-                                        && productListResponse.getProductList().size() > 0) {
+                        runOnUiThread(() -> {
+                            tools.stopLoading();
+                            if (productListResponse.getStatus().equalsIgnoreCase(VariableBag.SUCCESS_RESULT)
+                                    && productListResponse.getProductList() != null
+                                    && productListResponse.getProductList().size() > 0) {
 
-                                    LinearLayoutManager layoutManager = new LinearLayoutManager(SearchProductActivity.this);
-                                    productRecyclerView.setLayoutManager(layoutManager);
+                                LinearLayoutManager layoutManager = new LinearLayoutManager(SearchProductActivity.this);
+                                productRecyclerView.setLayoutManager(layoutManager);
 
-                                    apiProductRecyclerViewAdapter = new APIProductRecyclerViewAdapter(SearchProductActivity.this, productListResponse.getProductList());
-                                    productRecyclerView.setAdapter(apiProductRecyclerViewAdapter);
+                                apiProductRecyclerViewAdapter = new APIProductRecyclerViewAdapter(SearchProductActivity.this, productListResponse.getProductList());
+                                productRecyclerView.setAdapter(apiProductRecyclerViewAdapter);
 
-                                    apiProductRecyclerViewAdapter.SetUpInterface(new APIProductRecyclerViewAdapter.ProductClick() {
-                                        @Override
-                                        public void productEditClick(ProductListResponse.Product product) {
-                                            String cateId = selectedCategoryId;
-                                            String subCateId = selectedSubCategoryId;
-                                            String productId = product.getProductId();
-                                            String productName = product.getProductName();
-                                            String old_product_image = product.getOldProductImage();
-                                            String productPrice = product.getProductPrice();
-                                            String productDesc = product.getProductDesc();
-                                            String isVeg = product.getIsVeg();
+                                apiProductRecyclerViewAdapter.SetUpInterface(new APIProductRecyclerViewAdapter.ProductClick() {
+                                    @Override
+                                    public void productEditClick(ProductListResponse.Product product) {
+                                        String cateId = selectedCategoryId;
+                                        String subCateId = selectedSubCategoryId;
+                                        String productId = product.getProductId();
+                                        String productName = product.getProductName();
+                                        String old_product_image = product.getOldProductImage();
+                                        String productPrice = product.getProductPrice();
+                                        String productDesc = product.getProductDesc();
+                                        String isVeg = product.getIsVeg();
 
-                                            Intent intent = new Intent(SearchProductActivity.this, AddProductActivity.class);
-                                            Bundle bundle = new Bundle();
-                                            bundle.putString("category_id", cateId);
-                                            bundle.putString("sub_category_id", subCateId);
-                                            bundle.putString("productId", productId);
-                                            bundle.putString("productName", productName);
-                                            bundle.putString("old_product_image", old_product_image);
-                                            bundle.putString("product_price", productPrice);
-                                            bundle.putString("product_desc", productDesc);
-                                            bundle.putString("is_veg", isVeg);
-                                            intent.putExtras(bundle);
-                                            startActivity(intent);
-                                        }
+                                        Intent intent = new Intent(SearchProductActivity.this, AddProductActivity.class);
+                                        Bundle bundle = new Bundle();
+                                        bundle.putString("category_id", cateId);
+                                        bundle.putString("sub_category_id", subCateId);
+                                        bundle.putString("productId", productId);
+                                        bundle.putString("productName", productName);
+                                        bundle.putString("old_product_image", old_product_image);
+                                        bundle.putString("product_price", productPrice);
+                                        bundle.putString("product_desc", productDesc);
+                                        bundle.putString("is_veg", isVeg);
+                                        intent.putExtras(bundle);
+                                        startActivity(intent);
+                                    }
 
-                                        @Override
-                                        public void productDeleteClick(ProductListResponse.Product product) {
-                                            String productId = product.getProductId();
+                                    @Override
+                                    public void productDeleteClick(ProductListResponse.Product product) {
+                                        String productId = product.getProductId();
 
-                                            AlertDialog.Builder alertDialog = new AlertDialog.Builder(SearchProductActivity.this);
-                                            alertDialog.setTitle("Alert!!");
-                                            alertDialog.setMessage("Are you sure, you want to delete Product " + product.getProductName());
+                                        AlertDialog.Builder alertDialog = new AlertDialog.Builder(SearchProductActivity.this);
+                                        alertDialog.setTitle("Alert!!");
+                                        alertDialog.setMessage("Are you sure, you want to delete Product " + product.getProductName());
 
-                                            alertDialog.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-                                                @Override
-                                                public void onClick(DialogInterface dialogInterface, int i) {
-                                                    deleteProductCall(productId);
-                                                    dialogInterface.dismiss();
-                                                }
-                                            });
+                                        alertDialog.setPositiveButton("Yes", (dialogInterface, i) -> {
+                                            deleteProductCall(productId);
+                                            dialogInterface.dismiss();
+                                        });
 
-                                            alertDialog.setNegativeButton("No", new DialogInterface.OnClickListener() {
-                                                @Override
-                                                public void onClick(DialogInterface dialogInterface, int i) {
-                                                    dialogInterface.dismiss();
-                                                }
-                                            });
-                                            alertDialog.show();
-                                        }
-                                    });
+                                        alertDialog.setNegativeButton("No", new DialogInterface.OnClickListener() {
+                                            @Override
+                                            public void onClick(DialogInterface dialogInterface, int i) {
+                                                dialogInterface.dismiss();
+                                            }
+                                        });
+                                        alertDialog.show();
+                                    }
+                                });
 
-                                }
                             }
                         });
                     }
@@ -357,26 +327,20 @@ public class SearchProductActivity extends AppCompatActivity {
 
                     @Override
                     public void onError(Throwable e) {
-                        runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                tools.stopLoading();
-                                Toast.makeText(SearchProductActivity.this, e.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
-                            }
+                        runOnUiThread(() -> {
+                            tools.stopLoading();
+                            Toast.makeText(SearchProductActivity.this, e.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
                         });
                     }
 
                     @Override
                     public void onNext(ProductListResponse productListResponse) {
-                        runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                tools.stopLoading();
-                                if (productListResponse.getStatus().equalsIgnoreCase(VariableBag.SUCCESS_RESULT)) {
-                                    getProduct();
-                                }
-                                Toast.makeText(SearchProductActivity.this, productListResponse.getMessage(), Toast.LENGTH_SHORT).show();
+                        runOnUiThread(() -> {
+                            tools.stopLoading();
+                            if (productListResponse.getStatus().equalsIgnoreCase(VariableBag.SUCCESS_RESULT)) {
+                                getProduct();
                             }
+                            Toast.makeText(SearchProductActivity.this, productListResponse.getMessage(), Toast.LENGTH_SHORT).show();
                         });
                     }
                 });

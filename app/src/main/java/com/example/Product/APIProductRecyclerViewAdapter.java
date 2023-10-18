@@ -70,20 +70,14 @@ public class APIProductRecyclerViewAdapter extends RecyclerView.Adapter<APIProdu
         holder.txtProductDescription.setText(product.getProductDesc());
         holder.txtProductVegNonVeg.setText(product.getIsVeg());
 
-        holder.imgEditProduct.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Toast.makeText(context, "Edit Clicked", Toast.LENGTH_SHORT).show();
-                productClick.productEditClick(products.get(position));
-            }
+        holder.imgEditProduct.setOnClickListener(view -> {
+            Toast.makeText(context, "Edit Clicked", Toast.LENGTH_SHORT).show();
+            productClick.productEditClick(products.get(position));
         });
 
-        holder.imgDeleteProduct.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Toast.makeText(context, "Delete Clicked", Toast.LENGTH_SHORT).show();
-                productClick.productDeleteClick(products.get(position));
-            }
+        holder.imgDeleteProduct.setOnClickListener(view -> {
+            Toast.makeText(context, "Delete Clicked", Toast.LENGTH_SHORT).show();
+            productClick.productDeleteClick(products.get(position));
         });
     }
 

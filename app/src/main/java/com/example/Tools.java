@@ -10,6 +10,8 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.example.retrofitandrxjavaapidemo.R;
 
+import java.io.File;
+
 public class Tools {
 
     Context context;
@@ -51,12 +53,17 @@ public class Tools {
         }
     }
 
-    public static void DisplayImage(Context context, ImageView img, String urlimg) {
+    public static void DisplayImage(Context context, ImageView img, String urlImg) {
         try {
-            Glide.with(context)
-                    .load(urlimg)
-                    .apply(new RequestOptions().placeholder(R.drawable.ic_launcher_foreground).error(R.drawable.bg))
-                    .into(img);
+            File imgFile = new File(urlImg);
+            if (imgFile.exists()) {
+                Glide.with(context)
+                        .load(imgFile)
+                        .apply(new RequestOptions().placeholder(R.drawable.ic_launcher_foreground).error(R.drawable.bg))
+                        .into(img);
+            } else {
+                img.setImageResource(R.drawable.bg);
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
