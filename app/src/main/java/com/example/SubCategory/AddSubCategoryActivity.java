@@ -75,7 +75,8 @@ public class AddSubCategoryActivity extends AppCompatActivity {
                 etvSubCategoryName.requestFocus();
             } else {
                 if (isEdit) {
-                    editSubCategoryCall();
+                        editSubCategoryCall();
+//                        Toast.makeText(AddSubCategoryActivity.this, "Select Category", Toast.LENGTH_SHORT).show();
                 } else {
                     addSubCategoryCall();
                 }
@@ -85,7 +86,7 @@ public class AddSubCategoryActivity extends AppCompatActivity {
 
     private void addSubCategoryCall() {
         tools.showLoading();
-        restCall.AddSubCategory("AddSubCategory", selectedCategoryId, etvSubCategoryName.getText().toString().trim(),preferenceManager.getUserId())
+        restCall.AddSubCategory("AddSubCategory", selectedCategoryId, etvSubCategoryName.getText().toString().trim(), preferenceManager.getUserId())
                 .subscribeOn(Schedulers.io())
                 .observeOn(Schedulers.newThread())
                 .subscribe(new Subscriber<SubCategoryListResponse>() {
@@ -119,7 +120,7 @@ public class AddSubCategoryActivity extends AppCompatActivity {
     private void editSubCategoryCall() {
         tools.showLoading();
         restCall.EditSubCategory("EditSubCategory", selectedCategoryId,
-                        etvSubCategoryName.getText().toString(), selectedSubCategoryId,preferenceManager.getUserId())
+                        etvSubCategoryName.getText().toString(), selectedSubCategoryId, preferenceManager.getUserId())
                 .subscribeOn(Schedulers.io())
                 .observeOn(Schedulers.newThread())
                 .subscribe(new Subscriber<SubCategoryListResponse>() {
@@ -153,7 +154,7 @@ public class AddSubCategoryActivity extends AppCompatActivity {
 
     private void getCateCall() {
         tools.showLoading();
-        restCall.getCategory("getCategory",preferenceManager.getUserId())
+        restCall.getCategory("getCategory", preferenceManager.getUserId())
                 .subscribeOn(Schedulers.io())
                 .observeOn(Schedulers.newThread())
                 .subscribe(new Subscriber<CategoryListResponse>() {

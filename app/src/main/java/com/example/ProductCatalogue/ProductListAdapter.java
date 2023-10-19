@@ -11,6 +11,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.networkResponse.Catalogue.Product;
+import com.example.networkResponse.ProductListResponse;
 import com.example.retrofitandrxjavaapidemo.R;
 
 import org.w3c.dom.Text;
@@ -20,9 +21,9 @@ import java.util.List;
 public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.ProductListViewHolder> {
 
     Context context;
-    List<Product> productList;
+    List<ProductListResponse.Product> productList;
 
-    public ProductListAdapter(Context context, List<Product> productList) {
+    public ProductListAdapter(Context context, List<ProductListResponse.Product> productList) {
         this.context = context;
         this.productList = productList;
     }

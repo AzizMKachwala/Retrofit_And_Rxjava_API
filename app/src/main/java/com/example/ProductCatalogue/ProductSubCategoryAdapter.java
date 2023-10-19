@@ -18,10 +18,10 @@ import java.util.List;
 public class ProductSubCategoryAdapter extends RecyclerView.Adapter<ProductSubCategoryAdapter.ProductSubCategoryViewHolder> {
 
     Context context;
-    List<SubCategory> subCategoryList;
+    List<SubCategoryListResponse.SubCategory> subCategoryList;
 
-
-    public ProductSubCategoryAdapter(List<SubCategory> subCategoryList) {
+    public ProductSubCategoryAdapter(Context context, List<SubCategoryListResponse.SubCategory> subCategoryList) {
+        this.context = context;
         this.subCategoryList = subCategoryList;
     }
 

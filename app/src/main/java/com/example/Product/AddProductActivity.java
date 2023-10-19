@@ -162,7 +162,8 @@ public class AddProductActivity extends AppCompatActivity {
                 etvProductDescription.requestFocus();
             } else {
                 if (isEdit) {
-                    EditProductCall();
+                        EditProductCall();
+//                        Toast.makeText(AddProductActivity.this, "Select Category and Sub Category", Toast.LENGTH_SHORT).show();
                 } else {
                     AddProductCall();
                 }
@@ -375,32 +376,32 @@ public class AddProductActivity extends AppCompatActivity {
         tools.showLoading();
 
         RequestBody tag = RequestBody.create(MediaType.parse("text/plain"), "EditProduct");
-        RequestBody rbCategoryId = RequestBody.create(MediaType.parse("text/plain"), fetchedCategoryId);
-        RequestBody rbSubCategoryId = RequestBody.create(MediaType.parse("text/plain"), fetchedSubCategoryId);
-        RequestBody rbProductId = RequestBody.create(MediaType.parse("text/plain"), fetchedProductId);
-        RequestBody rbOldImage = RequestBody.create(MediaType.parse("text/plain"), fetchedOldImage);
-        RequestBody rbProductName = RequestBody.create(MediaType.parse("text/plain"), fetchedProductName);
-        RequestBody rbProductPrice = RequestBody.create(MediaType.parse("text/plain"), fetchedProductPrice);
-        RequestBody rbProductDesc = RequestBody.create(MediaType.parse("text/plain"), fetchedProductDesc);
-        RequestBody rbIsVeg = RequestBody.create(MediaType.parse("text/plain"), fetchedIsVeg);
-        RequestBody rbUserId = RequestBody.create(MediaType.parse("text/plain"), preferenceManager.getUserId());
+        RequestBody bCategoryId = RequestBody.create(MediaType.parse("text/plain"), fetchedCategoryId);
+        RequestBody bSubCategoryId = RequestBody.create(MediaType.parse("text/plain"), fetchedSubCategoryId);
+        RequestBody bProductId = RequestBody.create(MediaType.parse("text/plain"), fetchedProductId);
+        RequestBody bProductName = RequestBody.create(MediaType.parse("text/plain"), etvProductName.getText().toString().trim());
+        RequestBody bProductPrice = RequestBody.create(MediaType.parse("text/plain"), etvProductPrice.getText().toString().trim());
+        RequestBody bOldImage = RequestBody.create(MediaType.parse("text/plain"), fetchedOldImage);
+        RequestBody bProductDesc = RequestBody.create(MediaType.parse("text/plain"), etvProductDescription.getText().toString().trim());
+        RequestBody bIsVeg = RequestBody.create(MediaType.parse("text/plain"), fetchedIsVeg);
+        RequestBody bUserId = RequestBody.create(MediaType.parse("text/plain"), preferenceManager.getUserId());
 
-        MultipartBody.Part UpdatedFileToUpload = MultipartBody.Part.create(rbOldImage);
+        MultipartBody.Part UpdatedFileToUpload = null;
 
         if (UpdatedFileToUpload != null && !fetchedOldImage.isEmpty()) {
             try {
                 StrictMode.VmPolicy.Builder builder = new StrictMode.VmPolicy.Builder();
                 StrictMode.setVmPolicy(builder.build());
-                File file = new File(fetchedOldImage);
+                File file = new File(currentPhotoPath);
                 RequestBody rbOldPhoto = RequestBody.create(MediaType.parse("multipart/form-data"), file);
                 UpdatedFileToUpload = MultipartBody.Part.createFormData("old_product_image", file.getName(), rbOldPhoto);
             } catch (Exception e) {
-                Toast.makeText(this,"" + e.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "" + e.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
                 e.printStackTrace();
             }
         }
 
-        restCall.EditProduct(tag, rbCategoryId, rbSubCategoryId, rbProductId, rbProductName, rbProductPrice, rbProductDesc, rbOldImage, rbIsVeg, rbUserId, UpdatedFileToUpload)
+        restCall.EditProduct(tag, bCategoryId, bSubCategoryId, bProductId, bProductName, bProductPrice, bOldImage, bProductDesc, bIsVeg, bUserId, UpdatedFileToUpload)
                 .subscribeOn(Schedulers.io())
                 .observeOn(Schedulers.newThread())
                 .subscribe(new Subscriber<CategoryCommonResponse>() {

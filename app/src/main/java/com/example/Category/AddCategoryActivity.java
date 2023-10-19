@@ -27,7 +27,7 @@ public class AddCategoryActivity extends AppCompatActivity {
     RestCall restCall;
     Tools tools;
     boolean isEdit = false;
-    String category_name,category_id;
+    String category_name, category_id;
     com.example.SignInSignUp.PreferenceManager preferenceManager;
 
     @Override
@@ -96,8 +96,7 @@ public class AddCategoryActivity extends AppCompatActivity {
 
                                 startActivity(new Intent(AddCategoryActivity.this, SearchCategoryActivity.class));
                                 finish();
-                            }
-                            else{
+                            } else {
                                 Toast.makeText(AddCategoryActivity.this, categoryCommonResponse.getMessage(), Toast.LENGTH_SHORT).show();
                             }
 
@@ -108,7 +107,7 @@ public class AddCategoryActivity extends AppCompatActivity {
 
     public void editCategoryCall() {
         tools.showLoading();
-        restCall.EditCategory("EditCategory", etvCategoryName.getText().toString(), category_id,preferenceManager.getUserId())
+        restCall.EditCategory("EditCategory", etvCategoryName.getText().toString(), category_id, preferenceManager.getUserId())
                 .subscribeOn(Schedulers.io())
                 .observeOn((Schedulers.newThread()))
                 .subscribe(new Subscriber<CategoryCommonResponse>() {
@@ -131,8 +130,7 @@ public class AddCategoryActivity extends AppCompatActivity {
 
                                 startActivity(new Intent(AddCategoryActivity.this, SearchCategoryActivity.class));
                                 finish();
-                            }
-                            else {
+                            } else {
                                 Toast.makeText(AddCategoryActivity.this, categoryCommonResponse.getMessage(), Toast.LENGTH_SHORT).show();
                             }
                         });

@@ -51,7 +51,8 @@ public interface RestCall {
     Single<CategoryCommonResponse> ActiveDeactiveCategory(
             @Field("tag") String tag,
             @Field("category_status") String category_status,
-            @Field("category_id") String category_id);
+            @Field("category_id") String category_id,
+            @Field("user_id") String user_id);
 
     @FormUrlEncoded
     @POST("SubCategoryController.php")
@@ -137,8 +138,8 @@ public interface RestCall {
             @Part("product_id") RequestBody product_id,
             @Part("product_name") RequestBody product_name,
             @Part("product_price") RequestBody product_price,
-            @Part("product_desc") RequestBody product_desc,
             @Part("old_product_image") RequestBody old_product_image,
+            @Part("product_desc") RequestBody product_desc,
             @Part("is_veg") RequestBody is_veg,
             @Part("user_id") RequestBody user_id,
             @Part MultipartBody.Part product_image);

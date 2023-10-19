@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.networkResponse.Catalogue.Category;
+import com.example.networkResponse.cate.CategoryListResponse;
 import com.example.retrofitandrxjavaapidemo.R;
 
 import java.util.List;
@@ -17,9 +18,9 @@ import java.util.List;
 public class ProductCategoryAdapter extends RecyclerView.Adapter<ProductCategoryAdapter.ProductCategoryViewHolder> {
 
     Context context;
-    List<Category> categoryList;
+    List<CategoryListResponse.Category> categoryList;
 
-    public ProductCategoryAdapter(Context context, List<Category> categoryList) {
+    public ProductCategoryAdapter(Context context, List<CategoryListResponse.Category> categoryList) {
         this.context = context;
         this.categoryList = categoryList;
     }
@@ -34,10 +35,7 @@ public class ProductCategoryAdapter extends RecyclerView.Adapter<ProductCategory
 
     @Override
     public void onBindViewHolder(@NonNull ProductCategoryViewHolder holder, int position) {
-        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(context);
-        ProductSubCategoryAdapter productSubCategoryAdapter = new ProductSubCategoryAdapter(categoryList.get(position).getSubCategoryList() );
-        holder.productCategory.setLayoutManager(layoutManager);
-        holder.productCategory.setAdapter(productSubCategoryAdapter);
+
     }
 
     @Override
@@ -47,12 +45,12 @@ public class ProductCategoryAdapter extends RecyclerView.Adapter<ProductCategory
 
     public class ProductCategoryViewHolder extends RecyclerView.ViewHolder{
 
-        RecyclerView productCategory;
+        RecyclerView productSubCategory;
 
         public ProductCategoryViewHolder(@NonNull View itemView) {
             super(itemView);
 
-            productCategory = itemView.findViewById(R.id.productCategory);
+            productSubCategory = itemView.findViewById(R.id.productSubCategory);
         }
     }
 }

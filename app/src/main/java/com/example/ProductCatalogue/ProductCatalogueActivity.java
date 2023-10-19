@@ -34,6 +34,7 @@ public class ProductCatalogueActivity extends AppCompatActivity {
         restCall = RestClient.createService(RestCall.class, VariableBag.BASE_URL, VariableBag.API_KEY);
         preferenceManager = new PreferenceManager(this);
         tools = new Tools(this);
+        productCategory = findViewById(R.id.productCategory);
 
         GetCatalog();
     }
@@ -70,10 +71,10 @@ public class ProductCatalogueActivity extends AppCompatActivity {
                                         productListRes.getCategoryList() != null &&
                                         productListRes.getCategoryList().size() > 0 ){
 
-//                                    RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(ProductCatalogueActivity.this);
-//                                    productCategoryAdapter = new ProductCategoryAdapter(ProductCatalogueActivity.this, productListRes.getCategoryList());
-//                                    productCategory.setLayoutManager(layoutManager);
-//                                    productCategory.setAdapter(productCategoryAdapter);
+                                    RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(ProductCatalogueActivity.this,RecyclerView.HORIZONTAL,false);
+                                    productCategory.setLayoutManager(layoutManager);
+
+//                                    productCategoryAdapter = new ProductCategoryAdapter(ProductCatalogueActivity.this,productListRes.getCategoryList());
 
                                 }
 

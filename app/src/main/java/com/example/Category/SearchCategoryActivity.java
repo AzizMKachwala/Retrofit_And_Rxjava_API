@@ -160,7 +160,7 @@ public class SearchCategoryActivity extends AppCompatActivity {
     public void ActiveDeactiveCategoryCall(String categoryId, boolean isChecked){
         tools.showLoading();
         String status = isChecked ? "0" : "1";
-        restCall.ActiveDeactiveCategory("ActiveDeactiveCategory", status, categoryId)
+        restCall.ActiveDeactiveCategory("ActiveDeactiveCategory", status, categoryId, preferenceManager.getUserId())
                 .subscribeOn(Schedulers.io())
                 .observeOn(Schedulers.newThread())
                 .subscribe(new Subscriber<CategoryCommonResponse>() {
@@ -179,7 +179,7 @@ public class SearchCategoryActivity extends AppCompatActivity {
                         runOnUiThread(() -> {
                             tools.stopLoading();
                             if (categoryCommonResponse.getStatus().equalsIgnoreCase(VariableBag.SUCCESS_RESULT)) {
-                                Toast.makeText(SearchCategoryActivity.this, "Category Status Updated: "+status, Toast.LENGTH_SHORT).show();
+                                Toast.makeText(SearchCategoryActivity.this, "Category Status Updated: " + status, Toast.LENGTH_SHORT).show();
                             }
                             Toast.makeText(SearchCategoryActivity.this, categoryCommonResponse.getMessage(), Toast.LENGTH_SHORT).show();
                         });

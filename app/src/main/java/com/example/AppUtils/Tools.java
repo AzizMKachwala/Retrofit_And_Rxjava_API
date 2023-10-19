@@ -55,15 +55,10 @@ public class Tools {
     }
 
     public static void DisplayImage(Context context, ImageView img, String urlImg) {
-        try {
-            Glide.with(context)
-                    .load(urlImg)
-                    .apply(new RequestOptions().placeholder(R.drawable.ic_launcher_foreground)
-                            .error(R.drawable.bg))
-                    .into(img);
-        }
-        catch (Exception e) {
-            e.printStackTrace();
-        }
+        Glide.with(context)
+                .load(urlImg)
+                .apply(new RequestOptions().placeholder(R.drawable.ic_launcher_foreground)
+                        .error(R.drawable.bg))
+                .into(img);
     }
 }
