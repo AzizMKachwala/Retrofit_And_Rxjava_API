@@ -12,12 +12,9 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.example.HomePageActivity;
 import com.example.SignInSignUp.SignInSignUpActivity;
-import com.example.SubCategory.AddSubCategoryActivity;
-import com.example.SubCategory.SearchSubCategoryActivity;
-import com.example.Tools;
-import com.example.VariableBag;
+import com.example.AppUtils.Tools;
+import com.example.AppUtils.VariableBag;
 import com.example.network.RestCall;
 import com.example.network.RestClient;
 import com.example.networkResponse.UserResponse;

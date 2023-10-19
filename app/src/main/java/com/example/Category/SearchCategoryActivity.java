@@ -6,18 +6,16 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.annotation.SuppressLint;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.SignInSignUp.PreferenceManager;
-import com.example.Tools;
-import com.example.VariableBag;
+import com.example.AppUtils.Tools;
+import com.example.AppUtils.VariableBag;
 import com.example.network.RestCall;
 import com.example.network.RestClient;
 import com.example.networkResponse.cate.CategoryListResponse;
@@ -75,12 +73,9 @@ public class SearchCategoryActivity extends AppCompatActivity {
             }
         });
 
-        btnAddCategory.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(SearchCategoryActivity.this, AddCategoryActivity.class);
-                startActivity(intent);
-            }
+        btnAddCategory.setOnClickListener(view -> {
+            Intent intent = new Intent(SearchCategoryActivity.this, AddCategoryActivity.class);
+            startActivity(intent);
         });
     }
 
@@ -104,73 +99,58 @@ public class SearchCategoryActivity extends AppCompatActivity {
                     @Override
                     public void onError(Throwable e) {
 
-                        runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                Toast.makeText(SearchCategoryActivity.this, "Error fetching Category list", Toast.LENGTH_SHORT).show();
-                            }
-                        });
+                        runOnUiThread(() -> Toast.makeText(SearchCategoryActivity.this, "Error fetching Category list", Toast.LENGTH_SHORT).show());
                     }
 
                     @Override
                     public void onNext(CategoryListResponse categoryListResponse) {
 
-                        runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                tools.stopLoading();
-                                if (categoryListResponse.getStatus().equalsIgnoreCase(VariableBag.SUCCESS_RESULT)
-                                        && categoryListResponse.getCategoryList() != null
-                                        && categoryListResponse.getCategoryList().size() > 0) {
+                        runOnUiThread(() -> {
+                            tools.stopLoading();
+                            if (categoryListResponse.getStatus().equalsIgnoreCase(VariableBag.SUCCESS_RESULT)
+                                    && categoryListResponse.getCategoryList() != null
+                                    && categoryListResponse.getCategoryList().size() > 0) {
 
-                                    LinearLayoutManager layoutManager = new LinearLayoutManager(SearchCategoryActivity.this);
-                                    categoryListRecyclerView.setLayoutManager(layoutManager);
+                                LinearLayoutManager layoutManager = new LinearLayoutManager(SearchCategoryActivity.this);
+                                categoryListRecyclerView.setLayoutManager(layoutManager);
 
-                                    apiRecyclerViewAdapter = new APICategoryRecyclerViewAdapter(categoryListResponse.getCategoryList());
-                                    categoryListRecyclerView.setAdapter(apiRecyclerViewAdapter);
+                                apiRecyclerViewAdapter = new APICategoryRecyclerViewAdapter(categoryListResponse.getCategoryList());
+                                categoryListRecyclerView.setAdapter(apiRecyclerViewAdapter);
 
-                                    apiRecyclerViewAdapter.SetUpInterface(new APICategoryRecyclerViewAdapter.CategoryClick() {
-                                        @Override
-                                        public void EditClick(CategoryListResponse.Category category) {
-                                            Intent intent = new Intent(SearchCategoryActivity.this, AddCategoryActivity.class);
-                                            intent.putExtra("category_id", category.getCategoryId());
-                                            intent.putExtra("category_name", category.getCategoryName());
-                                            startActivity(intent);
-                                        }
+                                apiRecyclerViewAdapter.SetUpInterface(new APICategoryRecyclerViewAdapter.CategoryClick() {
+                                    @Override
+                                    public void EditClick(CategoryListResponse.Category category) {
+                                        Intent intent = new Intent(SearchCategoryActivity.this, AddCategoryActivity.class);
+                                        intent.putExtra("category_id", category.getCategoryId());
+                                        intent.putExtra("category_name", category.getCategoryName());
+                                        startActivity(intent);
+                                        finish();
+                                    }
 
-                                        public void DeleteClick(CategoryListResponse.Category category) {
+                                    public void DeleteClick(CategoryListResponse.Category category) {
 
-                                            AlertDialog.Builder alertDialog = new AlertDialog.Builder(SearchCategoryActivity.this);
-                                            alertDialog.setTitle("Alert!!");
-                                            alertDialog.setMessage("Are you sure, you want to delete Category " + category.getCategoryName());
+                                        AlertDialog.Builder alertDialog = new AlertDialog.Builder(SearchCategoryActivity.this);
+                                        alertDialog.setTitle("Alert!!");
+                                        alertDialog.setMessage("Are you sure, you want to delete Category " + category.getCategoryName());
 
-                                            alertDialog.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-                                                @Override
-                                                public void onClick(DialogInterface dialogInterface, int i) {
-                                                    DeleteCategoryCall(category.getCategoryId());
-                                                    dialogInterface.dismiss();
-                                                }
-                                            });
+                                        alertDialog.setPositiveButton("Yes", (dialogInterface, i) -> {
+                                            DeleteCategoryCall(category.getCategoryId());
+                                            dialogInterface.dismiss();
+                                        });
 
-                                            alertDialog.setNegativeButton("No", new DialogInterface.OnClickListener() {
-                                                @Override
-                                                public void onClick(DialogInterface dialogInterface, int i) {
-                                                    dialogInterface.dismiss();
-                                                }
-                                            });
-                                            alertDialog.show();
-                                        }
+                                        alertDialog.setNegativeButton("No", (dialogInterface, i) -> dialogInterface.dismiss());
+                                        alertDialog.show();
+                                    }
 
-                                        @Override
-                                        public void onSwitchChanged(CategoryListResponse.Category category, boolean isChecked) {
-                                            String categoryId = category.getCategoryId();
-                                            ActiveDeactiveCategoryCall(categoryId, isChecked);
-                                        }
+                                    @Override
+                                    public void onSwitchChanged(CategoryListResponse.Category category, boolean isChecked) {
+                                        String categoryId = category.getCategoryId();
+                                        ActiveDeactiveCategoryCall(categoryId, isChecked);
+                                    }
 
-                                    });
-                                } else {
-                                    Toast.makeText(SearchCategoryActivity.this, categoryListResponse.getMessage(), Toast.LENGTH_SHORT).show();
-                                }
+                                });
+                            } else {
+                                Toast.makeText(SearchCategoryActivity.this, categoryListResponse.getMessage(), Toast.LENGTH_SHORT).show();
                             }
                         });
                     }
@@ -191,25 +171,17 @@ public class SearchCategoryActivity extends AppCompatActivity {
 
                     @Override
                     public void onError(Throwable e) {
-                        runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                Toast.makeText(SearchCategoryActivity.this, "No Internet", Toast.LENGTH_SHORT).show();
-                            }
-                        });
+                        runOnUiThread(() -> Toast.makeText(SearchCategoryActivity.this, "No Internet", Toast.LENGTH_SHORT).show());
                     }
 
                     @Override
                     public void onNext(CategoryCommonResponse categoryCommonResponse) {
-                        runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                tools.stopLoading();
-                                if (categoryCommonResponse.getStatus().equalsIgnoreCase(VariableBag.SUCCESS_RESULT)) {
-                                    Toast.makeText(SearchCategoryActivity.this, "Category Status Updated: "+status, Toast.LENGTH_SHORT).show();
-                                }
-                                Toast.makeText(SearchCategoryActivity.this, categoryCommonResponse.getMessage(), Toast.LENGTH_SHORT).show();
+                        runOnUiThread(() -> {
+                            tools.stopLoading();
+                            if (categoryCommonResponse.getStatus().equalsIgnoreCase(VariableBag.SUCCESS_RESULT)) {
+                                Toast.makeText(SearchCategoryActivity.this, "Category Status Updated: "+status, Toast.LENGTH_SHORT).show();
                             }
+                            Toast.makeText(SearchCategoryActivity.this, categoryCommonResponse.getMessage(), Toast.LENGTH_SHORT).show();
                         });
                     }
                 });
@@ -228,26 +200,18 @@ public class SearchCategoryActivity extends AppCompatActivity {
 
                     @Override
                     public void onError(Throwable e) {
-                        runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                Toast.makeText(SearchCategoryActivity.this, "No Internet", Toast.LENGTH_SHORT).show();
-                            }
-                        });
+                        runOnUiThread(() -> Toast.makeText(SearchCategoryActivity.this, "No Internet", Toast.LENGTH_SHORT).show());
                     }
 
                     @Override
                     public void onNext(CategoryCommonResponse categoryCommonResponse) {
-                        runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                tools.stopLoading();
-                                if (categoryCommonResponse.getStatus().equalsIgnoreCase(VariableBag.SUCCESS_RESULT)) {
-                                    Toast.makeText(SearchCategoryActivity.this, categoryCommonResponse.getMessage(), Toast.LENGTH_SHORT).show();
-                                    getCategoryCall();
-                                } else {
-                                    Toast.makeText(SearchCategoryActivity.this, "" + categoryCommonResponse.getMessage(), Toast.LENGTH_SHORT).show();
-                                }
+                        runOnUiThread(() -> {
+                            tools.stopLoading();
+                            if (categoryCommonResponse.getStatus().equalsIgnoreCase(VariableBag.SUCCESS_RESULT)) {
+                                Toast.makeText(SearchCategoryActivity.this, categoryCommonResponse.getMessage(), Toast.LENGTH_SHORT).show();
+                                getCategoryCall();
+                            } else {
+                                Toast.makeText(SearchCategoryActivity.this, "" + categoryCommonResponse.getMessage(), Toast.LENGTH_SHORT).show();
                             }
                         });
                     }

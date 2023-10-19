@@ -4,11 +4,14 @@ import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.StrictMode;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -25,8 +28,8 @@ import androidx.core.content.ContextCompat;
 import androidx.core.content.FileProvider;
 
 import com.example.SignInSignUp.PreferenceManager;
-import com.example.Tools;
-import com.example.VariableBag;
+import com.example.AppUtils.Tools;
+import com.example.AppUtils.VariableBag;
 import com.example.network.RestCall;
 import com.example.network.RestClient;
 import com.example.networkResponse.cate.CategoryCommonResponse;
@@ -85,7 +88,6 @@ public class AddProductActivity extends AppCompatActivity {
         IsVeg = findViewById(R.id.switchStatusProduct);
 
         restCall = RestClient.createService(RestCall.class, VariableBag.BASE_URL, VariableBag.API_KEY);
-
         preferenceManager = new PreferenceManager(this);
         tools = new Tools(this);
 
@@ -103,13 +105,20 @@ public class AddProductActivity extends AppCompatActivity {
             fetchedProductDesc = bundle.getString("product_desc");
             fetchedIsVeg = bundle.getString("is_veg");
 
-            Tools.DisplayImage(AddProductActivity.this, imgProduct, fetchedOldImage);
-
             etvProductName.setText(fetchedProductName);
             etvProductPrice.setText(fetchedProductPrice);
             etvProductDescription.setText(fetchedProductDesc);
-            selectedCategorySpinnerProduct.setEnabled(false);
-            selectedSubCategorySpinnerProduct.setEnabled(false);
+
+            Log.d("FilePath", fetchedOldImage);
+
+//            Bitmap bitmap = BitmapFactory.decodeFile(fetchedOldImage);
+//            imgProduct.setImageBitmap(bitmap);
+//            imgProduct.setImageURI(Uri.parse("file://" + fetchedOldImage));
+
+            Tools.DisplayImage(AddProductActivity.this, imgProduct, fetchedOldImage);
+
+//            selectedCategorySpinnerProduct.setEnabled(false);
+//            selectedSubCategorySpinnerProduct.setEnabled(false);
 
             btnSubmit.setText("Edit");
         } else {
@@ -299,6 +308,7 @@ public class AddProductActivity extends AppCompatActivity {
 
     private void AddProductCall() {
         tools.showLoading();
+
         RequestBody tag = RequestBody.create(MediaType.parse("text/plain"), "AddProduct");
         RequestBody rbCategoryId = RequestBody.create(MediaType.parse("text/plain"), selectedCategoryId);
         RequestBody rbSubCategoryId = RequestBody.create(MediaType.parse("text/plain"), selectedSubCategoryId);
@@ -307,6 +317,7 @@ public class AddProductActivity extends AppCompatActivity {
         RequestBody rbProductDesc = RequestBody.create(MediaType.parse("text/plain"), etvProductDescription.getText().toString().trim());
         RequestBody rbIsVeg = RequestBody.create(MediaType.parse("text/plain"), IsVeg.isChecked() ? "Veg" : "Non-Veg");
         RequestBody rbUserId = RequestBody.create(MediaType.parse("text/plain"), preferenceManager.getUserId());
+
         MultipartBody.Part fileToUpload = null;
 
         if (fileToUpload == null && currentPhotoPath != "") {
@@ -374,17 +385,17 @@ public class AddProductActivity extends AppCompatActivity {
         RequestBody rbIsVeg = RequestBody.create(MediaType.parse("text/plain"), fetchedIsVeg);
         RequestBody rbUserId = RequestBody.create(MediaType.parse("text/plain"), preferenceManager.getUserId());
 
-        MultipartBody.Part UpdatedFileToUpload = null;
+        MultipartBody.Part UpdatedFileToUpload = MultipartBody.Part.create(rbOldImage);
 
-        if (currentPhotoPath != null && !currentPhotoPath.isEmpty()) {
+        if (UpdatedFileToUpload != null && !fetchedOldImage.isEmpty()) {
             try {
                 StrictMode.VmPolicy.Builder builder = new StrictMode.VmPolicy.Builder();
                 StrictMode.setVmPolicy(builder.build());
-                File file = new File(currentPhotoPath);
-                RequestBody rbPhoto = RequestBody.create(MediaType.parse("multipart/form-data"), file);
-                UpdatedFileToUpload = MultipartBody.Part.createFormData("product_image", file.getName(), rbPhoto);
+                File file = new File(fetchedOldImage);
+                RequestBody rbOldPhoto = RequestBody.create(MediaType.parse("multipart/form-data"), file);
+                UpdatedFileToUpload = MultipartBody.Part.createFormData("old_product_image", file.getName(), rbOldPhoto);
             } catch (Exception e) {
-                Toast.makeText(this, "" + e.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(this,"" + e.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
                 e.printStackTrace();
             }
         }
@@ -400,6 +411,7 @@ public class AddProductActivity extends AppCompatActivity {
 
                     @Override
                     public void onError(Throwable e) {
+                        tools.stopLoading();
                         runOnUiThread(() -> Toast.makeText(AddProductActivity.this, "" + e.getLocalizedMessage(), Toast.LENGTH_SHORT).show());
                     }
 

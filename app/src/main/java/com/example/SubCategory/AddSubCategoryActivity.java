@@ -13,8 +13,8 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.SignInSignUp.PreferenceManager;
-import com.example.Tools;
-import com.example.VariableBag;
+import com.example.AppUtils.Tools;
+import com.example.AppUtils.VariableBag;
 import com.example.network.RestCall;
 import com.example.network.RestClient;
 import com.example.networkResponse.cate.CategoryListResponse;
@@ -69,18 +69,15 @@ public class AddSubCategoryActivity extends AppCompatActivity {
             btnSubAdd.setText("Add");
         }
 
-        btnSubAdd.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (selectCategorySpinner != null && etvSubCategoryName.getText().toString().trim().equalsIgnoreCase("")) {
-                    etvSubCategoryName.setError("Enter Sub-Category Name");
-                    etvSubCategoryName.requestFocus();
+        btnSubAdd.setOnClickListener(view -> {
+            if (selectCategorySpinner != null && etvSubCategoryName.getText().toString().trim().equalsIgnoreCase("")) {
+                etvSubCategoryName.setError("Enter Sub-Category Name");
+                etvSubCategoryName.requestFocus();
+            } else {
+                if (isEdit) {
+                    editSubCategoryCall();
                 } else {
-                    if (isEdit) {
-                        editSubCategoryCall();
-                    } else {
-                        addSubCategoryCall();
-                    }
+                    addSubCategoryCall();
                 }
             }
         });
@@ -99,28 +96,20 @@ public class AddSubCategoryActivity extends AppCompatActivity {
 
                     @Override
                     public void onError(Throwable e) {
-                        runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                Toast.makeText(AddSubCategoryActivity.this, "No Internet", Toast.LENGTH_SHORT).show();
-                            }
-                        });
+                        runOnUiThread(() -> Toast.makeText(AddSubCategoryActivity.this, "No Internet", Toast.LENGTH_SHORT).show());
                     }
 
                     @Override
                     public void onNext(SubCategoryListResponse subCategoryListResponse) {
-                        runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                tools.stopLoading();
-                                if (subCategoryListResponse.getStatus().equalsIgnoreCase(VariableBag.SUCCESS_RESULT)) {
-                                    etvSubCategoryName.setText("");
+                        runOnUiThread(() -> {
+                            tools.stopLoading();
+                            if (subCategoryListResponse.getStatus().equalsIgnoreCase(VariableBag.SUCCESS_RESULT)) {
+                                etvSubCategoryName.setText("");
 
-                                    startActivity(new Intent(AddSubCategoryActivity.this, SearchSubCategoryActivity.class));
-                                    finish();
-                                } else {
-                                    Toast.makeText(AddSubCategoryActivity.this, subCategoryListResponse.getMessage(), Toast.LENGTH_SHORT).show();
-                                }
+                                startActivity(new Intent(AddSubCategoryActivity.this, SearchSubCategoryActivity.class));
+                                finish();
+                            } else {
+                                Toast.makeText(AddSubCategoryActivity.this, subCategoryListResponse.getMessage(), Toast.LENGTH_SHORT).show();
                             }
                         });
                     }
@@ -141,29 +130,21 @@ public class AddSubCategoryActivity extends AppCompatActivity {
 
                     @Override
                     public void onError(Throwable e) {
-                        runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                Toast.makeText(AddSubCategoryActivity.this, "No Internet", Toast.LENGTH_SHORT).show();
-                            }
-                        });
+                        runOnUiThread(() -> Toast.makeText(AddSubCategoryActivity.this, "No Internet", Toast.LENGTH_SHORT).show());
                     }
 
                     @Override
                     public void onNext(SubCategoryListResponse subCategoryListResponse) {
-                        runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                tools.stopLoading();
-                                Toast.makeText(AddSubCategoryActivity.this, "Select Category to Edit", Toast.LENGTH_SHORT).show();
-                                if (subCategoryListResponse.getStatus().equalsIgnoreCase(VariableBag.SUCCESS_RESULT)) {
-                                    etvSubCategoryName.setText("");
+                        runOnUiThread(() -> {
+                            tools.stopLoading();
+                            Toast.makeText(AddSubCategoryActivity.this, "Select Category to Edit", Toast.LENGTH_SHORT).show();
+                            if (subCategoryListResponse.getStatus().equalsIgnoreCase(VariableBag.SUCCESS_RESULT)) {
+                                etvSubCategoryName.setText("");
 
-                                    startActivity(new Intent(AddSubCategoryActivity.this, SearchSubCategoryActivity.class));
-                                    finish();
-                                } else {
-                                    Toast.makeText(AddSubCategoryActivity.this, subCategoryListResponse.getMessage(), Toast.LENGTH_SHORT).show();
-                                }
+                                startActivity(new Intent(AddSubCategoryActivity.this, SearchSubCategoryActivity.class));
+                                finish();
+                            } else {
+                                Toast.makeText(AddSubCategoryActivity.this, subCategoryListResponse.getMessage(), Toast.LENGTH_SHORT).show();
                             }
                         });
                     }
@@ -183,60 +164,52 @@ public class AddSubCategoryActivity extends AppCompatActivity {
 
                     @Override
                     public void onError(Throwable e) {
-                        runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                Toast.makeText(AddSubCategoryActivity.this, "Error fetching Category list", Toast.LENGTH_SHORT).show();
-                            }
-                        });
+                        runOnUiThread(() -> Toast.makeText(AddSubCategoryActivity.this, "Error fetching Category list", Toast.LENGTH_SHORT).show());
                     }
 
                     @Override
                     public void onNext(CategoryListResponse categoryListResponse) {
-                        runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                tools.stopLoading();
-                                if (categoryListResponse.getStatus().equalsIgnoreCase(VariableBag.SUCCESS_RESULT)
-                                        && categoryListResponse.getCategoryList() != null
-                                        && categoryListResponse.getCategoryList().size() > 0) {
+                        runOnUiThread(() -> {
+                            tools.stopLoading();
+                            if (categoryListResponse.getStatus().equalsIgnoreCase(VariableBag.SUCCESS_RESULT)
+                                    && categoryListResponse.getCategoryList() != null
+                                    && categoryListResponse.getCategoryList().size() > 0) {
 
-                                    List<CategoryListResponse.Category> categories = categoryListResponse.getCategoryList();
-                                    String[] categoryNameArray = new String[categories.size() + 1];
-                                    String[] categoryIdArray = new String[categories.size() + 1];
+                                List<CategoryListResponse.Category> categories = categoryListResponse.getCategoryList();
+                                String[] categoryNameArray = new String[categories.size() + 1];
+                                String[] categoryIdArray = new String[categories.size() + 1];
 
-                                    categoryNameArray[0] = "Select Category";
-                                    categoryIdArray[0] = "-1";
+                                categoryNameArray[0] = "Select Category";
+                                categoryIdArray[0] = "-1";
 
-                                    for (int i = 0; i < categories.size(); i++) {
-                                        categoryNameArray[i + 1] = categories.get(i).getCategoryName();
-                                        categoryIdArray[i + 1] = categories.get(i).getCategoryId();
-                                    }
+                                for (int i = 0; i < categories.size(); i++) {
+                                    categoryNameArray[i + 1] = categories.get(i).getCategoryName();
+                                    categoryIdArray[i + 1] = categories.get(i).getCategoryId();
+                                }
 
-                                    ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(AddSubCategoryActivity.this, android.R.layout.simple_spinner_dropdown_item, categoryNameArray);
-                                    arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-                                    selectCategorySpinner.setAdapter(arrayAdapter);
+                                ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(AddSubCategoryActivity.this, android.R.layout.simple_spinner_dropdown_item, categoryNameArray);
+                                arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                                selectCategorySpinner.setAdapter(arrayAdapter);
 
-                                    selectCategorySpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-                                        @Override
-                                        public void onItemSelected(AdapterView<?> adapterView, View view, int position, long id) {
-                                            selectedPos = position;
-                                            if (selectedPos >= 0 && selectedPos < categoryIdArray.length) {
-                                                selectedCategoryId = categoryIdArray[selectedPos];
-                                                selectedCategoryName = categoryNameArray[selectedPos];
+                                selectCategorySpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                                    @Override
+                                    public void onItemSelected(AdapterView<?> adapterView, View view, int position, long id) {
+                                        selectedPos = position;
+                                        if (selectedPos >= 0 && selectedPos < categoryIdArray.length) {
+                                            selectedCategoryId = categoryIdArray[selectedPos];
+                                            selectedCategoryName = categoryNameArray[selectedPos];
 
 //                                                Toast.makeText(AddSubCategoryActivity.this, "" + selectedCategoryId, Toast.LENGTH_SHORT).show();
-                                            }
                                         }
+                                    }
 
-                                        @Override
-                                        public void onNothingSelected(AdapterView<?> adapterView) {
+                                    @Override
+                                    public void onNothingSelected(AdapterView<?> adapterView) {
 
-                                        }
-                                    });
-                                }
-                                Toast.makeText(AddSubCategoryActivity.this, categoryListResponse.getMessage(), Toast.LENGTH_SHORT).show();
+                                    }
+                                });
                             }
+                            Toast.makeText(AddSubCategoryActivity.this, categoryListResponse.getMessage(), Toast.LENGTH_SHORT).show();
                         });
                     }
                 });

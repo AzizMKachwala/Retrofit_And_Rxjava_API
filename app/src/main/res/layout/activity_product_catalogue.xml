@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="@dimen/_10sdp"
-    tools:context="com.example.ProductCatalogueActivity"
+    tools:context="com.example.ProductCatalogue.ProductCatalogueActivity"
     android:orientation="vertical">
 
     <TextView
@@ -18,7 +18,7 @@
         android:padding="@dimen/_5sdp"/>
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/ProductCategory"
+        android:id="@+id/productCategory"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="@dimen/_5sdp"

@@ -22,7 +22,7 @@ public class Category implements Serializable,Parcelable {
     private String categoryStatus;
     @SerializedName("sub_category_list")
     @Expose
-    private List<SubCategoryListResponse.SubCategory> subCategoryList;
+    private List<SubCategory> subCategoryList;
 
     public final static Parcelable.Creator<Category> CREATOR = new Parcelable.Creator<Category>() {
 
@@ -50,9 +50,6 @@ public class Category implements Serializable,Parcelable {
         in.readList(this.subCategoryList, (SubCategory.class.getClassLoader()));
     }
 
-    public Category() {
-    }
-
     public String getCategoryId() {
         return categoryId;
     }
@@ -77,11 +74,11 @@ public class Category implements Serializable,Parcelable {
         this.categoryStatus = categoryStatus;
     }
 
-    public List<SubCategoryListResponse.SubCategory> getSubCategoryList() {
+    public List<SubCategory> getSubCategoryList() {
         return subCategoryList;
     }
 
-    public void setSubCategoryList(List<SubCategoryListResponse.SubCategory> subCategoryList) {
+    public void setSubCategoryList(List<SubCategory> subCategoryList) {
         this.subCategoryList = subCategoryList;
     }
 

@@ -5,7 +5,6 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -53,26 +52,11 @@ public class APICategoryRecyclerViewAdapter extends RecyclerView.Adapter<APICate
         CategoryListResponse.Category category = searchList.get(position);
         holder.txtCategoryName.setText(category.getCategoryName());
 
-        holder.imgEditCategory.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                categoryClick.EditClick(categories.get(position));
-            }
-        });
+        holder.imgEditCategory.setOnClickListener(view -> categoryClick.EditClick(categories.get(position)));
 
-        holder.imgDeleteCategory.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                categoryClick.DeleteClick(category);
-            }
-        });
+        holder.imgDeleteCategory.setOnClickListener(view -> categoryClick.DeleteClick(category));
 
-        holder.switchStatus.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
-                categoryClick.onSwitchChanged(searchList.get(position), isChecked);
-            }
-        });
+        holder.switchStatus.setOnCheckedChangeListener((compoundButton, isChecked) -> categoryClick.onSwitchChanged(searchList.get(position), isChecked));
     }
 
     @Override

@@ -19,6 +19,7 @@ public class ProductListRes implements Serializable, Parcelable {
     @SerializedName("status")
     @Expose
     private String status;
+
     public final static Creator<ProductListRes> CREATOR = new Creator<ProductListRes>() {
 
 
@@ -34,16 +35,13 @@ public class ProductListRes implements Serializable, Parcelable {
             ;
     private final static long serialVersionUID = 4714491393165627319L;
 
-    @SuppressWarnings({
-            "unchecked"
-    })
+    @SuppressWarnings({ "unchecked" })
+
+
     protected ProductListRes(android.os.Parcel in) {
         in.readList(this.categoryList, (com.example.networkResponse.Catalogue.Category.class.getClassLoader()));
         this.message = ((String) in.readValue((String.class.getClassLoader())));
         this.status = ((String) in.readValue((String.class.getClassLoader())));
-    }
-
-    public ProductListRes() {
     }
 
     public List<Category> getCategoryList() {

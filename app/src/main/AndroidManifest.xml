@@ -17,6 +17,7 @@
     </queries>
 
     <application
+        android:requestLegacyExternalStorage="true"
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
@@ -28,7 +29,7 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
-            android:name="com.example.ProductCatalogueActivity"
+            android:name="com.example.ProductCatalogue.ProductCatalogueActivity"
             android:exported="false" />
         <activity
             android:name="com.example.Product.SearchProductActivity"

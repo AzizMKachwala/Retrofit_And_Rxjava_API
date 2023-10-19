@@ -1,4 +1,4 @@
-package com.example;
+package com.example.AppUtils;
 
 public class VariableBag {
 

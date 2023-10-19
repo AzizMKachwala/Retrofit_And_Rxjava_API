@@ -52,19 +52,9 @@ public class APISubCategoryRecyclerViewAdapter extends RecyclerView.Adapter<APIS
         SubCategoryListResponse.SubCategory subCategory = subCategorySearchList.get(position);
         holder.txtSubCategoryName.setText(subCategory.getSubcategoryName());
 
-        holder.imgEditSubCategory.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                subCategoryClick.SubEditClick(subCategories.get(position));
-            }
-        });
+        holder.imgEditSubCategory.setOnClickListener(view -> subCategoryClick.SubEditClick(subCategories.get(position)));
 
-        holder.imgDeleteSubCategory.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                subCategoryClick.SubDeleteClick(subCategory);
-            }
-        });
+        holder.imgDeleteSubCategory.setOnClickListener(view -> subCategoryClick.SubDeleteClick(subCategory));
     }
 
     @Override
@@ -74,7 +64,7 @@ public class APISubCategoryRecyclerViewAdapter extends RecyclerView.Adapter<APIS
 
     public class ApiSubCategoryDataViewHolder extends RecyclerView.ViewHolder{
 
-        TextView txtSubCategoryName,txtSubCategoryId;
+        TextView txtSubCategoryName;
         ImageView imgEditSubCategory,imgDeleteSubCategory;
 
         public ApiSubCategoryDataViewHolder(@NonNull View itemView) {

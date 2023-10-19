@@ -3,7 +3,7 @@ package com.example.SignInSignUp;
 import android.content.Context;
 import android.content.SharedPreferences;
 
-import com.example.VariableBag;
+import com.example.AppUtils.VariableBag;
 
 public class PreferenceManager {
 

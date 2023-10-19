@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.example.Product.SearchProductActivity"
+    android:background="#293859"
     android:padding="@dimen/_10sdp">
 
     <LinearLayout
@@ -13,6 +14,7 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:padding="@dimen/_5sdp"
+        android:background="@drawable/etv"
         android:layout_marginBottom="@dimen/_10sdp">
 
         <androidx.appcompat.widget.AppCompatSpinner
@@ -34,6 +36,7 @@
         android:layout_height="wrap_content"
         android:hint="Search Product Name"
         android:layout_below="@id/lytSpinner"
+        android:background="@drawable/etv"
         android:padding="@dimen/_5sdp"
         android:layout_marginBottom="@dimen/_10sdp"/>
 
@@ -41,6 +44,8 @@
         android:id="@+id/productRecyclerView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="#f2f1d3"
+        android:padding="@dimen/_10sdp"
         android:layout_below="@id/etvProductSearch"
         android:layout_marginBottom="@dimen/_10sdp"/>
 
@@ -54,7 +59,7 @@
         android:layout_marginTop="@dimen/_10sdp"
         android:layout_marginEnd="@dimen/_10sdp"
         android:layout_marginBottom="@dimen/_10sdp"
-        android:background="@drawable/btn"
+        android:backgroundTint="#f6bc13"
         android:src="@drawable/baseline_add_24"/>
 
 </RelativeLayout>

@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import com.example.Category.SearchCategoryActivity;
 import com.example.Product.SearchProductActivity;
+import com.example.ProductCatalogue.ProductCatalogueActivity;
 import com.example.SignInSignUp.PreferenceManager;
 import com.example.SignInSignUp.SignInSignUpActivity;
 import com.example.SubCategory.SearchSubCategoryActivity;

@@ -13,28 +13,32 @@
         android:orientation="vertical">
 
         <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="@dimen/_5sdp"
-            android:hint="Veg/Non-Veg" />
-
-        <TextView
+            android:id="@+id/txtCatalogPName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/_5sdp"
             android:hint="Product Name" />
 
         <TextView
+            android:id="@+id/txtCatalogPPrice"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/_5sdp"
             android:hint="Product Price" />
 
         <TextView
+            android:id="@+id/txtCatalogPDesc"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/_5sdp"
             android:hint="Product Description" />
+
+        <TextView
+            android:id="@+id/txtCatalogPIsVeg"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/_5sdp"
+            android:hint="Veg/Non-Veg" />
 
     </LinearLayout>
 
@@ -44,6 +48,7 @@
         android:layout_weight="1">
 
         <ImageView
+            android:id="@+id/imgCatalogProduct"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@color/white" />

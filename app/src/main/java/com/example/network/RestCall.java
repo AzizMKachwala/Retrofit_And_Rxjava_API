@@ -1,5 +1,6 @@
 package com.example.network;
 
+import com.example.networkResponse.Catalogue.ProductListRes;
 import com.example.networkResponse.ProductListResponse;
 import com.example.networkResponse.UserResponse;
 import com.example.networkResponse.cate.CategoryListResponse;
@@ -144,7 +145,7 @@ public interface RestCall {
 
     @FormUrlEncoded
     @POST("ProductController.php")
-    Single<ProductListResponse> GetCatalog(
+    Single<ProductListRes> GetCatalog(
             @Field("tag") String tag,
             @Field("user_id") String user_id);
 

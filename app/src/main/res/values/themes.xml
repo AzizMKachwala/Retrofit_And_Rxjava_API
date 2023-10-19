@@ -18,12 +18,12 @@
         <item name="android:minLines">1</item>
     </style>
 
-<!--    <style name="SignEtv">-->
-<!--        <item name="android:background">@drawable/etv</item>-->
-<!--    </style>-->
+    <style name="SignEtv">
+        <item name="android:background">@drawable/etv</item>
+    </style>
 
-<!--    <style name="SignBtn">-->
-<!--        <item name="android:background">@drawable/btn</item>-->
-<!--    </style>-->
+    <style name="SignBtn">
+        <item name="android:background">@drawable/btn</item>
+    </style>
 
 </resources>
