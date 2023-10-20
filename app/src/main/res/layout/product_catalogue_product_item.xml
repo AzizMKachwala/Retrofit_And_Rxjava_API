@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="@dimen/_10sdp">
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/txtProductCatalogueProductName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/_5sdp"
+            android:hint="Product Name" />
+
+        <TextView
+            android:id="@+id/txtProductCatalogueProductPrice"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/_5sdp"
+            android:hint="Product Price"/>
+
+        <TextView
+            android:id="@+id/txtProductCatalogueProductDesc"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/_5sdp"
+            android:hint="Product Description"/>
+
+        <TextView
+            android:id="@+id/txtProductCatalogueProductIsVeg"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:hint="Veg/Non-Veg"
+            android:padding="@dimen/_5sdp"/>
+
+    </LinearLayout>
+
+    <ImageView
+        android:id="@+id/imgProductCatalogueProductImage"
+        android:layout_width="0dp"
+        android:layout_height="@dimen/_120sdp"
+        android:layout_weight="1"
+        android:src="@drawable/bg"/>
+
+</LinearLayout>

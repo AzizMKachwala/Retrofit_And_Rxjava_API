@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.ProductCatalog.ProductCatalogActivity"
+    android:background="#293859"
+    android:padding="@dimen/_10sdp"
+    android:orientation="vertical">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="PRODUCT CATALOGUE"
+        android:minHeight="@dimen/_30sdp"
+        android:layout_marginBottom="@dimen/_10sdp"
+        style="@style/EditTextTheme"
+        android:gravity="center"/>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/productCatalogueCategoryRecyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        style="@style/EditTextTheme"
+        android:padding="@dimen/_10sdp"/>
+
+</LinearLayout>

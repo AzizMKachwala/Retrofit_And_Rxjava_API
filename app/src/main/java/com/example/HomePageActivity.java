@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import com.example.Category.SearchCategoryActivity;
 import com.example.Product.SearchProductActivity;
+import com.example.ProductCatalog.ProductCatalogActivity;
 import com.example.SignInSignUp.PreferenceManager;
 import com.example.SignInSignUp.SignInSignUpActivity;
 import com.example.SubCategory.SearchSubCategoryActivity;
@@ -32,7 +33,7 @@ public class HomePageActivity extends AppCompatActivity {
         btnSubCategory = findViewById(R.id.btnSubCategory);
         btnSignOut = findViewById(R.id.btnSignOut);
         btnAddProduct = findViewById(R.id.btnAddProduct);
-//        btnProductCatalogue = findViewById(R.id.btnProductCatalogue);
+        btnProductCatalogue = findViewById(R.id.btnProductCatalogue);
 
         btnCategory.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -58,13 +59,13 @@ public class HomePageActivity extends AppCompatActivity {
             }
         });
 
-//        btnProductCatalogue.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Intent intent = new Intent(HomePageActivity.this, ProductCatalogueActivity.class);
-//                startActivity(intent);
-//            }
-//        });
+        btnProductCatalogue.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(HomePageActivity.this, ProductCatalogActivity.class);
+                startActivity(intent);
+            }
+        });
 
         btnSignOut.setOnClickListener(new View.OnClickListener() {
             @Override

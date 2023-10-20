@@ -1,5 +1,6 @@
 package com.example.network;
 
+import com.example.networkResponse.Catalogue.CatalogListResponse;
 import com.example.networkResponse.ProductListResponse;
 import com.example.networkResponse.UserResponse;
 import com.example.networkResponse.cate.CategoryListResponse;
@@ -142,11 +143,11 @@ public interface RestCall {
             @Part("is_veg") RequestBody is_veg,
             @Part("user_id") RequestBody user_id,
             @Part MultipartBody.Part product_image);
-//
-//    @FormUrlEncoded
-//    @POST("ProductController.php")
-//    Single<CatalogListResponse> GetCatalog(
-//            @Field("tag") String tag,
-//            @Field("user_id") String user_id);
+
+    @FormUrlEncoded
+    @POST("ProductController.php")
+    Single<CatalogListResponse> GetCatalog(
+            @Field("tag") String tag,
+            @Field("user_id") String user_id);
 
 }

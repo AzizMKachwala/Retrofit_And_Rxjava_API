@@ -23,33 +23,37 @@
         <TextView
             android:id="@+id/txtProductName"
             android:layout_width="wrap_content"
-            android:layout_height="0dp"
+            android:layout_height="wrap_content"
             android:layout_weight="1"
             android:padding="@dimen/_5sdp"
+            android:textSize="@dimen/_15sdp"
             android:hint="Product Name"/>
 
         <TextView
             android:id="@+id/txtProductPrice"
             android:layout_width="wrap_content"
-            android:layout_height="0dp"
+            android:layout_height="wrap_content"
             android:layout_weight="1"
             android:padding="@dimen/_5sdp"
+            android:textSize="@dimen/_10sdp"
             android:hint="Product Price" />
 
         <TextView
             android:id="@+id/txtProductDescription"
             android:layout_width="wrap_content"
-            android:layout_height="0dp"
+            android:layout_height="wrap_content"
             android:layout_weight="1"
             android:padding="@dimen/_5sdp"
+            android:textSize="@dimen/_10sdp"
             android:hint="Product Description" />
 
         <TextView
             android:id="@+id/txtProductVegNonVeg"
             android:layout_width="wrap_content"
-            android:layout_height="0dp"
+            android:layout_height="wrap_content"
             android:layout_weight="1"
             android:padding="@dimen/_5sdp"
+            android:textSize="@dimen/_10sdp"
             android:hint="Veg - NonVeg" />
 
     </LinearLayout>
