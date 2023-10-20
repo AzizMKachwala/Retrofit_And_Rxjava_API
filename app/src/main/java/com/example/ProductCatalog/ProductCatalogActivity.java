@@ -54,31 +54,25 @@ public class ProductCatalogActivity extends AppCompatActivity {
 
                     @Override
                     public void onError(Throwable e) {
-                        runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                tools.stopLoading();
-                                Toast.makeText(ProductCatalogActivity.this, "" + e.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
-                            }
+                        runOnUiThread(() -> {
+                            tools.stopLoading();
+                            Toast.makeText(ProductCatalogActivity.this, "" + e.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
                         });
                     }
 
                     @Override
                     public void onNext(CatalogListResponse catalogListResponse) {
-                        runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                tools.stopLoading();
-                                if (catalogListResponse.getStatus().equalsIgnoreCase(VariableBag.SUCCESS_RESULT)
-                                        && catalogListResponse.getCategoryList() != null
-                                        && catalogListResponse.getCategoryList().size() > 0) {
+                        runOnUiThread(() -> {
+                            tools.stopLoading();
+                            if (catalogListResponse.getStatus().equalsIgnoreCase(VariableBag.SUCCESS_RESULT)
+                                    && catalogListResponse.getCategoryList() != null
+                                    && catalogListResponse.getCategoryList().size() > 0) {
 //                                    Toast.makeText(ProductCatalogActivity.this, "CATALOGUE", Toast.LENGTH_SHORT).show();
 
-                                    RecyclerView.LayoutManager layoutManager =new LinearLayoutManager(ProductCatalogActivity.this);
-                                    productCatalogueCategoryAdapter = new ProductCatalogueCategoryAdapter(ProductCatalogActivity.this,catalogListResponse.getCategoryList());
-                                    productCatalogueCategoryRecyclerView.setLayoutManager(layoutManager);
-                                    productCatalogueCategoryRecyclerView.setAdapter(productCatalogueCategoryAdapter);
-                                }
+                                RecyclerView.LayoutManager layoutManager =new LinearLayoutManager(ProductCatalogActivity.this);
+                                productCatalogueCategoryAdapter = new ProductCatalogueCategoryAdapter(ProductCatalogActivity.this,catalogListResponse.getCategoryList());
+                                productCatalogueCategoryRecyclerView.setLayoutManager(layoutManager);
+                                productCatalogueCategoryRecyclerView.setAdapter(productCatalogueCategoryAdapter);
                             }
                         });
                     }
