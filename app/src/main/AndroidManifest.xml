@@ -32,9 +32,6 @@
             android:name="com.example.ProductCatalog.ProductCatalogActivity"
             android:exported="false" />
         <activity
-            android:name="com.example.ProductCatalogue.ProductCatalogueActivity"
-            android:exported="false" />
-        <activity
             android:name="com.example.Product.SearchProductActivity"
             android:exported="false" />
         <activity
