@@ -1,6 +1,8 @@
 package com.example.ProductCatalog;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +13,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.AppUtils.Tools;
+import com.example.AppUtils.VariableBag;
 import com.example.networkResponse.Catalogue.CatalogListResponse;
 import com.example.retrofitandrxjavaapidemo.R;
 
@@ -34,15 +37,27 @@ public class ProductCatalogueProductAdapter extends RecyclerView.Adapter<Product
         return new ProductCatalogueProductViewHolder(view);
     }
 
+    @SuppressLint("SetTextI18n")
     @Override
     public void onBindViewHolder(@NonNull ProductCatalogueProductViewHolder holder, int position) {
 
         holder.txtProductCatalogueProductName.setText(productList.get(position).getProductName());
-        holder.txtProductCatalogueProductPrice.setText(productList.get(position).getProductPrice());
+        holder.txtProductCatalogueProductPrice.setText(VariableBag.CURRENCY + productList.get(position).getProductPrice());
         holder.txtProductCatalogueProductDesc.setText(productList.get(position).getProductDesc());
-        holder.txtProductCatalogueProductIsVeg.setText(productList.get(position).getIsVeg());
+//        holder.txtProductCatalogueProductIsVeg.setText(productList.get(position).getIsVeg());
 
-        Tools.DisplayImage(context,holder.imgProductCatalogueProductImage,productList.get(position).getProductImage());
+        int txtIsVeg = Integer.parseInt(productList.get(position).getIsVeg());
+
+        Log.d("TextIsVeg", String.valueOf(txtIsVeg));
+
+        if (txtIsVeg == 0){
+            holder.txtProductCatalogueProductIsVeg.setText("Veg");
+        }
+        else if(txtIsVeg == 1){
+            holder.txtProductCatalogueProductIsVeg.setText("Non-Veg");
+        }
+
+        Tools.DisplayImage(context, holder.imgProductCatalogueProductImage, productList.get(position).getProductImage());
 
     }
 

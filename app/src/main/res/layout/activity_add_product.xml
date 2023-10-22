@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/bg1"
     android:orientation="vertical"
     android:padding="@dimen/_10sdp"
     tools:context="com.example.Product.AddProductActivity">
@@ -12,47 +13,54 @@
         android:id="@+id/lytSpinner"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/_10sdp"
         android:orientation="horizontal"
-        android:padding="@dimen/_5sdp"
-        android:layout_marginBottom="@dimen/_10sdp">
+        android:padding="@dimen/_5sdp">
 
         <androidx.appcompat.widget.AppCompatSpinner
             android:id="@+id/selectedCategorySpinnerProduct"
+            style="@style/Widget.AppCompat.Spinner.Underlined"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="1" />
+            android:layout_weight="1"
+            android:backgroundTintMode="add"
+            android:minHeight="@dimen/_40sdp" />
 
         <androidx.appcompat.widget.AppCompatSpinner
             android:id="@+id/selectedSubCategorySpinnerProduct"
+            style="@style/Widget.AppCompat.Spinner.Underlined"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="1" />
+            android:layout_weight="1"
+            android:backgroundTintMode="add"
+            android:minHeight="@dimen/_40sdp" />
     </LinearLayout>
 
-        <com.google.android.material.textfield.TextInputLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textColorHint="@color/black"
-            app:boxBackgroundColor="#fff4ff"
-            app:hintAnimationEnabled="true"
-            app:hintTextAppearance="@style/TextAppearance.AppCompat.Caption"
-            app:hintTextColor="@color/black">
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColorHint="@color/black"
+        app:boxBackgroundColor="#fff4ff"
+        app:hintAnimationEnabled="true"
+        app:hintTextAppearance="@style/TextAppearance.AppCompat.Caption"
+        app:hintTextColor="@color/black">
 
-            <ImageView
-                android:id="@+id/imgProduct"
-                android:layout_width="@dimen/_100sdp"
-                android:layout_height="@dimen/_100sdp"
-                android:layout_gravity="center"
-                android:background="@color/white"/>
+        <ImageView
+            android:id="@+id/imgProduct"
+            style="@style/Widget.AppCompat.Button"
+            android:layout_width="@dimen/_100sdp"
+            android:layout_height="@dimen/_100sdp"
+            android:layout_gravity="center"
+            android:background="@color/white" />
 
-            <ImageView
-                android:id="@+id/imgEditProduct"
-                android:layout_width="@dimen/_30sdp"
-                android:layout_height="@dimen/_30sdp"
-                android:layout_gravity="right"
-                android:src="@drawable/baseline_camera_alt_24" />
+        <ImageView
+            android:id="@+id/imgEditProduct"
+            android:layout_width="@dimen/_30sdp"
+            android:layout_height="@dimen/_30sdp"
+            android:layout_gravity="right"
+            android:src="@drawable/baseline_camera_alt_24" />
 
-        </com.google.android.material.textfield.TextInputLayout>
+    </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
         android:layout_width="match_parent"
@@ -62,13 +70,13 @@
             android:id="@+id/etvProductName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/_5sdp"
+            android:hint="Enter Product Name*"
             android:imeOptions="actionNext"
             android:inputType="textAutoComplete"
-            android:minLines="1"
-            android:hint="Enter Product Name*"
             android:minHeight="@dimen/_48sdp"
+            android:minLines="1"
             android:padding="@dimen/_10sdp"
-            android:layout_marginBottom="@dimen/_5sdp"
             android:textColorHint="#000" />
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -86,14 +94,14 @@
                 android:id="@+id/etvProductPrice"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginRight="@dimen/_5sdp"
+                android:layout_marginBottom="@dimen/_5sdp"
                 android:hint="Enter Price*"
                 android:imeOptions="actionNext"
                 android:inputType="number"
-                android:layout_marginRight="@dimen/_5sdp"
                 android:minHeight="@dimen/_48sdp"
                 android:minLines="1"
-                android:padding="@dimen/_5sdp"
-                android:layout_marginBottom="@dimen/_5sdp"/>
+                android:padding="@dimen/_5sdp" />
 
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -126,10 +134,10 @@
             android:id="@+id/etvProductDescription"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/_10sdp"
             android:hint="Enter Description*"
             android:inputType="textAutoComplete"
             android:minHeight="@dimen/_48sdp"
-            android:layout_marginBottom="@dimen/_10sdp"
             android:padding="@dimen/_10sdp" />
 
     </com.google.android.material.textfield.TextInputLayout>
@@ -144,19 +152,17 @@
             android:id="@+id/btnCancel"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:background="@drawable/btn"
-            android:backgroundTint="#AA9F9F"
             android:layout_weight="1"
-            android:text="Cancel"/>
+            android:backgroundTint="#F10E09"
+            android:text="Cancel" />
 
         <Button
             android:id="@+id/btnSubmit"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:background="@drawable/btn"
-            android:backgroundTint="#43A047"
             android:layout_weight="1"
-            android:text="Submit"/>
+            android:backgroundTint="#f6bc13"
+            android:text="Submit" />
 
     </LinearLayout>
 

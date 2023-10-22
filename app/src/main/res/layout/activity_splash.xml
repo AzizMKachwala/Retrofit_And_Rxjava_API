@@ -4,31 +4,36 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.SplashActivity"
+    tools:context="com.example.StartUp.SplashActivity"
     android:orientation="vertical"
-    android:background="#293859"
+    android:background="@drawable/bg1"
     android:gravity="center">
 
-    <ImageView
-        android:layout_width="@dimen/_100sdp"
-        android:layout_height="@dimen/_100sdp"
-        android:src="@drawable/icon"
-        android:layout_marginBottom="@dimen/_10sdp"/>
-
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:gravity="center"
-        android:text="Category"
-        android:textColor="#0288D1"
+        android:gravity="bottom"
+        android:text="FOOD HUB"
+        style="@style/Widget.AppCompat.Button.Borderless"
+        android:textColor="#F4511E"
+        android:textStyle="bold|italic"
         android:textSize="@dimen/_50sdp" />
 
+    <ImageView
+        android:layout_width="@dimen/_120sdp"
+        android:layout_height="@dimen/_120sdp"
+        android:src="@drawable/food"
+        android:layout_marginTop="@dimen/_30sdp"
+        android:layout_marginBottom="@dimen/_30sdp"/>
+
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:gravity="center"
-        android:text="Sub - Category"
-        android:textColor="#0288D1"
+        android:text="VENDOR"
+        style="@style/Widget.AppCompat.Button.Borderless"
+        android:textStyle="bold|italic"
+        android:textColor="#E53935"
         android:textSize="@dimen/_40sdp" />
 
 </LinearLayout>

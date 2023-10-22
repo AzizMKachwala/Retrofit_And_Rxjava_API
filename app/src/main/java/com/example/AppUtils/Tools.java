@@ -57,8 +57,7 @@ public class Tools {
     public static void DisplayImage(Context context, ImageView img, String urlImg) {
         Glide.with(context)
                 .load(urlImg)
-                .apply(new RequestOptions().placeholder(R.drawable.ic_launcher_foreground)
-                        .error(R.drawable.bg))
+                .apply(new RequestOptions().placeholder(R.drawable.ic_launcher_foreground).error(R.drawable.bg))
                 .into(img);
     }
 }

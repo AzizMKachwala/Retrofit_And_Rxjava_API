@@ -1,28 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+<androidx.swiperefreshlayout.widget.SwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/swipeRefreshLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.ProductCatalog.ProductCatalogActivity"
-    android:background="#293859"
-    android:padding="@dimen/_10sdp"
-    android:orientation="vertical">
+    tools:context="com.example.ProductCatalog.ProductCatalogActivity">
 
-    <TextView
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="PRODUCT CATALOGUE"
-        android:minHeight="@dimen/_30sdp"
-        android:layout_marginBottom="@dimen/_10sdp"
-        style="@style/EditTextTheme"
-        android:gravity="center"/>
+        android:layout_height="match_parent"
+        android:background="@drawable/bg1"
+        android:orientation="vertical"
+        android:padding="@dimen/_10sdp">
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/productCatalogueCategoryRecyclerView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        style="@style/EditTextTheme"
-        android:padding="@dimen/_10sdp"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/_10sdp"
+            android:background="#f2f1d3"
+            android:gravity="center"
+            android:textStyle="bold|italic"
+            android:imeOptions="actionDone"
+            android:inputType="textAutoComplete"
+            android:textSize="@dimen/_20sdp"
+            android:minLines="1"
+            android:text="PRODUCT CATALOGUE" />
 
-</LinearLayout>
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/productCatalogueCategoryRecyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/_10sdp" />
+
+    </LinearLayout>
+</androidx.swiperefreshlayout.widget.SwipeRefreshLayout>

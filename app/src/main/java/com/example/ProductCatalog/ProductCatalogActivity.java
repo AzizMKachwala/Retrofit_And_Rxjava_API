@@ -3,6 +3,7 @@ package com.example.ProductCatalog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
@@ -26,6 +27,7 @@ public class ProductCatalogActivity extends AppCompatActivity {
     PreferenceManager preferenceManager;
     ProductCatalogueCategoryAdapter productCatalogueCategoryAdapter;
     RecyclerView productCatalogueCategoryRecyclerView;
+    SwipeRefreshLayout swipeRefreshLayout;
 
     @SuppressLint("MissingInflatedId")
     @Override
@@ -37,6 +39,14 @@ public class ProductCatalogActivity extends AppCompatActivity {
         tools = new Tools(this);
         preferenceManager = new PreferenceManager(this);
         productCatalogueCategoryRecyclerView = findViewById(R.id.productCatalogueCategoryRecyclerView);
+        swipeRefreshLayout = findViewById(R.id.swipeRefreshLayout);
+
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                getCatalog();
+            }
+        });
 
         getCatalog();
     }
@@ -55,8 +65,8 @@ public class ProductCatalogActivity extends AppCompatActivity {
                     @Override
                     public void onError(Throwable e) {
                         runOnUiThread(() -> {
-                            tools.stopLoading();
                             Toast.makeText(ProductCatalogActivity.this, "" + e.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
+                            swipeRefreshLayout.setRefreshing(false);
                         });
                     }
 
@@ -66,7 +76,8 @@ public class ProductCatalogActivity extends AppCompatActivity {
                             tools.stopLoading();
                             if (catalogListResponse.getStatus().equalsIgnoreCase(VariableBag.SUCCESS_RESULT)
                                     && catalogListResponse.getCategoryList() != null
-                                    && catalogListResponse.getCategoryList().size() > 0) {
+                                    && catalogListResponse.getCategoryList().size() > 0)
+                            {
 //                                    Toast.makeText(ProductCatalogActivity.this, "CATALOGUE", Toast.LENGTH_SHORT).show();
 
                                 RecyclerView.LayoutManager layoutManager =new LinearLayoutManager(ProductCatalogActivity.this);
@@ -74,6 +85,7 @@ public class ProductCatalogActivity extends AppCompatActivity {
                                 productCatalogueCategoryRecyclerView.setLayoutManager(layoutManager);
                                 productCatalogueCategoryRecyclerView.setAdapter(productCatalogueCategoryAdapter);
                             }
+                            swipeRefreshLayout.setRefreshing(false);
                         });
                     }
                 });

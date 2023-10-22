@@ -1,15 +1,19 @@
 package com.example.SignInSignUp.fragment;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 
+import android.text.method.HideReturnsTransformationMethod;
+import android.text.method.PasswordTransformationMethod;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.example.SignInSignUp.SignInSignUpActivity;
@@ -28,6 +32,8 @@ public class SignUpFragment extends Fragment {
     EditText etvFirstName, etvLastName, etvEmail, etvPassword;
     Button btnSignUp, btnResetPassword;
     RestCall restCall;
+    ImageView imgPasswordCloseEye;
+    String password = "Hide";
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -41,6 +47,7 @@ public class SignUpFragment extends Fragment {
         etvPassword = view.findViewById(R.id.etvPassword);
         btnSignUp = view.findViewById(R.id.btnSignUp);
         btnResetPassword = view.findViewById(R.id.btnResetPassword);
+        imgPasswordCloseEye = view.findViewById(R.id.imgPasswordCloseEye);
 
         restCall = RestClient.createService(RestCall.class, VariableBag.BASE_URL, VariableBag.API_KEY);
 
@@ -51,17 +58,61 @@ public class SignUpFragment extends Fragment {
 //            Toast.makeText(getContext(), "InValid Email", Toast.LENGTH_SHORT).show();
 //        }
 
+        imgPasswordCloseEye.setOnClickListener(new View.OnClickListener() {
+            @SuppressLint("UseCompatLoadingForDrawables")
+            @Override
+            public void onClick(View v) {
+
+                if (password.equals("Hide")) {
+                    password = "Show";
+                    etvPassword.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
+                    etvPassword.setSelection(etvPassword.length());
+                    imgPasswordCloseEye.setImageResource(R.drawable.ceye);
+                } else {
+                    password = "Hide";
+                    etvPassword.setTransformationMethod(PasswordTransformationMethod.getInstance());
+                    etvPassword.setSelection(etvPassword.length());
+                    imgPasswordCloseEye.setImageResource(R.drawable.baseline_eye_24);
+                }
+            }
+        });
+
         btnSignUp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (etvFirstName.getText().toString().trim().isEmpty() || etvLastName.getText().toString().trim().isEmpty()
-                        || !Tools.isValidEmail(etvEmail.getText().toString().trim())
-                        || !isValidPassword(etvPassword.getText().toString().trim())) {
-                    Toast.makeText(getContext(), "Enter Valid Details", Toast.LENGTH_SHORT).show();
-                } else {
+//                if (etvFirstName.getText().toString().trim().isEmpty() || etvLastName.getText().toString().trim().isEmpty()
+//                        || !Tools.isValidEmail(etvEmail.getText().toString().trim())
+//                        || !isValidPassword(etvPassword.getText().toString().trim())) {
+//                    Toast.makeText(getContext(), "Enter Valid Details", Toast.LENGTH_SHORT).show();
+//                } else {
+//                    Toast.makeText(getContext(), "Login to Start", Toast.LENGTH_SHORT).show();
+//                    addUser();
+//                }
+
+                if(etvFirstName.getText().toString().trim().isEmpty()){
+                    etvFirstName.setError("Enter First Name");
+                    etvFirstName.requestFocus();
+                }
+                else if (etvLastName.getText().toString().trim().isEmpty()){
+                    etvLastName.setError("Enter Last Name");
+                    etvLastName.requestFocus();
+                }
+                else if (!Tools.isValidEmail(etvEmail.getText().toString().trim())){
+                    etvEmail.setError("Enter Valid Email");
+                    Toast.makeText(getContext(), "Email Address must contain @ and .com in it", Toast.LENGTH_SHORT).show();
+                    etvEmail.requestFocus();
+                }
+                else if (!isValidPassword(etvPassword.getText().toString().trim())) {
+                    etvPassword.setError("Enter Valid Password");
+                    Toast.makeText(getContext(), "Password Must Consist Of Minimum length of 7 with At-least 1 UpperCase," +
+                            "1 LowerCase, 1 Number & 1 Special Character", Toast.LENGTH_SHORT).show();
+                    etvPassword.requestFocus();
+                }
+                else {
                     Toast.makeText(getContext(), "Login to Start", Toast.LENGTH_SHORT).show();
                     addUser();
                 }
+
             }
 
             private boolean isValidPassword(String password) {

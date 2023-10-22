@@ -8,7 +8,7 @@
     android:gravity="center"
     android:orientation="vertical"
     android:padding="@dimen/_10sdp"
-    android:background="#293859"
+    android:background="@drawable/bg1"
     tools:context="com.example.SubCategory.AddSubCategoryActivity">
 
     <TextView
@@ -17,34 +17,54 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="@dimen/_10sdp"
         android:gravity="center"
-        android:background="#FFFFFF"
+        android:textColor="#000"
+        android:textSize="@dimen/_20sdp"
         android:padding="@dimen/_10sdp"
         android:text="Sub Category Name"
-        android:textColor="#000"
         android:textStyle="bold" />
 
     <androidx.appcompat.widget.AppCompatSpinner
         android:id="@+id/selectCategorySpinner"
+        style="@style/Widget.AppCompat.Spinner.Underlined"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/etv"
-        style="@style/EditTextTheme" />
+        android:layout_marginBottom="@dimen/_10sdp"
+        android:backgroundTintMode="add"
+        android:minHeight="48dp" />
 
     <EditText
         android:id="@+id/etvSubCategoryName"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
         style="@style/EditTextTheme"
-        android:hint="Add Sub - Category Name"
-        android:background="@drawable/etv"
-        android:imeOptions="actionDone"
-        android:inputType="textAutoComplete"/>
-
-    <Button
-        android:id="@+id/btnSubAdd"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/btn"
-        android:text="ADD" />
+        android:background="@drawable/etv"
+        android:hint="Add Sub Category Name"
+        android:imeOptions="actionDone"
+        android:inputType="textAutoComplete"
+        android:minHeight="48dp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/_10sdp"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/btnCancel"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:backgroundTint="#F10E09"
+            android:layout_weight="1"
+            android:text="Cancel"/>
+
+        <Button
+            android:id="@+id/btnSubAdd"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:backgroundTint="#f6bc13"
+            android:layout_weight="1"
+            android:text="Add"/>
+
+    </LinearLayout>
 
 </LinearLayout>

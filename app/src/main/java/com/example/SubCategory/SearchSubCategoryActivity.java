@@ -5,7 +5,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatSpinner;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
@@ -43,8 +45,10 @@ public class SearchSubCategoryActivity extends AppCompatActivity {
     Tools tools;
     int selectedPos = 0;
     String selectedCategoryId, selectedCategoryName;
+    SwipeRefreshLayout swipeRefreshLayout;
     com.example.SignInSignUp.PreferenceManager preferenceManager;
 
+    @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -54,6 +58,7 @@ public class SearchSubCategoryActivity extends AppCompatActivity {
         btnAddSubCategory = findViewById(R.id.btnAddSubCategory);
         categorySpinner = findViewById(R.id.categorySpinnerSubCategory);
         subCategoryListRecyclerView = findViewById(R.id.subCategoryListRecyclerView);
+        swipeRefreshLayout = findViewById(R.id.swipeRefreshLayout);
 
         restCall = RestClient.createService(RestCall.class, VariableBag.BASE_URL, VariableBag.API_KEY);
         tools = new Tools(this);
@@ -83,6 +88,12 @@ public class SearchSubCategoryActivity extends AppCompatActivity {
 
         btnAddSubCategory.setOnClickListener(view -> startActivity(new Intent(SearchSubCategoryActivity.this, AddSubCategoryActivity.class)));
 
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                GetSubCategory();
+            }
+        });
     }
 
     @Override
@@ -172,6 +183,7 @@ public class SearchSubCategoryActivity extends AppCompatActivity {
                     @Override
                     public void onError(Throwable e) {
                         runOnUiThread(() -> Toast.makeText(SearchSubCategoryActivity.this, "No Internet", Toast.LENGTH_SHORT).show());
+                        swipeRefreshLayout.setRefreshing(false);
                     }
 
                     @Override
@@ -223,6 +235,7 @@ public class SearchSubCategoryActivity extends AppCompatActivity {
                                     }
                                 });
                             }
+                            swipeRefreshLayout.setRefreshing(false);
                         });
                     }
                 });

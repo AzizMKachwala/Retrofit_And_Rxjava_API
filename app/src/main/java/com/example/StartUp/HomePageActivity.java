@@ -1,4 +1,4 @@
-package com.example;
+package com.example.StartUp;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.example.AppUtils.VariableBag;
 import com.example.Category.SearchCategoryActivity;
 import com.example.Product.SearchProductActivity;
 import com.example.ProductCatalog.ProductCatalogActivity;
@@ -21,6 +22,7 @@ public class HomePageActivity extends AppCompatActivity {
 
     Button btnCategory,btnSubCategory,btnSignOut,btnAddProduct,btnProductCatalogue;
     TextView txtLoginName;
+    PreferenceManager preferenceManager;
 
     @SuppressLint("MissingInflatedId")
     @Override
@@ -34,6 +36,13 @@ public class HomePageActivity extends AppCompatActivity {
         btnSignOut = findViewById(R.id.btnSignOut);
         btnAddProduct = findViewById(R.id.btnAddProduct);
         btnProductCatalogue = findViewById(R.id.btnProductCatalogue);
+
+        preferenceManager = new PreferenceManager(this);
+
+        String name = preferenceManager.getKeyValueString(VariableBag.KEY_FIRSTNAME);
+        String lastname = preferenceManager.getKeyValueString(VariableBag.KEY_LASTNAME);
+
+        txtLoginName.setText(name + " " + lastname);
 
         btnCategory.setOnClickListener(new View.OnClickListener() {
             @Override

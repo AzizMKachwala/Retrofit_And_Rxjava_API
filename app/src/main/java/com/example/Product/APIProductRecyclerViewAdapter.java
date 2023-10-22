@@ -2,6 +2,7 @@ package com.example.Product;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
+import com.example.AppUtils.VariableBag;
 import com.example.networkResponse.ProductListResponse;
 import com.example.retrofitandrxjavaapidemo.R;
 
@@ -50,6 +52,7 @@ public class APIProductRecyclerViewAdapter extends RecyclerView.Adapter<APIProdu
         return new APIProductDataViewHolder(view);
     }
 
+    @SuppressLint("SetTextI18n")
     @Override
     public void onBindViewHolder(@NonNull APIProductDataViewHolder holder, @SuppressLint("RecyclerView") int position) {
         ProductListResponse.Product product = productSearchList.get(position);
@@ -65,10 +68,21 @@ public class APIProductRecyclerViewAdapter extends RecyclerView.Adapter<APIProdu
             e.printStackTrace();
         }
 
-        holder.txtProductName.setText(product.getProductName());
-        holder.txtProductPrice.setText(product.getProductPrice());
-        holder.txtProductDescription.setText(product.getProductDesc());
-        holder.txtProductVegNonVeg.setText(product.getIsVeg());
+        holder.txtProductName.setText(": " + product.getProductName());
+        holder.txtProductPrice.setText(": " + VariableBag.CURRENCY + product.getProductPrice());
+        holder.txtProductDescription.setText(": " + product.getProductDesc());
+        //        holder.txtProductVegNonVeg.setText(": "+txtIsVeg);
+
+        int txtIsVeg = Integer.parseInt(product.getIsVeg());
+
+        Log.d("TextIsVeg", String.valueOf(txtIsVeg));
+
+        if (txtIsVeg == 0){
+            holder.txtProductVegNonVeg.setText(": Veg");
+        }
+        else if(txtIsVeg == 1){
+            holder.txtProductVegNonVeg.setText(": Non-Veg");
+        }
 
         holder.imgEditProduct.setOnClickListener(view -> {
             Toast.makeText(context, "Edit Clicked", Toast.LENGTH_SHORT).show();

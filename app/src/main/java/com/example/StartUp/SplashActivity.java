@@ -1,4 +1,4 @@
-package com.example;
+package com.example.StartUp;
 
 import androidx.appcompat.app.AppCompatActivity;
 

@@ -8,7 +8,7 @@
     android:gravity="center"
     android:orientation="vertical"
     android:padding="@dimen/_10sdp"
-    android:background="#293859"
+    android:background="@drawable/bg1"
     tools:context="com.example.Category.AddCategoryActivity">
 
     <TextView
@@ -17,37 +17,45 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="@dimen/_10sdp"
         android:gravity="center"
-        android:background="#FFFFFF"
         android:padding="@dimen/_10sdp"
         android:text="Category Name"
         android:textColor="#000"
+        android:textSize="@dimen/_20sdp"
         android:textStyle="bold" />
 
     <EditText
         android:id="@+id/etvCategoryName"
+        style="@style/EditTextTheme"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Add Category Name"
         android:background="@drawable/etv"
-        style="@style/EditTextTheme"/>
+        android:hint="Add Category Name"
+        android:imeOptions="actionDone"
+        android:inputType="textAutoComplete"
+        android:minHeight="48dp" />
 
-    <Button
-        android:id="@+id/btnAdd"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/btn"
-        android:text="ADD" />
+        android:layout_marginBottom="@dimen/_10sdp"
+        android:orientation="horizontal">
 
-<!--    <com.google.android.material.textfield.TextInputLayout-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:background="#FFFFFF">-->
-<!--    -->
-<!--    <com.google.android.material.textfield.TextInputEditText-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:hint="ENTER CATEGORY NAME"/>-->
+        <Button
+            android:id="@+id/btnCancel"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:backgroundTint="#F10E09"
+            android:layout_weight="1"
+            android:text="Cancel"/>
 
-<!--    </com.google.android.material.textfield.TextInputLayout>-->
+        <Button
+            android:id="@+id/btnAdd"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:backgroundTint="#f6bc13"
+            android:layout_weight="1"
+            android:text="Add"/>
+
+    </LinearLayout>
 
 </LinearLayout>

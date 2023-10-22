@@ -30,7 +30,7 @@ public class AddSubCategoryActivity extends AppCompatActivity {
 
     EditText etvSubCategoryName;
     AppCompatSpinner selectCategorySpinner;
-    Button btnSubAdd;
+    Button btnSubAdd,btnCancel;
     RestCall restCall;
     Tools tools;
     boolean isEdit = false;
@@ -46,6 +46,7 @@ public class AddSubCategoryActivity extends AppCompatActivity {
         etvSubCategoryName = findViewById(R.id.etvSubCategoryName);
         selectCategorySpinner = findViewById(R.id.selectCategorySpinner);
         btnSubAdd = findViewById(R.id.btnSubAdd);
+        btnCancel = findViewById(R.id.btnCancel);
 
         restCall = RestClient.createService(RestCall.class, VariableBag.BASE_URL, VariableBag.API_KEY);
         tools = new Tools(this);
@@ -63,11 +64,20 @@ public class AddSubCategoryActivity extends AppCompatActivity {
             subcategory_name = bundle.getString("subCategoryName");
 
             etvSubCategoryName.setText(subcategory_name);
+            selectCategorySpinner.setEnabled(false);
+
             btnSubAdd.setText("Edit");
         } else {
             isEdit = false;
             btnSubAdd.setText("Add");
         }
+
+        btnCancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
 
         btnSubAdd.setOnClickListener(view -> {
             if (selectCategorySpinner != null && etvSubCategoryName.getText().toString().trim().equalsIgnoreCase("")) {
@@ -119,7 +129,7 @@ public class AddSubCategoryActivity extends AppCompatActivity {
 
     private void editSubCategoryCall() {
         tools.showLoading();
-        restCall.EditSubCategory("EditSubCategory", selectedCategoryId,
+        restCall.EditSubCategory("EditSubCategory", category_id,
                         etvSubCategoryName.getText().toString(), selectedSubCategoryId, preferenceManager.getUserId())
                 .subscribeOn(Schedulers.io())
                 .observeOn(Schedulers.newThread())
@@ -138,7 +148,6 @@ public class AddSubCategoryActivity extends AppCompatActivity {
                     public void onNext(SubCategoryListResponse subCategoryListResponse) {
                         runOnUiThread(() -> {
                             tools.stopLoading();
-                            Toast.makeText(AddSubCategoryActivity.this, "Select Category to Edit", Toast.LENGTH_SHORT).show();
                             if (subCategoryListResponse.getStatus().equalsIgnoreCase(VariableBag.SUCCESS_RESULT)) {
                                 etvSubCategoryName.setText("");
 

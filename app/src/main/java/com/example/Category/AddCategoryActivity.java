@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -23,7 +24,7 @@ import rx.schedulers.Schedulers;
 public class AddCategoryActivity extends AppCompatActivity {
 
     EditText etvCategoryName;
-    Button btnAdd;
+    Button btnAdd,btnCancel;
     RestCall restCall;
     Tools tools;
     boolean isEdit = false;
@@ -37,6 +38,7 @@ public class AddCategoryActivity extends AppCompatActivity {
 
         etvCategoryName = findViewById(R.id.etvCategoryName);
         btnAdd = findViewById(R.id.btnAdd);
+        btnCancel = findViewById(R.id.btnCancel);
         preferenceManager = new PreferenceManager(this);
 
         restCall = RestClient.createService(RestCall.class, VariableBag.BASE_URL, VariableBag.API_KEY);
@@ -57,6 +59,13 @@ public class AddCategoryActivity extends AppCompatActivity {
             btnAdd.setText("Add");
         }
 
+        btnCancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
+
         btnAdd.setOnClickListener(view -> {
             if (etvCategoryName.getText().toString().trim().equalsIgnoreCase("")) {
                 etvCategoryName.setError("Enter Category Name");
@@ -64,10 +73,8 @@ public class AddCategoryActivity extends AppCompatActivity {
             } else {
                 if (isEdit) {
                     editCategoryCall();
-                    finish();
                 } else {
                     addCategoryCall();
-                    finish();
                 }
             }
         });

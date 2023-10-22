@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    android:padding="@dimen/_5sdp">
 
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
@@ -20,20 +21,10 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_gravity="center"
+                android:gravity="center"
                 android:layout_weight="1"
                 android:hint="Sub Category Name"
-                android:paddingLeft="@dimen/_10sdp"
                 android:textSize="@dimen/_20sdp" />
-
-<!--            <TextView-->
-<!--                android:id="@+id/txtSubCategoryId"-->
-<!--                android:layout_width="0dp"-->
-<!--                android:layout_height="match_parent"-->
-<!--                android:layout_gravity="center"-->
-<!--                android:layout_weight="1"-->
-<!--                android:hint="SCID"-->
-<!--                android:paddingLeft="@dimen/_10sdp"-->
-<!--                android:textSize="@dimen/_20sdp" />-->
 
             <ImageView
                 android:id="@+id/imgEditSubCategory"

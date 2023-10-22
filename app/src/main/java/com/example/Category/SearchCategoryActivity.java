@@ -4,6 +4,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
@@ -32,6 +33,7 @@ public class SearchCategoryActivity extends AppCompatActivity {
     RecyclerView categoryListRecyclerView;
     APICategoryRecyclerViewAdapter apiRecyclerViewAdapter;
     FloatingActionButton btnAddCategory;
+    SwipeRefreshLayout swipeRefreshLayout;
     RestCall restCall;
     Tools tools;
     com.example.SignInSignUp.PreferenceManager preferenceManager;
@@ -45,6 +47,7 @@ public class SearchCategoryActivity extends AppCompatActivity {
         etvSearch = findViewById(R.id.etvCategorySearch);
         categoryListRecyclerView = findViewById(R.id.categoryListRecyclerView);
         btnAddCategory = findViewById(R.id.btnAddCategory);
+        swipeRefreshLayout = findViewById(R.id.swipeRefreshLayout);
 
         categoryListRecyclerView.setLayoutManager(new LinearLayoutManager(SearchCategoryActivity.this));
 
@@ -77,6 +80,8 @@ public class SearchCategoryActivity extends AppCompatActivity {
             Intent intent = new Intent(SearchCategoryActivity.this, AddCategoryActivity.class);
             startActivity(intent);
         });
+
+        swipeRefreshLayout.setOnRefreshListener(this::getCategoryCall);
     }
 
     @Override
@@ -99,7 +104,10 @@ public class SearchCategoryActivity extends AppCompatActivity {
                     @Override
                     public void onError(Throwable e) {
 
-                        runOnUiThread(() -> Toast.makeText(SearchCategoryActivity.this, "Error fetching Category list", Toast.LENGTH_SHORT).show());
+                        runOnUiThread(() -> {
+                            Toast.makeText(SearchCategoryActivity.this, "Error fetching Category list", Toast.LENGTH_SHORT).show();
+                            swipeRefreshLayout.setRefreshing(false);
+                        });
                     }
 
                     @Override
@@ -152,6 +160,7 @@ public class SearchCategoryActivity extends AppCompatActivity {
                             } else {
                                 Toast.makeText(SearchCategoryActivity.this, categoryListResponse.getMessage(), Toast.LENGTH_SHORT).show();
                             }
+                            swipeRefreshLayout.setRefreshing(false);
                         });
                     }
                 });
@@ -200,7 +209,9 @@ public class SearchCategoryActivity extends AppCompatActivity {
 
                     @Override
                     public void onError(Throwable e) {
-                        runOnUiThread(() -> Toast.makeText(SearchCategoryActivity.this, "No Internet", Toast.LENGTH_SHORT).show());
+                        runOnUiThread(() -> {
+                            Toast.makeText(SearchCategoryActivity.this, "No Internet", Toast.LENGTH_SHORT).show();
+                        });
                     }
 
                     @Override

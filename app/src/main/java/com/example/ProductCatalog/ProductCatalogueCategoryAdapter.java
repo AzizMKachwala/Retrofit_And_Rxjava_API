@@ -1,9 +1,12 @@
 package com.example.ProductCatalog;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -18,6 +21,7 @@ public class ProductCatalogueCategoryAdapter extends RecyclerView.Adapter<Produc
 
     Context context;
     List<CatalogListResponse.Category> categoryList;
+    boolean hideShow = true;
 
     public ProductCatalogueCategoryAdapter(Context context, List<CatalogListResponse.Category> categoryList) {
         this.context = context;
@@ -32,13 +36,48 @@ public class ProductCatalogueCategoryAdapter extends RecyclerView.Adapter<Produc
         return new ProductCatalogueCategoryViewHolder(view);
     }
 
+    @SuppressLint("SetTextI18n")
     @Override
     public void onBindViewHolder(@NonNull ProductCatalogueCategoryViewHolder holder, int position) {
 
+        holder.txtProductCatalogueCategoryName.setText(categoryList.get(position).getCategoryName() + " (" + categoryList.get(position).getSubCategoryList().size() + ")");
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(context);
         ProductCatalogueSubCategoryAdapter productCatalogueSubCategoryAdapter = new ProductCatalogueSubCategoryAdapter(context, categoryList.get(position).getSubCategoryList());
         holder.productCatalogueSubCategoryRecyclerView.setLayoutManager(layoutManager);
         holder.productCatalogueSubCategoryRecyclerView.setAdapter(productCatalogueSubCategoryAdapter);
+
+        holder.txtProductCatalogueCategoryName.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(hideShow == true){
+                    holder.productCatalogueSubCategoryRecyclerView.setVisibility(View.VISIBLE);
+                    holder.imgUpDown.setImageResource(R.drawable.up);
+                    hideShow = false;
+                }
+                else {
+                    holder.productCatalogueSubCategoryRecyclerView.setVisibility(View.GONE);
+                    holder.imgUpDown.setImageResource(R.drawable.down);
+                    hideShow = true;
+                }
+            }
+        });
+
+        holder.imgUpDown.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(hideShow == true){
+                    holder.productCatalogueSubCategoryRecyclerView.setVisibility(View.VISIBLE);
+                    holder.imgUpDown.setImageResource(R.drawable.up);
+                    hideShow = false;
+                }
+                else {
+                    holder.productCatalogueSubCategoryRecyclerView.setVisibility(View.GONE);
+                    holder.imgUpDown.setImageResource(R.drawable.down);
+                    hideShow = true;
+                }
+            }
+        });
+
     }
 
     @Override
@@ -49,11 +88,15 @@ public class ProductCatalogueCategoryAdapter extends RecyclerView.Adapter<Produc
     public class ProductCatalogueCategoryViewHolder extends RecyclerView.ViewHolder{
 
         RecyclerView productCatalogueSubCategoryRecyclerView;
+        TextView txtProductCatalogueCategoryName;
+        ImageView imgUpDown;
 
         public ProductCatalogueCategoryViewHolder(@NonNull View itemView) {
             super(itemView);
 
+            txtProductCatalogueCategoryName = itemView.findViewById(R.id.txtProductCatalogueCategoryName);
             productCatalogueSubCategoryRecyclerView = itemView.findViewById(R.id.productCatalogueSubCategoryRecyclerView);
+            imgUpDown = itemView.findViewById(R.id.imgUpDown);
         }
     }
 }

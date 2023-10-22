@@ -57,7 +57,7 @@
             android:isScrollContainer="true"
             android:windowSoftInputMode="stateVisible|adjustPan" />
         <activity
-            android:name="com.example.SplashActivity"
+            android:name="com.example.StartUp.SplashActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -72,7 +72,7 @@
             android:name="com.example.SubCategory.AddSubCategoryActivity"
             android:exported="false" />
         <activity
-            android:name="com.example.HomePageActivity"
+            android:name="com.example.StartUp.HomePageActivity"
             android:exported="true" />
         <activity
             android:name="com.example.Category.SearchCategoryActivity"

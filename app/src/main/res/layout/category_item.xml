@@ -21,9 +21,9 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_gravity="center"
+                android:gravity="center"
                 android:layout_weight="1"
-                android:hint="CATEGORY NAME"
-                android:paddingLeft="@dimen/_10sdp"
+                android:hint="Category Name"
                 android:textSize="@dimen/_20sdp" />
 
             <com.google.android.material.switchmaterial.SwitchMaterial

@@ -1,18 +1,22 @@
 package com.example.SignInSignUp.fragment;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 
+import android.text.method.HideReturnsTransformationMethod;
+import android.text.method.PasswordTransformationMethod;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Toast;
 
-import com.example.HomePageActivity;
+import com.example.StartUp.HomePageActivity;
 import com.example.SignInSignUp.PreferenceManager;
 import com.example.AppUtils.VariableBag;
 import com.example.network.RestCall;
@@ -29,6 +33,8 @@ public class SignInFragment extends Fragment {
     Button btnSignIn, btnResetPassword;
     RestCall restCall;
     com.example.SignInSignUp.PreferenceManager preferenceManager;
+    ImageView imgPasswordCloseEye;
+    String password = "Hide";
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -39,6 +45,7 @@ public class SignInFragment extends Fragment {
         etvPassword = view.findViewById(R.id.etvPassword);
         btnSignIn = view.findViewById(R.id.btnSignIn);
         btnResetPassword = view.findViewById(R.id.btnResetPassword);
+        imgPasswordCloseEye = view.findViewById(R.id.imgPasswordCloseEye);
 
         restCall = RestClient.createService(RestCall.class, VariableBag.BASE_URL, VariableBag.API_KEY);
 
@@ -48,7 +55,6 @@ public class SignInFragment extends Fragment {
             startActivity(new Intent(getContext(), HomePageActivity.class));
             getActivity().finish();
         }
-
 
         btnSignIn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -61,6 +67,25 @@ public class SignInFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 Toast.makeText(getContext(), "RESET MY PASSWORD CLICKED", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        imgPasswordCloseEye.setOnClickListener(new View.OnClickListener() {
+            @SuppressLint("UseCompatLoadingForDrawables")
+            @Override
+            public void onClick(View v) {
+
+                if (password.equals("Hide")) {
+                    password = "Show";
+                    etvPassword.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
+                    etvPassword.setSelection(etvPassword.length());
+                    imgPasswordCloseEye.setImageResource(R.drawable.ceye);
+                } else {
+                    password = "Hide";
+                    etvPassword.setTransformationMethod(PasswordTransformationMethod.getInstance());
+                    etvPassword.setSelection(etvPassword.length());
+                    imgPasswordCloseEye.setImageResource(R.drawable.baseline_eye_24);
+                }
             }
         });
 
@@ -95,6 +120,8 @@ public class SignInFragment extends Fragment {
                                 if (userResponse.getStatus().equalsIgnoreCase(VariableBag.SUCCESS_RESULT)) {
                                     Toast.makeText(getContext(), "Login successful", Toast.LENGTH_SHORT).show();
 
+                                    preferenceManager.setKeyValueString(VariableBag.KEY_FIRSTNAME,userResponse.getFirstName());
+                                    preferenceManager.setKeyValueString(VariableBag.KEY_LASTNAME,userResponse.getLastName());
                                     preferenceManager.setUserId(userResponse.getUserId());
                                     preferenceManager.setUserLoggedIn(true);
                                     startActivity(new Intent(getContext(), HomePageActivity.class));

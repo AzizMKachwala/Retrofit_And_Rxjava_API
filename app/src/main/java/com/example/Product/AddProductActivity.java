@@ -109,15 +109,10 @@ public class AddProductActivity extends AppCompatActivity {
             etvProductDescription.setText(fetchedProductDesc);
 
             Log.d("FilePath", fetchedOldImage);
-
-//            Bitmap bitmap = BitmapFactory.decodeFile(fetchedOldImage);
-//            imgProduct.setImageBitmap(bitmap);
-//            imgProduct.setImageURI(Uri.parse("file://" + fetchedOldImage));
-
             Tools.DisplayImage(AddProductActivity.this, imgProduct, fetchedOldImage);
 
-//            selectedCategorySpinnerProduct.setEnabled(false);
-//            selectedSubCategorySpinnerProduct.setEnabled(false);
+            selectedCategorySpinnerProduct.setEnabled(false);
+            selectedSubCategorySpinnerProduct.setEnabled(false);
 
             btnSubmit.setText("Edit");
         } else {
@@ -385,9 +380,9 @@ public class AddProductActivity extends AppCompatActivity {
         RequestBody bIsVeg = RequestBody.create(MediaType.parse("text/plain"), fetchedIsVeg);
         RequestBody bUserId = RequestBody.create(MediaType.parse("text/plain"), preferenceManager.getUserId());
 
-        MultipartBody.Part UpdatedFileToUpload = null;
+        MultipartBody.Part UpdatedFileToUpload = MultipartBody.Part.create(bOldImage);
 
-        if (UpdatedFileToUpload != null && !fetchedOldImage.isEmpty()) {
+        if (!fetchedOldImage.isEmpty()) {
             try {
                 StrictMode.VmPolicy.Builder builder = new StrictMode.VmPolicy.Builder();
                 StrictMode.setVmPolicy(builder.build());
@@ -400,7 +395,10 @@ public class AddProductActivity extends AppCompatActivity {
             }
         }
 
-        restCall.EditProduct(tag, bCategoryId, bSubCategoryId, bProductId, bProductName, bProductPrice, bOldImage, bProductDesc, bIsVeg, bUserId, UpdatedFileToUpload)
+        restCall.EditProduct(tag,
+                        bCategoryId,
+                        bSubCategoryId,
+                        bProductId, bProductName, bProductPrice, bOldImage, bProductDesc, bIsVeg, bUserId, UpdatedFileToUpload)
                 .subscribeOn(Schedulers.io())
                 .observeOn(Schedulers.newThread())
                 .subscribe(new Subscriber<CategoryCommonResponse>() {

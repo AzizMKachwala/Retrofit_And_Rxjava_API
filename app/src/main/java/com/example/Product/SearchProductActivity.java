@@ -1,5 +1,6 @@
 package com.example.Product;
 
+import android.annotation.SuppressLint;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -16,6 +17,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatSpinner;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.example.SignInSignUp.PreferenceManager;
 import com.example.AppUtils.Tools;
@@ -44,9 +46,11 @@ public class SearchProductActivity extends AppCompatActivity {
     Tools tools;
     PreferenceManager preferenceManager;
     APIProductRecyclerViewAdapter apiProductRecyclerViewAdapter;
+    SwipeRefreshLayout swipeRefreshLayout;
     int selectedPos = 0;
     String selectedCategoryId, selectedCategoryName, selectedSubCategoryId, selectedSubCategoryName;
 
+    @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -57,6 +61,7 @@ public class SearchProductActivity extends AppCompatActivity {
         etvProductSearch = findViewById(R.id.etvProductSearch);
         productRecyclerView = findViewById(R.id.productRecyclerView);
         btnAddProduct = findViewById(R.id.btnAddProduct);
+        swipeRefreshLayout = findViewById(R.id.swipeRefreshLayout);
 
         restCall = RestClient.createService(RestCall.class, VariableBag.BASE_URL, VariableBag.API_KEY);
 
@@ -85,6 +90,13 @@ public class SearchProductActivity extends AppCompatActivity {
         });
 
         btnAddProduct.setOnClickListener(view -> startActivity(new Intent(SearchProductActivity.this, AddProductActivity.class)));
+
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                getProduct();
+            }
+        });
     }
 
     private void getProductCateCall() {
@@ -242,6 +254,7 @@ public class SearchProductActivity extends AppCompatActivity {
                         runOnUiThread(() -> {
                             tools.stopLoading();
                             Toast.makeText(SearchProductActivity.this, e.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
+                            swipeRefreshLayout.setRefreshing(false);
                         });
                     }
 
@@ -310,6 +323,7 @@ public class SearchProductActivity extends AppCompatActivity {
                                 });
 
                             }
+                            swipeRefreshLayout.setRefreshing(false);
                         });
                     }
                 });
