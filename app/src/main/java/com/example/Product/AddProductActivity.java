@@ -385,7 +385,7 @@ public class AddProductActivity extends AppCompatActivity {
 
         MultipartBody.Part UpdatedFileToUpload = null;
 
-        if (!fetchedOldImage.isEmpty()) {
+        if (UpdatedFileToUpload == null && !fetchedOldImage.isEmpty()) {
             try {
                 StrictMode.VmPolicy.Builder builder = new StrictMode.VmPolicy.Builder();
                 StrictMode.setVmPolicy(builder.build());
