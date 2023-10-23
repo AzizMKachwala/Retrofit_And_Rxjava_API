@@ -327,7 +327,6 @@ public class AddProductActivity extends AppCompatActivity {
                 fileToUpload = MultipartBody.Part.createFormData("product_image", file.getName(), rbPhoto);
             } catch (Exception e) {
                 Toast.makeText(this, "" + e.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
-
                 e.printStackTrace();
             }
         }
@@ -344,7 +343,6 @@ public class AddProductActivity extends AppCompatActivity {
                     @Override
                     public void onError(Throwable e) {
                         runOnUiThread(() -> {
-                            tools.stopLoading();
 //                                Toast.makeText(AddProductActivity.this, "No Internet", Toast.LENGTH_SHORT).show();
                             Toast.makeText(AddProductActivity.this, "" + e.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
                         });
@@ -409,7 +407,6 @@ public class AddProductActivity extends AppCompatActivity {
 
                     @Override
                     public void onError(Throwable e) {
-                        tools.stopLoading();
                         runOnUiThread(() -> Toast.makeText(AddProductActivity.this, "" + e.getLocalizedMessage(), Toast.LENGTH_SHORT).show());
                     }
 
