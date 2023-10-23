@@ -275,6 +275,7 @@ public class SearchProductActivity extends AppCompatActivity {
                                 apiProductRecyclerViewAdapter.SetUpInterface(new APIProductRecyclerViewAdapter.ProductClick() {
                                     @Override
                                     public void productEditClick(ProductListResponse.Product product) {
+
                                         String cateId = selectedCategoryId;
                                         String subCateId = selectedSubCategoryId;
                                         String productId = product.getProductId();
@@ -294,6 +295,7 @@ public class SearchProductActivity extends AppCompatActivity {
                                         bundle.putString("product_price", productPrice);
                                         bundle.putString("product_desc", productDesc);
                                         bundle.putString("is_veg", isVeg);
+                                        bundle.putString("product_image", product.getProductImage());
                                         intent.putExtras(bundle);
                                         startActivity(intent);
                                         finish();

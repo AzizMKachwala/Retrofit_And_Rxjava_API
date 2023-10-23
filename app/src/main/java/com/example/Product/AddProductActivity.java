@@ -41,6 +41,7 @@ import com.google.android.material.textfield.TextInputEditText;
 import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -62,7 +63,7 @@ public class AddProductActivity extends AppCompatActivity {
     boolean isEdit = false;
     String selectedCategoryId, selectedCategoryName, selectedSubCategoryId, selectedSubCategoryName;
     String fetchedCategoryId, fetchedSubCategoryId, fetchedProductId, fetchedProductName, fetchedOldImage;
-    String fetchedProductPrice, fetchedProductDesc, fetchedIsVeg;
+    String fetchedProductPrice, fetchedProductDesc, fetchedIsVeg, fetchedImage;
     ActivityResultLauncher<Intent> cameraLauncher;
     String currentPhotoPath = "";
     RestCall restCall;
@@ -103,13 +104,15 @@ public class AddProductActivity extends AppCompatActivity {
             fetchedProductPrice = bundle.getString("product_price");
             fetchedProductDesc = bundle.getString("product_desc");
             fetchedIsVeg = bundle.getString("is_veg");
+            fetchedImage = bundle.getString("product_image");
 
             etvProductName.setText(fetchedProductName);
             etvProductPrice.setText(fetchedProductPrice);
             etvProductDescription.setText(fetchedProductDesc);
 
             Log.d("FilePath", fetchedOldImage);
-            Tools.DisplayImage(AddProductActivity.this, imgProduct, fetchedOldImage);
+
+            Tools.DisplayImage(AddProductActivity.this, imgProduct, fetchedImage);
 
             selectedCategorySpinnerProduct.setEnabled(false);
             selectedSubCategorySpinnerProduct.setEnabled(false);
@@ -380,25 +383,22 @@ public class AddProductActivity extends AppCompatActivity {
         RequestBody bIsVeg = RequestBody.create(MediaType.parse("text/plain"), fetchedIsVeg);
         RequestBody bUserId = RequestBody.create(MediaType.parse("text/plain"), preferenceManager.getUserId());
 
-        MultipartBody.Part UpdatedFileToUpload = MultipartBody.Part.create(bOldImage);
+        MultipartBody.Part UpdatedFileToUpload = null;
 
         if (!fetchedOldImage.isEmpty()) {
             try {
                 StrictMode.VmPolicy.Builder builder = new StrictMode.VmPolicy.Builder();
                 StrictMode.setVmPolicy(builder.build());
                 File file = new File(currentPhotoPath);
-                RequestBody rbOldPhoto = RequestBody.create(MediaType.parse("multipart/form-data"), file);
-                UpdatedFileToUpload = MultipartBody.Part.createFormData("old_product_image", file.getName(), rbOldPhoto);
+                RequestBody rbPhoto = RequestBody.create(MediaType.parse("multipart/form-data"), file);
+                UpdatedFileToUpload = MultipartBody.Part.createFormData("product_image", file.getName(), rbPhoto);
             } catch (Exception e) {
                 Toast.makeText(this, "" + e.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
                 e.printStackTrace();
             }
         }
 
-        restCall.EditProduct(tag,
-                        bCategoryId,
-                        bSubCategoryId,
-                        bProductId, bProductName, bProductPrice, bOldImage, bProductDesc, bIsVeg, bUserId, UpdatedFileToUpload)
+        restCall.EditProduct(tag, bCategoryId, bSubCategoryId, bProductId, bProductName, bProductPrice, bOldImage, bProductDesc, bIsVeg, bUserId, UpdatedFileToUpload)
                 .subscribeOn(Schedulers.io())
                 .observeOn(Schedulers.newThread())
                 .subscribe(new Subscriber<CategoryCommonResponse>() {

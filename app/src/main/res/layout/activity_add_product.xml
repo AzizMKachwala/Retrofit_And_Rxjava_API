@@ -72,6 +72,8 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/_5sdp"
             android:hint="Enter Product Name*"
+            android:textStyle="bold"
+            android:textColor="#000000"
             android:imeOptions="actionNext"
             android:inputType="textAutoComplete"
             android:minHeight="@dimen/_48sdp"
@@ -97,6 +99,8 @@
                 android:layout_marginRight="@dimen/_5sdp"
                 android:layout_marginBottom="@dimen/_5sdp"
                 android:hint="Enter Price*"
+                android:textStyle="bold"
+                android:textColor="#000000"
                 android:imeOptions="actionNext"
                 android:inputType="number"
                 android:minHeight="@dimen/_48sdp"
@@ -108,6 +112,8 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:textStyle="bold"
+            android:textColor="#000000"
             android:text="Veg" />
 
         <com.google.android.material.switchmaterial.SwitchMaterial
@@ -122,6 +128,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:padding="@dimen/_5sdp"
+            android:textStyle="bold"
+            android:textColor="#000000"
             android:text="Non-Veg" />
 
     </LinearLayout>
@@ -136,6 +144,8 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/_10sdp"
             android:hint="Enter Description*"
+            android:textStyle="bold"
+            android:textColor="#000000"
             android:inputType="textAutoComplete"
             android:minHeight="@dimen/_48sdp"
             android:padding="@dimen/_10sdp" />
@@ -153,6 +163,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:textStyle="bold"
             android:backgroundTint="#F10E09"
             android:text="Cancel" />
 
@@ -161,6 +172,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:textStyle="bold"
             android:backgroundTint="#f6bc13"
             android:text="Submit" />
 

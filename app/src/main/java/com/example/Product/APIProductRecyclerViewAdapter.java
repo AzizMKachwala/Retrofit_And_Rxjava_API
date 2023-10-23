@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
+import com.example.AppUtils.Tools;
 import com.example.AppUtils.VariableBag;
 import com.example.networkResponse.ProductListResponse;
 import com.example.retrofitandrxjavaapidemo.R;
@@ -35,12 +36,12 @@ public class APIProductRecyclerViewAdapter extends RecyclerView.Adapter<APIProdu
 
     ProductClick productClick;
 
-    public interface ProductClick{
+    public interface ProductClick {
         void productEditClick(ProductListResponse.Product product);
         void productDeleteClick(ProductListResponse.Product product);
     }
 
-    public void SetUpInterface(APIProductRecyclerViewAdapter.ProductClick ProductClick){
+    public void SetUpInterface(APIProductRecyclerViewAdapter.ProductClick ProductClick) {
         this.productClick = ProductClick;
     }
 
@@ -57,16 +58,7 @@ public class APIProductRecyclerViewAdapter extends RecyclerView.Adapter<APIProdu
     public void onBindViewHolder(@NonNull APIProductDataViewHolder holder, @SuppressLint("RecyclerView") int position) {
         ProductListResponse.Product product = productSearchList.get(position);
 
-        try {
-            Glide
-                    .with(context)
-                    .load(product.getProductImage())
-                    .apply(new RequestOptions().placeholder(R.drawable.ic_launcher_foreground))
-                    .error(R.drawable.bg)
-                    .into(holder.imgProdList);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        Tools.DisplayImage(context, holder.imgProdList, product.getProductImage());
 
         holder.txtProductName.setText(": " + product.getProductName());
         holder.txtProductPrice.setText(": " + VariableBag.CURRENCY + product.getProductPrice());
@@ -77,10 +69,9 @@ public class APIProductRecyclerViewAdapter extends RecyclerView.Adapter<APIProdu
 
         Log.d("TextIsVeg", String.valueOf(txtIsVeg));
 
-        if (txtIsVeg == 0){
+        if (txtIsVeg == 0) {
             holder.txtProductVegNonVeg.setText(": Veg");
-        }
-        else if(txtIsVeg == 1){
+        } else if (txtIsVeg == 1) {
             holder.txtProductVegNonVeg.setText(": Non-Veg");
         }
 
@@ -117,32 +108,32 @@ public class APIProductRecyclerViewAdapter extends RecyclerView.Adapter<APIProdu
             txtProductVegNonVeg = itemView.findViewById(R.id.txtProductVegNonVeg);
         }
     }
+
     public void Search(CharSequence charSequence, RecyclerView productRecyclerView) {
 
-        try{
-            String charString=charSequence.toString().toLowerCase().trim();
-            if(charString.isEmpty()){
+        try {
+            String charString = charSequence.toString().toLowerCase().trim();
+            if (charString.isEmpty()) {
                 productSearchList = products;
                 productRecyclerView.setVisibility(View.VISIBLE);
-            }else{
-                int flag=0;
-                List<ProductListResponse.Product> filterList=new ArrayList<>();
-                for(ProductListResponse.Product Row:products){
-                    if(Row.getProductName().toLowerCase().contains(charString.toLowerCase())){
+            } else {
+                int flag = 0;
+                List<ProductListResponse.Product> filterList = new ArrayList<>();
+                for (ProductListResponse.Product Row : products) {
+                    if (Row.getProductName().toLowerCase().contains(charString.toLowerCase())) {
                         filterList.add(Row);
-                        flag=1;
+                        flag = 1;
                     }
                 }
                 if (flag == 1) {
                     productSearchList = filterList;
                     productRecyclerView.setVisibility(View.VISIBLE);
-                }
-                else{
+                } else {
                     productRecyclerView.setVisibility(View.GONE);
                 }
             }
             notifyDataSetChanged();
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }

@@ -15,7 +15,6 @@
             android:id="@+id/txtProductCatalogueSubCategoryName"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/_10sdp"
             android:layout_weight="3"
             android:background="#f2f1d3"
             android:gravity="start"
