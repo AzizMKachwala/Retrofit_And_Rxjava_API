@@ -107,7 +107,10 @@ public class AddSubCategoryActivity extends AppCompatActivity {
 
                     @Override
                     public void onError(Throwable e) {
-                        runOnUiThread(() -> Toast.makeText(AddSubCategoryActivity.this, "No Internet", Toast.LENGTH_SHORT).show());
+                        runOnUiThread(() -> {
+                            tools.stopLoading();
+                            Toast.makeText(AddSubCategoryActivity.this, "No Internet", Toast.LENGTH_SHORT).show();
+                        });
                     }
 
                     @Override
@@ -141,7 +144,10 @@ public class AddSubCategoryActivity extends AppCompatActivity {
 
                     @Override
                     public void onError(Throwable e) {
-                        runOnUiThread(() -> Toast.makeText(AddSubCategoryActivity.this, "No Internet", Toast.LENGTH_SHORT).show());
+                        runOnUiThread(() -> {
+                            tools.stopLoading();
+                            Toast.makeText(AddSubCategoryActivity.this, "No Internet", Toast.LENGTH_SHORT).show();
+                        });
                     }
 
                     @Override
@@ -174,7 +180,10 @@ public class AddSubCategoryActivity extends AppCompatActivity {
 
                     @Override
                     public void onError(Throwable e) {
-                        runOnUiThread(() -> Toast.makeText(AddSubCategoryActivity.this, "Error fetching Category list", Toast.LENGTH_SHORT).show());
+                        runOnUiThread(() -> {
+                            tools.stopLoading();
+                            Toast.makeText(AddSubCategoryActivity.this, "Error fetching Category list", Toast.LENGTH_SHORT).show();
+                        });
                     }
 
                     @Override

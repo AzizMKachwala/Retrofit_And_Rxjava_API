@@ -181,7 +181,10 @@ public class AddProductActivity extends AppCompatActivity {
 
                     @Override
                     public void onError(Throwable e) {
-                        runOnUiThread(() -> Toast.makeText(AddProductActivity.this, e.getLocalizedMessage(), Toast.LENGTH_SHORT).show());
+                        runOnUiThread(() -> {
+                            tools.stopLoading();
+                            Toast.makeText(AddProductActivity.this, e.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
+                        });
                     }
 
                     @Override
@@ -248,7 +251,10 @@ public class AddProductActivity extends AppCompatActivity {
 
                     @Override
                     public void onError(Throwable e) {
-                        runOnUiThread(() -> Toast.makeText(AddProductActivity.this, e.getLocalizedMessage(), Toast.LENGTH_SHORT).show());
+                        runOnUiThread(() -> {
+                            tools.stopLoading();
+                            Toast.makeText(AddProductActivity.this, e.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
+                        });
                     }
 
                     @Override
@@ -343,6 +349,7 @@ public class AddProductActivity extends AppCompatActivity {
                     @Override
                     public void onError(Throwable e) {
                         runOnUiThread(() -> {
+                            tools.stopLoading();
 //                                Toast.makeText(AddProductActivity.this, "No Internet", Toast.LENGTH_SHORT).show();
                             Toast.makeText(AddProductActivity.this, "" + e.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
                         });
@@ -407,7 +414,10 @@ public class AddProductActivity extends AppCompatActivity {
 
                     @Override
                     public void onError(Throwable e) {
-                        runOnUiThread(() -> Toast.makeText(AddProductActivity.this, "" + e.getLocalizedMessage(), Toast.LENGTH_SHORT).show());
+                        runOnUiThread(() -> {
+                            tools.stopLoading();
+                            Toast.makeText(AddProductActivity.this, "" + e.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
+                        });
                     }
 
                     @Override

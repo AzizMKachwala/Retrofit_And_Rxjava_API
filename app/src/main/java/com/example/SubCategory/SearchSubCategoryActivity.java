@@ -115,7 +115,10 @@ public class SearchSubCategoryActivity extends AppCompatActivity {
 
                     @Override
                     public void onError(Throwable e) {
-                        runOnUiThread(() -> Toast.makeText(SearchSubCategoryActivity.this, "Error fetching Category list", Toast.LENGTH_SHORT).show());
+                        runOnUiThread(() -> {
+                            tools.stopLoading();
+                            Toast.makeText(SearchSubCategoryActivity.this, "Error fetching Category list", Toast.LENGTH_SHORT).show();
+                        });
                     }
 
                     @Override
@@ -182,7 +185,10 @@ public class SearchSubCategoryActivity extends AppCompatActivity {
 
                     @Override
                     public void onError(Throwable e) {
-                        runOnUiThread(() -> Toast.makeText(SearchSubCategoryActivity.this, "No Internet", Toast.LENGTH_SHORT).show());
+                        runOnUiThread(() -> {
+                            tools.stopLoading();
+                            Toast.makeText(SearchSubCategoryActivity.this, "No Internet", Toast.LENGTH_SHORT).show();
+                        });
                         swipeRefreshLayout.setRefreshing(false);
                     }
 
@@ -254,7 +260,10 @@ public class SearchSubCategoryActivity extends AppCompatActivity {
 
                     @Override
                     public void onError(Throwable e) {
-                        runOnUiThread(() -> Toast.makeText(SearchSubCategoryActivity.this, "No Internet", Toast.LENGTH_SHORT).show());
+                        runOnUiThread(() -> {
+                            tools.stopLoading();
+                            Toast.makeText(SearchSubCategoryActivity.this, "No Internet", Toast.LENGTH_SHORT).show();
+                        });
                     }
 
                     @Override

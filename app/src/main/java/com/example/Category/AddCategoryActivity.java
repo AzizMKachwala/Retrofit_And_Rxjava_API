@@ -93,7 +93,10 @@ public class AddCategoryActivity extends AppCompatActivity {
 
                     @Override
                     public void onError(Throwable e) {
-                        runOnUiThread(() -> Toast.makeText(AddCategoryActivity.this, e.getLocalizedMessage(), Toast.LENGTH_SHORT).show());
+                        runOnUiThread(() -> {
+                            tools.stopLoading();
+                            Toast.makeText(AddCategoryActivity.this, e.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
+                        });
                     }
 
                     @Override
@@ -127,7 +130,10 @@ public class AddCategoryActivity extends AppCompatActivity {
 
                     @Override
                     public void onError(Throwable e) {
-                        runOnUiThread(() -> Toast.makeText(AddCategoryActivity.this, e.getLocalizedMessage(), Toast.LENGTH_SHORT).show());
+                        runOnUiThread(() -> {
+                            tools.stopLoading();
+                            Toast.makeText(AddCategoryActivity.this, e.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
+                        });
                     }
 
                     @Override

@@ -112,7 +112,10 @@ public class SearchProductActivity extends AppCompatActivity {
 
                     @Override
                     public void onError(Throwable e) {
-                        runOnUiThread(() -> Toast.makeText(SearchProductActivity.this, e.getLocalizedMessage(), Toast.LENGTH_SHORT).show());
+                        runOnUiThread(() -> {
+                            tools.stopLoading();
+                            Toast.makeText(SearchProductActivity.this, e.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
+                        });
                     }
 
                     @Override
@@ -180,7 +183,10 @@ public class SearchProductActivity extends AppCompatActivity {
 
                     @Override
                     public void onError(Throwable e) {
-                        runOnUiThread(() -> Toast.makeText(SearchProductActivity.this, e.getLocalizedMessage(), Toast.LENGTH_SHORT).show());
+                        runOnUiThread(() -> {
+                            tools.stopLoading();
+                            Toast.makeText(SearchProductActivity.this, e.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
+                        });
                     }
 
                     @Override
@@ -252,9 +258,10 @@ public class SearchProductActivity extends AppCompatActivity {
                     @Override
                     public void onError(Throwable e) {
                         runOnUiThread(() -> {
+                            tools.stopLoading();
                             Toast.makeText(SearchProductActivity.this, e.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
-                            swipeRefreshLayout.setRefreshing(false);
                         });
+                        swipeRefreshLayout.setRefreshing(false);
                     }
 
                     @Override
@@ -344,6 +351,7 @@ public class SearchProductActivity extends AppCompatActivity {
                     @Override
                     public void onError(Throwable e) {
                         runOnUiThread(() -> {
+                            tools.stopLoading();
                             Toast.makeText(SearchProductActivity.this, e.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
                         });
                     }

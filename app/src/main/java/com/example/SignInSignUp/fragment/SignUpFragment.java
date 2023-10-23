@@ -32,6 +32,7 @@ public class SignUpFragment extends Fragment {
     EditText etvFirstName, etvLastName, etvEmail, etvPassword;
     Button btnSignUp, btnResetPassword;
     RestCall restCall;
+    Tools tools;
     ImageView imgPasswordCloseEye;
     String password = "Hide";
 
@@ -50,6 +51,7 @@ public class SignUpFragment extends Fragment {
         imgPasswordCloseEye = view.findViewById(R.id.imgPasswordCloseEye);
 
         restCall = RestClient.createService(RestCall.class, VariableBag.BASE_URL, VariableBag.API_KEY);
+        tools = new Tools(getContext());
 
 //        if(Tools.isValidEmail(etvEmail.getText().toString().trim())){
 //            Toast.makeText(getContext(), "Valid Email", Toast.LENGTH_SHORT).show();
@@ -58,37 +60,24 @@ public class SignUpFragment extends Fragment {
 //            Toast.makeText(getContext(), "InValid Email", Toast.LENGTH_SHORT).show();
 //        }
 
-        imgPasswordCloseEye.setOnClickListener(new View.OnClickListener() {
-            @SuppressLint("UseCompatLoadingForDrawables")
-            @Override
-            public void onClick(View v) {
+        imgPasswordCloseEye.setOnClickListener(v -> {
 
-                if (password.equals("Hide")) {
-                    password = "Show";
-                    etvPassword.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
-                    etvPassword.setSelection(etvPassword.length());
-                    imgPasswordCloseEye.setImageResource(R.drawable.ceye);
-                } else {
-                    password = "Hide";
-                    etvPassword.setTransformationMethod(PasswordTransformationMethod.getInstance());
-                    etvPassword.setSelection(etvPassword.length());
-                    imgPasswordCloseEye.setImageResource(R.drawable.baseline_eye_24);
-                }
+            if (password.equals("Hide")) {
+                password = "Show";
+                etvPassword.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
+                etvPassword.setSelection(etvPassword.length());
+                imgPasswordCloseEye.setImageResource(R.drawable.ceye);
+            } else {
+                password = "Hide";
+                etvPassword.setTransformationMethod(PasswordTransformationMethod.getInstance());
+                etvPassword.setSelection(etvPassword.length());
+                imgPasswordCloseEye.setImageResource(R.drawable.baseline_eye_24);
             }
         });
 
         btnSignUp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                if (etvFirstName.getText().toString().trim().isEmpty() || etvLastName.getText().toString().trim().isEmpty()
-//                        || !Tools.isValidEmail(etvEmail.getText().toString().trim())
-//                        || !isValidPassword(etvPassword.getText().toString().trim())) {
-//                    Toast.makeText(getContext(), "Enter Valid Details", Toast.LENGTH_SHORT).show();
-//                } else {
-//                    Toast.makeText(getContext(), "Login to Start", Toast.LENGTH_SHORT).show();
-//                    addUser();
-//                }
-
                 if(etvFirstName.getText().toString().trim().isEmpty()){
                     etvFirstName.setError("Enter First Name");
                     etvFirstName.requestFocus();
@@ -121,17 +110,13 @@ public class SignUpFragment extends Fragment {
             }
         });
 
-        btnResetPassword.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Toast.makeText(getContext(), "RESET MY PASSWORD CLICKED", Toast.LENGTH_SHORT).show();
-            }
-        });
+        btnResetPassword.setOnClickListener(view1 -> Toast.makeText(getContext(), "RESET MY PASSWORD CLICKED", Toast.LENGTH_SHORT).show());
 
         return view;
     }
 
     public void addUser() {
+        tools.showLoading();
         restCall.AddUser("AddUser", etvFirstName.getText().toString().trim(), etvLastName.getText().toString().trim(),
                         etvEmail.getText().toString().trim(), etvPassword.getText().toString().trim())
                 .subscribeOn(Schedulers.io())
@@ -144,29 +129,25 @@ public class SignUpFragment extends Fragment {
 
                     @Override
                     public void onError(Throwable e) {
-                        getActivity().runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                Toast.makeText(getContext(), "No Internet", Toast.LENGTH_SHORT).show();
-                            }
+                        getActivity().runOnUiThread(() -> {
+                            tools.stopLoading();
+                            Toast.makeText(getContext(), "No Internet", Toast.LENGTH_SHORT).show();
                         });
                     }
 
                     @Override
                     public void onNext(UserResponse userResponse) {
-                        getActivity().runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                if (userResponse.getStatus().equalsIgnoreCase(VariableBag.SUCCESS_RESULT)) {
-                                    etvFirstName.setText("");
-                                    etvLastName.setText("");
-                                    etvEmail.setText("");
-                                    etvPassword.setText("");
+                        getActivity().runOnUiThread(() -> {
+                            tools.stopLoading();
+                            if (userResponse.getStatus().equalsIgnoreCase(VariableBag.SUCCESS_RESULT)) {
+                                etvFirstName.setText("");
+                                etvLastName.setText("");
+                                etvEmail.setText("");
+                                etvPassword.setText("");
 
-                                    startActivity(new Intent(getContext(), SignInSignUpActivity.class));
-                                } else {
-                                    Toast.makeText(getContext(), userResponse.getMessage(), Toast.LENGTH_SHORT).show();
-                                }
+                                startActivity(new Intent(getContext(), SignInSignUpActivity.class));
+                            } else {
+                                Toast.makeText(getContext(), userResponse.getMessage(), Toast.LENGTH_SHORT).show();
                             }
                         });
                     }

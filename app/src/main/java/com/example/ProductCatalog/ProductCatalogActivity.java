@@ -65,6 +65,7 @@ public class ProductCatalogActivity extends AppCompatActivity {
                     @Override
                     public void onError(Throwable e) {
                         runOnUiThread(() -> {
+                            tools.stopLoading();
                             Toast.makeText(ProductCatalogActivity.this, "" + e.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
                             swipeRefreshLayout.setRefreshing(false);
                         });
