@@ -191,7 +191,8 @@ public class AddProductActivity extends AppCompatActivity {
                     public void onNext(CategoryListResponse categoryListResponse) {
                         runOnUiThread(() -> {
                             tools.stopLoading();
-                            if (categoryListResponse.getStatus().equalsIgnoreCase(VariableBag.SUCCESS_RESULT) && categoryListResponse.getCategoryList() != null
+                            if (categoryListResponse.getStatus().equalsIgnoreCase(VariableBag.SUCCESS_RESULT)
+                                    && categoryListResponse.getCategoryList() != null
                                     && categoryListResponse.getCategoryList().size() > 0) {
 
                                 List<CategoryListResponse.Category> categories = categoryListResponse.getCategoryList();
@@ -261,7 +262,8 @@ public class AddProductActivity extends AppCompatActivity {
                     public void onNext(SubCategoryListResponse subCategoryListResponse) {
                         runOnUiThread(() -> {
                             tools.stopLoading();
-                            if (subCategoryListResponse.getStatus().equalsIgnoreCase(VariableBag.SUCCESS_RESULT) && subCategoryListResponse.getSubCategoryList() != null
+                            if (subCategoryListResponse.getStatus().equalsIgnoreCase(VariableBag.SUCCESS_RESULT)
+                                    && subCategoryListResponse.getSubCategoryList() != null
                                     && subCategoryListResponse.getSubCategoryList().size() > 0) {
 
                                 List<SubCategoryListResponse.SubCategory> subCategories = subCategoryListResponse.getSubCategoryList();
