@@ -383,10 +383,10 @@ public class AddProductActivity extends AppCompatActivity {
         RequestBody bCategoryId = RequestBody.create(MediaType.parse("text/plain"), fetchedCategoryId);
         RequestBody bSubCategoryId = RequestBody.create(MediaType.parse("text/plain"), fetchedSubCategoryId);
         RequestBody bProductId = RequestBody.create(MediaType.parse("text/plain"), fetchedProductId);
-        RequestBody bProductName = RequestBody.create(MediaType.parse("text/plain"), etvProductName.getText().toString().trim());
-        RequestBody bProductPrice = RequestBody.create(MediaType.parse("text/plain"), etvProductPrice.getText().toString().trim());
+        RequestBody bProductName = RequestBody.create(MediaType.parse("text/plain"), fetchedProductName);
+        RequestBody bProductPrice = RequestBody.create(MediaType.parse("text/plain"), fetchedProductPrice);
         RequestBody bOldImage = RequestBody.create(MediaType.parse("text/plain"), fetchedOldImage);
-        RequestBody bProductDesc = RequestBody.create(MediaType.parse("text/plain"), etvProductDescription.getText().toString().trim());
+        RequestBody bProductDesc = RequestBody.create(MediaType.parse("text/plain"), fetchedProductDesc);
         RequestBody bIsVeg = RequestBody.create(MediaType.parse("text/plain"), fetchedIsVeg);
         RequestBody bUserId = RequestBody.create(MediaType.parse("text/plain"), preferenceManager.getUserId());
 

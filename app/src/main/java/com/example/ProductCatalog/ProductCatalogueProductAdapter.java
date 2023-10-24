@@ -51,10 +51,10 @@ public class ProductCatalogueProductAdapter extends RecyclerView.Adapter<Product
         Log.d("TextIsVeg", String.valueOf(txtIsVeg));
 
         if (txtIsVeg == 0){
-            holder.txtProductCatalogueProductIsVeg.setText("Veg");
+            holder.imgProductCatalogueIsVeg.setImageResource(R.drawable.veg);
         }
         else if(txtIsVeg == 1){
-            holder.txtProductCatalogueProductIsVeg.setText("Non-Veg");
+            holder.imgProductCatalogueIsVeg.setImageResource(R.drawable.nonveg);
         }
 
         Tools.DisplayImage(context, holder.imgProductCatalogueProductImage, productList.get(position).getProductImage());
@@ -68,8 +68,8 @@ public class ProductCatalogueProductAdapter extends RecyclerView.Adapter<Product
 
     public class ProductCatalogueProductViewHolder extends RecyclerView.ViewHolder{
 
-        TextView txtProductCatalogueProductName,txtProductCatalogueProductPrice,txtProductCatalogueProductDesc,txtProductCatalogueProductIsVeg;
-        ImageView imgProductCatalogueProductImage;
+        TextView txtProductCatalogueProductName,txtProductCatalogueProductPrice,txtProductCatalogueProductDesc;
+        ImageView imgProductCatalogueProductImage,imgProductCatalogueIsVeg;
 
         public ProductCatalogueProductViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -77,7 +77,7 @@ public class ProductCatalogueProductAdapter extends RecyclerView.Adapter<Product
             txtProductCatalogueProductName = itemView.findViewById(R.id.txtProductCatalogueProductName);
             txtProductCatalogueProductPrice = itemView.findViewById(R.id.txtProductCatalogueProductPrice);
             txtProductCatalogueProductDesc = itemView.findViewById(R.id.txtProductCatalogueProductDesc);
-            txtProductCatalogueProductIsVeg = itemView.findViewById(R.id.txtProductCatalogueProductIsVeg);
+            imgProductCatalogueIsVeg = itemView.findViewById(R.id.imgProductCatalogueIsVeg);
             imgProductCatalogueProductImage = itemView.findViewById(R.id.imgProductCatalogueProductImage);
 
         }

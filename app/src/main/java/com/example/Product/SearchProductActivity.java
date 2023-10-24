@@ -280,34 +280,6 @@ public class SearchProductActivity extends AppCompatActivity {
 
                                 apiProductRecyclerViewAdapter.SetUpInterface(new APIProductRecyclerViewAdapter.ProductClick() {
                                     @Override
-                                    public void productEditClick(ProductListResponse.Product product) {
-
-                                        String cateId = selectedCategoryId;
-                                        String subCateId = selectedSubCategoryId;
-                                        String productId = product.getProductId();
-                                        String productName = product.getProductName();
-                                        String old_product_image = product.getOldProductImage();
-                                        String productPrice = product.getProductPrice();
-                                        String productDesc = product.getProductDesc();
-                                        String isVeg = product.getIsVeg();
-
-                                        Intent intent = new Intent(SearchProductActivity.this, AddProductActivity.class);
-                                        Bundle bundle = new Bundle();
-                                        bundle.putString("category_id", cateId);
-                                        bundle.putString("sub_category_id", subCateId);
-                                        bundle.putString("productId", productId);
-                                        bundle.putString("productName", productName);
-                                        bundle.putString("old_product_image", old_product_image);
-                                        bundle.putString("product_price", productPrice);
-                                        bundle.putString("product_desc", productDesc);
-                                        bundle.putString("is_veg", isVeg);
-                                        bundle.putString("product_image", product.getProductImage());
-                                        intent.putExtras(bundle);
-                                        startActivity(intent);
-                                        finish();
-                                    }
-
-                                    @Override
                                     public void productDeleteClick(ProductListResponse.Product product) {
                                         String productId = product.getProductId();
 
@@ -327,6 +299,25 @@ public class SearchProductActivity extends AppCompatActivity {
                                             }
                                         });
                                         alertDialog.show();
+                                    }
+
+                                    @Override
+                                    public void productEditClick(ProductListResponse.Product product) {
+
+                                        Intent intent = new Intent(SearchProductActivity.this, AddProductActivity.class);
+                                        Bundle bundle = new Bundle();
+                                        bundle.putString("category_id", selectedCategoryId);
+                                        bundle.putString("sub_category_id", selectedSubCategoryId);
+                                        bundle.putString("productId", product.getProductId());
+                                        bundle.putString("productName", product.getProductName());
+                                        bundle.putString("old_product_image", product.getOldProductImage());
+                                        bundle.putString("product_price", product.getProductPrice());
+                                        bundle.putString("product_desc", product.getProductDesc());
+                                        bundle.putString("is_veg", product.getIsVeg());
+                                        bundle.putString("product_image", product.getProductImage());
+                                        intent.putExtras(bundle);
+                                        startActivity(intent);
+                                        finish();
                                     }
                                 });
 

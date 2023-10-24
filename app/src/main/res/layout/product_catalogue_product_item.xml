@@ -45,12 +45,12 @@
                     android:layout_weight="1"
                     android:hint="Product Description" />
 
-                <TextView
-                    android:id="@+id/txtProductCatalogueProductIsVeg"
+                <ImageView
+                    android:id="@+id/imgProductCatalogueIsVeg"
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
                     android:layout_weight="1"
-                    android:hint="Veg/Non-Veg" />
+                    android:src="@drawable/veg"/>
 
             </LinearLayout>
 

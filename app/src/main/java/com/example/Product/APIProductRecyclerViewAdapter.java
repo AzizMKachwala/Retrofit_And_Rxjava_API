@@ -70,9 +70,9 @@ public class APIProductRecyclerViewAdapter extends RecyclerView.Adapter<APIProdu
         Log.d("TextIsVeg", String.valueOf(txtIsVeg));
 
         if (txtIsVeg == 0) {
-            holder.txtProductVegNonVeg.setText(": Veg");
+            holder.imgProductIsVeg.setImageResource(R.drawable.veg);
         } else if (txtIsVeg == 1) {
-            holder.txtProductVegNonVeg.setText(": Non-Veg");
+            holder.imgProductIsVeg.setImageResource(R.drawable.nonveg);
         }
 
         holder.imgEditProduct.setOnClickListener(view -> {
@@ -93,8 +93,8 @@ public class APIProductRecyclerViewAdapter extends RecyclerView.Adapter<APIProdu
 
     public class APIProductDataViewHolder extends RecyclerView.ViewHolder {
 
-        ImageView imgProdList, imgEditProduct, imgDeleteProduct;
-        TextView txtProductName, txtProductPrice, txtProductDescription, txtProductVegNonVeg;
+        ImageView imgProdList, imgEditProduct, imgDeleteProduct, imgProductIsVeg;
+        TextView txtProductName, txtProductPrice, txtProductDescription;
 
         public APIProductDataViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -105,7 +105,7 @@ public class APIProductRecyclerViewAdapter extends RecyclerView.Adapter<APIProdu
             txtProductName = itemView.findViewById(R.id.txtProductName);
             txtProductPrice = itemView.findViewById(R.id.txtProductPrice);
             txtProductDescription = itemView.findViewById(R.id.txtProductDescription);
-            txtProductVegNonVeg = itemView.findViewById(R.id.txtProductVegNonVeg);
+            imgProductIsVeg = itemView.findViewById(R.id.imgProductIsVeg);
         }
     }
 
