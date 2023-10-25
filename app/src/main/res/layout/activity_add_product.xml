@@ -1,181 +1,186 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/bg1"
-    android:orientation="vertical"
-    android:padding="@dimen/_10sdp"
     tools:context="com.example.Product.AddProductActivity">
 
-    <LinearLayout
-        android:id="@+id/lytSpinner"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/_10sdp"
-        android:orientation="horizontal"
-        android:padding="@dimen/_5sdp">
-
-        <androidx.appcompat.widget.AppCompatSpinner
-            android:id="@+id/selectedCategorySpinnerProduct"
-            style="@style/Widget.AppCompat.Spinner.Underlined"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:backgroundTintMode="add"
-            android:minHeight="@dimen/_40sdp" />
-
-        <androidx.appcompat.widget.AppCompatSpinner
-            android:id="@+id/selectedSubCategorySpinnerProduct"
-            style="@style/Widget.AppCompat.Spinner.Underlined"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:backgroundTintMode="add"
-            android:minHeight="@dimen/_40sdp" />
-    </LinearLayout>
-
-    <com.google.android.material.textfield.TextInputLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textColorHint="@color/black"
-        app:boxBackgroundColor="#fff4ff"
-        app:hintAnimationEnabled="true"
-        app:hintTextAppearance="@style/TextAppearance.AppCompat.Caption"
-        app:hintTextColor="@color/black">
-
-        <ImageView
-            android:id="@+id/imgProduct"
-            style="@style/Widget.AppCompat.Button"
-            android:layout_width="@dimen/_100sdp"
-            android:layout_height="@dimen/_100sdp"
-            android:layout_gravity="center"
-            android:background="@color/white" />
-
-        <ImageView
-            android:id="@+id/imgEditProduct"
-            android:layout_width="@dimen/_30sdp"
-            android:layout_height="@dimen/_30sdp"
-            android:layout_gravity="right"
-            android:src="@drawable/baseline_camera_alt_24" />
-
-    </com.google.android.material.textfield.TextInputLayout>
-
-    <com.google.android.material.textfield.TextInputLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/etvProductName"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/_5sdp"
-            android:hint="Enter Product Name*"
-            android:textStyle="bold"
-            android:textColor="#000000"
-            android:imeOptions="actionNext"
-            android:inputType="textAutoComplete"
-            android:minHeight="@dimen/_48sdp"
-            android:minLines="1"
-            android:padding="@dimen/_10sdp"
-            android:textColorHint="#000" />
-    </com.google.android.material.textfield.TextInputLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:padding="@dimen/_10sdp">
 
-        <com.google.android.material.textfield.TextInputLayout
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/etvProductPrice"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginRight="@dimen/_5sdp"
-                android:layout_marginBottom="@dimen/_5sdp"
-                android:hint="Enter Price*"
-                android:textStyle="bold"
-                android:textColor="#000000"
-                android:imeOptions="actionNext"
-                android:inputType="number"
-                android:minHeight="@dimen/_48sdp"
-                android:minLines="1"
-                android:padding="@dimen/_5sdp" />
-
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textStyle="bold"
-            android:textColor="#000000"
-            android:text="Veg" />
-
-        <com.google.android.material.switchmaterial.SwitchMaterial
-            android:id="@+id/switchStatusProduct"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_marginLeft="@dimen/_10sdp"
-            android:layout_marginRight="@dimen/_10sdp"
-            android:minWidth="48dp" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:padding="@dimen/_5sdp"
-            android:textStyle="bold"
-            android:textColor="#000000"
-            android:text="Non-Veg" />
-
-    </LinearLayout>
-
-    <com.google.android.material.textfield.TextInputLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/etvProductDescription"
+        <LinearLayout
+            android:id="@+id/lytSpinner"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/_10sdp"
-            android:hint="Enter Description*"
-            android:textStyle="bold"
-            android:textColor="#000000"
-            android:inputType="textAutoComplete"
-            android:minHeight="@dimen/_48sdp"
-            android:padding="@dimen/_10sdp" />
+            android:orientation="horizontal"
+            android:padding="@dimen/_5sdp">
 
-    </com.google.android.material.textfield.TextInputLayout>
+            <androidx.appcompat.widget.AppCompatSpinner
+                android:id="@+id/selectedCategorySpinnerProduct"
+                style="@style/Widget.AppCompat.Spinner.Underlined"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:backgroundTintMode="add"
+                android:minHeight="@dimen/_40sdp" />
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/_10sdp"
-        android:orientation="horizontal">
+            <androidx.appcompat.widget.AppCompatSpinner
+                android:id="@+id/selectedSubCategorySpinnerProduct"
+                style="@style/Widget.AppCompat.Spinner.Underlined"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:backgroundTintMode="add"
+                android:minHeight="@dimen/_40sdp" />
+        </LinearLayout>
 
-        <Button
-            android:id="@+id/btnCancel"
-            android:layout_width="0dp"
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:id="@+id/imgEditProduct"
+                android:layout_width="@dimen/_30sdp"
+                android:layout_height="@dimen/_30sdp"
+                android:layout_gravity="end"
+                android:layout_margin="@dimen/_5sdp"
+                android:src="@drawable/baseline_camera_alt_24" />
+
+            <ImageView
+                android:id="@+id/imgProduct"
+                style="@style/Widget.AppCompat.Button"
+                android:layout_width="@dimen/_100sdp"
+                android:layout_height="@dimen/_100sdp"
+                android:layout_gravity="center"
+                android:layout_marginBottom="@dimen/_10sdp"
+                android:background="@color/white" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/etvProductName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/_5sdp"
+                android:hint="Enter Product Name*"
+                android:imeOptions="actionNext"
+                android:inputType="textAutoComplete"
+                android:background="@color/white"
+                android:minHeight="@dimen/_48sdp"
+                android:minLines="1"
+                android:padding="@dimen/_10sdp"
+                android:textColor="#000000"/>
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:textStyle="bold"
-            android:backgroundTint="#F10E09"
-            android:text="Cancel" />
+            android:orientation="horizontal">
 
-        <Button
-            android:id="@+id/btnSubmit"
-            android:layout_width="0dp"
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/etvProductPrice"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="@dimen/_5sdp"
+                    android:layout_marginBottom="@dimen/_5sdp"
+                    android:hint="Enter Price*"
+                    android:imeOptions="actionNext"
+                    android:inputType="number"
+                    android:minHeight="@dimen/_48sdp"
+                    android:minLines="1"
+                    android:background="@color/white"
+                    android:padding="@dimen/_5sdp"
+                    android:textColor="#000000" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Veg"
+                android:padding="@dimen/_5sdp"
+                android:textColor="#000000"
+                android:background="@color/white"
+                android:textStyle="bold" />
+
+            <com.google.android.material.switchmaterial.SwitchMaterial
+                android:id="@+id/switchStatusProduct"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="@dimen/_10sdp"
+                android:layout_marginRight="@dimen/_10sdp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/_5sdp"
+                android:background="@color/white"
+                android:text="Non-Veg"
+                android:textColor="#000000"
+                android:textStyle="bold" />
+
+        </LinearLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/etvProductDescription"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/_10sdp"
+                android:hint="Enter Description*"
+                android:inputType="textAutoComplete"
+                android:minHeight="@dimen/_48sdp"
+                android:padding="@dimen/_10sdp"
+                android:textColor="#000000"
+                android:background="@color/white" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:textStyle="bold"
-            android:backgroundTint="#f6bc13"
-            android:text="Submit" />
+            android:layout_marginBottom="@dimen/_10sdp"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/btnCancel"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:backgroundTint="#F10E09"
+                android:text="Cancel"
+                android:textStyle="bold" />
+
+            <Button
+                android:id="@+id/btnSubmit"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:backgroundTint="#f6bc13"
+                android:text="Submit"
+                android:textStyle="bold" />
+
+        </LinearLayout>
 
     </LinearLayout>
-
-</LinearLayout>
+</RelativeLayout>

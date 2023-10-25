@@ -46,38 +46,6 @@ public class ProductCatalogueCategoryAdapter extends RecyclerView.Adapter<Produc
         holder.productCatalogueSubCategoryRecyclerView.setLayoutManager(layoutManager);
         holder.productCatalogueSubCategoryRecyclerView.setAdapter(productCatalogueSubCategoryAdapter);
 
-        holder.txtProductCatalogueCategoryName.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if(hideShow == true){
-                    holder.productCatalogueSubCategoryRecyclerView.setVisibility(View.VISIBLE);
-                    holder.imgUpDown.setImageResource(R.drawable.up);
-                    hideShow = false;
-                }
-                else {
-                    holder.productCatalogueSubCategoryRecyclerView.setVisibility(View.GONE);
-                    holder.imgUpDown.setImageResource(R.drawable.down);
-                    hideShow = true;
-                }
-            }
-        });
-
-        holder.imgUpDown.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if(hideShow == true){
-                    holder.productCatalogueSubCategoryRecyclerView.setVisibility(View.VISIBLE);
-                    holder.imgUpDown.setImageResource(R.drawable.up);
-                    hideShow = false;
-                }
-                else {
-                    holder.productCatalogueSubCategoryRecyclerView.setVisibility(View.GONE);
-                    holder.imgUpDown.setImageResource(R.drawable.down);
-                    hideShow = true;
-                }
-            }
-        });
-
     }
 
     @Override
@@ -96,7 +64,6 @@ public class ProductCatalogueCategoryAdapter extends RecyclerView.Adapter<Produc
 
             txtProductCatalogueCategoryName = itemView.findViewById(R.id.txtProductCatalogueCategoryName);
             productCatalogueSubCategoryRecyclerView = itemView.findViewById(R.id.productCatalogueSubCategoryRecyclerView);
-            imgUpDown = itemView.findViewById(R.id.imgUpDown);
         }
     }
 }

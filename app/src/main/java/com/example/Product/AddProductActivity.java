@@ -41,7 +41,6 @@ import com.google.android.material.textfield.TextInputEditText;
 import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -90,6 +89,10 @@ public class AddProductActivity extends AppCompatActivity {
         restCall = RestClient.createService(RestCall.class, VariableBag.BASE_URL, VariableBag.API_KEY);
         preferenceManager = new PreferenceManager(this);
         tools = new Tools(this);
+
+        ArrayAdapter<String> SubCate = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, new String[]{"Select Sub Category"});
+        SubCate.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        selectedSubCategorySpinnerProduct.setAdapter(SubCate);
 
         getProductCateCall();
 
@@ -365,9 +368,8 @@ public class AddProductActivity extends AppCompatActivity {
                             if (categoryCommonResponse.getStatus().equalsIgnoreCase(VariableBag.SUCCESS_RESULT)) {
                                 if (currentPhotoFile != null && currentPhotoPath != null) {
                                     currentPhotoFile.delete();
-                                    Toast.makeText(AddProductActivity.this, "Photo Deleted from the Package", Toast.LENGTH_SHORT).show();
+//                                    Toast.makeText(AddProductActivity.this, "Photo Deleted from the Package", Toast.LENGTH_SHORT).show();
                                 }
-                                startActivity(new Intent(AddProductActivity.this, SearchProductActivity.class));
                                 Toast.makeText(AddProductActivity.this, "" + categoryCommonResponse.getMessage(), Toast.LENGTH_SHORT).show();
                                 finish();
                             }
@@ -392,7 +394,7 @@ public class AddProductActivity extends AppCompatActivity {
 
         MultipartBody.Part UpdatedFileToUpload = null;
 
-        if (UpdatedFileToUpload == null && !fetchedOldImage.isEmpty()) {
+        if (currentPhotoFile != null && currentPhotoPath != null) {
             try {
                 StrictMode.VmPolicy.Builder builder = new StrictMode.VmPolicy.Builder();
                 StrictMode.setVmPolicy(builder.build());
@@ -427,14 +429,15 @@ public class AddProductActivity extends AppCompatActivity {
                         runOnUiThread(() -> {
                             tools.stopLoading();
                             if (categoryCommonResponse.getStatus().equalsIgnoreCase(VariableBag.SUCCESS_RESULT)) {
-                                currentPhotoFile.delete();
+                                if (currentPhotoFile != null && currentPhotoPath != null) {
+                                    currentPhotoFile.delete();
+//                                    Toast.makeText(AddProductActivity.this, "Photo Updated and Deleted", Toast.LENGTH_SHORT).show();
+                                }
 
                                 etvProductName.setText("");
                                 etvProductPrice.setText("");
                                 etvProductDescription.setText("");
 
-                                Toast.makeText(AddProductActivity.this, "Photo Updated and Deleted", Toast.LENGTH_SHORT).show();
-                                startActivity(new Intent(AddProductActivity.this, SearchProductActivity.class));
                                 Toast.makeText(AddProductActivity.this, "" + categoryCommonResponse.getMessage(), Toast.LENGTH_SHORT).show();
                                 finish();
                             } else {

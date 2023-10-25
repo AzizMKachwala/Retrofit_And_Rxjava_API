@@ -119,8 +119,7 @@ public class AddSubCategoryActivity extends AppCompatActivity {
                             tools.stopLoading();
                             if (subCategoryListResponse.getStatus().equalsIgnoreCase(VariableBag.SUCCESS_RESULT)) {
                                 etvSubCategoryName.setText("");
-
-                                startActivity(new Intent(AddSubCategoryActivity.this, SearchSubCategoryActivity.class));
+                                
                                 finish();
                             } else {
                                 Toast.makeText(AddSubCategoryActivity.this, subCategoryListResponse.getMessage(), Toast.LENGTH_SHORT).show();
@@ -157,7 +156,6 @@ public class AddSubCategoryActivity extends AppCompatActivity {
                             if (subCategoryListResponse.getStatus().equalsIgnoreCase(VariableBag.SUCCESS_RESULT)) {
                                 etvSubCategoryName.setText("");
 
-                                startActivity(new Intent(AddSubCategoryActivity.this, SearchSubCategoryActivity.class));
                                 finish();
                             } else {
                                 Toast.makeText(AddSubCategoryActivity.this, subCategoryListResponse.getMessage(), Toast.LENGTH_SHORT).show();

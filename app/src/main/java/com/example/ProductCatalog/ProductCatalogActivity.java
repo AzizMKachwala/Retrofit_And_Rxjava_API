@@ -27,7 +27,6 @@ public class ProductCatalogActivity extends AppCompatActivity {
     PreferenceManager preferenceManager;
     ProductCatalogueCategoryAdapter productCatalogueCategoryAdapter;
     RecyclerView productCatalogueCategoryRecyclerView;
-    SwipeRefreshLayout swipeRefreshLayout;
 
     @SuppressLint("MissingInflatedId")
     @Override
@@ -39,14 +38,6 @@ public class ProductCatalogActivity extends AppCompatActivity {
         tools = new Tools(this);
         preferenceManager = new PreferenceManager(this);
         productCatalogueCategoryRecyclerView = findViewById(R.id.productCatalogueCategoryRecyclerView);
-        swipeRefreshLayout = findViewById(R.id.swipeRefreshLayout);
-
-        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                getCatalog();
-            }
-        });
 
         getCatalog();
     }
@@ -67,7 +58,6 @@ public class ProductCatalogActivity extends AppCompatActivity {
                         runOnUiThread(() -> {
                             tools.stopLoading();
                             Toast.makeText(ProductCatalogActivity.this, "" + e.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
-                            swipeRefreshLayout.setRefreshing(false);
                         });
                     }
 
@@ -86,7 +76,6 @@ public class ProductCatalogActivity extends AppCompatActivity {
                                 productCatalogueCategoryRecyclerView.setLayoutManager(layoutManager);
                                 productCatalogueCategoryRecyclerView.setAdapter(productCatalogueCategoryAdapter);
                             }
-                            swipeRefreshLayout.setRefreshing(false);
                         });
                     }
                 });

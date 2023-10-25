@@ -68,6 +68,10 @@ public class SearchProductActivity extends AppCompatActivity {
         preferenceManager = new PreferenceManager(this);
         tools = new Tools(this);
 
+        ArrayAdapter<String> SubCate = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, new String[]{"Select Sub Category"});
+        SubCate.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        subCategorySpinnerProduct.setAdapter(SubCate);
+
         getProductCateCall();
 
         etvProductSearch.addTextChangedListener(new TextWatcher() {

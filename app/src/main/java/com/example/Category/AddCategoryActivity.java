@@ -106,7 +106,6 @@ public class AddCategoryActivity extends AppCompatActivity {
                             if (categoryCommonResponse.getStatus().equalsIgnoreCase(VariableBag.SUCCESS_RESULT)) {
                                 etvCategoryName.setText("");
 
-                                startActivity(new Intent(AddCategoryActivity.this, SearchCategoryActivity.class));
                                 finish();
                             } else {
                                 Toast.makeText(AddCategoryActivity.this, categoryCommonResponse.getMessage(), Toast.LENGTH_SHORT).show();
@@ -143,7 +142,6 @@ public class AddCategoryActivity extends AppCompatActivity {
                             if (categoryCommonResponse.getStatus().equalsIgnoreCase(VariableBag.SUCCESS_RESULT)) {
                                 etvCategoryName.setText("");
 
-                                startActivity(new Intent(AddCategoryActivity.this, SearchCategoryActivity.class));
                                 finish();
                             } else {
                                 Toast.makeText(AddCategoryActivity.this, categoryCommonResponse.getMessage(), Toast.LENGTH_SHORT).show();
