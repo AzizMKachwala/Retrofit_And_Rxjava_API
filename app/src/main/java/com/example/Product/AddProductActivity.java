@@ -52,7 +52,6 @@ import rx.schedulers.Schedulers;
 
 public class AddProductActivity extends AppCompatActivity {
 
-    private static final int REQUEST_CAMERA_PERMISSION = 101;
     ImageView imgEditProduct, imgProduct;
     TextInputEditText etvProductName, etvProductPrice, etvProductDescription;
     Button btnCancel, btnSubmit;
@@ -65,10 +64,11 @@ public class AddProductActivity extends AppCompatActivity {
     String fetchedProductPrice, fetchedProductDesc, fetchedIsVeg, fetchedImage;
     ActivityResultLauncher<Intent> cameraLauncher;
     String currentPhotoPath = "";
+    private static final int REQUEST_CAMERA_PERMISSION = 101;
+    private File currentPhotoFile;
     RestCall restCall;
     Tools tools;
     PreferenceManager preferenceManager;
-    private File currentPhotoFile;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -292,7 +292,6 @@ public class AddProductActivity extends AppCompatActivity {
                                         if (selectedPos >= 0 && selectedPos < subCategoryIdArray.length) {
                                             selectedSubCategoryId = subCategoryIdArray[selectedPos];
                                             selectedSubCategoryName = subCategoryNameArray[selectedPos];
-
 //                                                Toast.makeText(AddProductActivity.this, ""+selectedSubCategoryId, Toast.LENGTH_SHORT).show();
 
                                             if (selectedCategoryId.equalsIgnoreCase("-1") && selectedSubCategoryId.equalsIgnoreCase("-1")) {

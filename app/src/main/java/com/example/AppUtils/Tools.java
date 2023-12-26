@@ -61,4 +61,5 @@ public class Tools {
                         .error(R.drawable.bg))
                 .into(img);
     }
+
 }
